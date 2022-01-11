@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">MobileTest</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="register">Регистрация</string>
+
+    <string name="menu_home">Tests</string>
+    <string name="menu_gallery">Profile</string>
+    <string name="menu_slideshow">Chat</string>
+    <string name="enter_email">Введите ваш email</string>
+    <string name="enter_password">Введите пароль</string>
+    <string name="enter_search_query">Введите название теста</string>
+    <string name="login">Вход</string>
+    <string name="enter">Войти</string>
+
+    <string name="enter_first_name">Введите имя</string>
+    <string name="enter_last_name">Введите фамилию</string>
+    <string name="student">Ученик</string>
+    <string name="teacher_role">Учитель</string>
+    <string name="sign_up_button_text">Зарегистрироваться</string>
+
+</resources>
