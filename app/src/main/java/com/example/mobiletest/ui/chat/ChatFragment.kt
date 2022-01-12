@@ -12,7 +12,7 @@ import com.example.mobiletest.databinding.FragmentChatBinding
 
 class ChatFragment : Fragment() {
 
-    private lateinit var slideshowViewModel: SlideshowViewModel
+    private lateinit var chatViewModel: ChatViewModel
     private var _binding: FragmentChatBinding? = null
 
     // This property is only valid between onCreateView and
@@ -24,14 +24,14 @@ class ChatFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        slideshowViewModel =
-            ViewModelProvider(this).get(SlideshowViewModel::class.java)
+        chatViewModel =
+            ViewModelProvider(this).get(ChatViewModel::class.java)
 
         _binding = FragmentChatBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
         val textView: TextView = binding.textSlideshow
-        slideshowViewModel.text.observe(viewLifecycleOwner, Observer {
+        chatViewModel.text.observe(viewLifecycleOwner, Observer {
             textView.text = it
         })
         return root

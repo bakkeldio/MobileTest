@@ -10,6 +10,7 @@ object Dependencies {
 
         const val firebaseAnalytics = "20.0.2"
         const val firebaseAuth = "21.0.1"
+        const val firebaseCoroutines = "1.1.1"
 
         const val jUnit = "4.13.2"
 
@@ -17,6 +18,7 @@ object Dependencies {
         const val espresso = "3.4.0"
 
         const val daggerVersion = "2.40.5"
+        const val hiltVersion = "2.38.1"
 
         const val gradlePlugin = "7.0.4"
         const val googleServices = "4.3.10"
@@ -35,6 +37,7 @@ object Dependencies {
         val buildGradle by lazy { "com.android.tools.build:gradle:${Versions.gradlePlugin}" }
         val kotlinGradle by lazy { "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}" }
         val googleServices by lazy { "com.google.gms:google-services:${Versions.googleServices}" }
+        val hiltAndroid by lazy { "com.google.dagger:hilt-android-gradle-plugin:${Versions.hiltVersion}" }
     }
 
     object Deps {
@@ -48,8 +51,9 @@ object Dependencies {
         val navigationUIKtx by lazy { "androidx.navigation:navigation-ui-ktx:${Versions.navigationKtx}" }
         val firebaseAnalytics by lazy { "com.google.firebase:firebase-analytics-ktx:${Versions.firebaseAnalytics}" }
         val firebaseAuth by lazy { "com.google.firebase:firebase-auth-ktx:${Versions.firebaseAuth}"}
-        val dagger by lazy { "com.google.dagger:dagger:${Versions.daggerVersion}" }
-        val daggerCompiler by lazy { "com.google.dagger:dagger-compiler:${Versions.daggerVersion}" }
+        val firebaseCoroutines by lazy { "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:${Versions.firebaseCoroutines}" }
+        val hiltAndroid by lazy { "com.google.dagger:hilt-android:${Versions.hiltVersion}" }
+        val hiltAndroidCompiler by lazy { "com.google.dagger:hilt-android-compiler:${Versions.hiltVersion}" }
         val jUnit by lazy { "junit:junit:${Versions.jUnit}" }
         val androidJUnit by lazy { "androidx.test.ext:junit:${Versions.androidJUnit}" }
         val espresso by lazy { "androidx.test.espresso:espresso-core:${Versions.espresso}" }
