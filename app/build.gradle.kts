@@ -1,6 +1,8 @@
 
 plugins {
     id("com.android.application")
+    id("com.google.gms.google-services")
+    id("dagger.hilt.android.plugin")
     kotlin("android")
     kotlin("kapt")
 
@@ -50,8 +52,9 @@ dependencies {
     implementation(Dependencies.Deps.navigationUIKtx)
     implementation(Dependencies.Deps.firebaseAnalytics)
     implementation(Dependencies.Deps.firebaseAuth)
-    implementation(Dependencies.Deps.dagger)
-    kapt(Dependencies.Deps.daggerCompiler)
+    implementation(Dependencies.Deps.hiltAndroid)
+    implementation(Dependencies.Deps.firebaseCoroutines)
+    kapt(Dependencies.Deps.hiltAndroidCompiler)
     testImplementation(Dependencies.Deps.jUnit)
     androidTestImplementation(Dependencies.Deps.androidJUnit)
     androidTestImplementation(Dependencies.Deps.espresso)

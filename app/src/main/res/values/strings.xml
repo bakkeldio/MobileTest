@@ -24,4 +24,8 @@
     <string name="teacher_role">Учитель</string>
     <string name="sign_up_button_text">Зарегистрироваться</string>
 
+    <string name="enter_valid_email">Введите правильный email</string>
+    <string name="empty_password">Пароль не должен быть пустым</string>
+    <string name="logout">Выйти</string>
+
 </resources>

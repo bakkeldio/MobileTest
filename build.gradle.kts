@@ -8,7 +8,7 @@ buildscript {
         classpath(Dependencies.BuildPlugins.buildGradle)
         classpath(Dependencies.BuildPlugins.kotlinGradle)
         classpath(Dependencies.BuildPlugins.googleServices)
-        
+        classpath(Dependencies.BuildPlugins.hiltAndroid)
     }
 }
 
