@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="chat_label">Чат</string>
+    <string name="groups_label">Группы</string>
+    <string name="enter_search_query">Введите название теста</string>
+    <string name="cancel">Отменить</string>
+    <string name="agree">Да</string>
+    
+    <plurals name="students_plurals">
+        <item quantity="zero">%1$d студентов</item>
+        <item quantity="one">%1$d студент</item>
+        <item quantity="two">%1$d студента</item>
+        <item quantity="few">%1$d студента</item>
+        <item quantity="many">%1$d студентов</item>
+        <item quantity="other">%1$d студентов</item>
+    </plurals>
+</resources>

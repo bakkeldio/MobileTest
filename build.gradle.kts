@@ -9,6 +9,8 @@ buildscript {
         classpath(Dependencies.BuildPlugins.kotlinGradle)
         classpath(Dependencies.BuildPlugins.googleServices)
         classpath(Dependencies.BuildPlugins.hiltAndroid)
+        classpath(Dependencies.BuildPlugins.safeArgs)
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.20")
     }
 }
 

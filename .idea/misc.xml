@@ -3,20 +3,45 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../../../layout/custom_preview.xml" value="0.3104166666666667" />
+        <entry key="../../.gradle/caches/transforms-3/9f56f20b7f0a22b436f17512712d3533/transformed/material-1.4.0/res/drawable/design_fab_background.xml" value="0.17552083333333332" />
         <entry key="app/src/main/res/drawable/ic_search_icon_gray.xml" value="0.2796296296296296" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.23504099009502138" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.15070921985815602" />
         <entry key="app/src/main/res/layout/app_bar_main.xml" value="0.21240942028985507" />
         <entry key="app/src/main/res/layout/content_main.xml" value="0.15070921985815602" />
+        <entry key="app/src/main/res/layout/fragment_groups_list.xml" value="0.16927083333333334" />
         <entry key="app/src/main/res/layout/fragment_login.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_password_reset.xml" value="0.21331521739130435" />
         <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.15070921985815602" />
         <entry key="app/src/main/res/layout/fragment_registration.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_slideshow.xml" value="0.15070921985815602" />
         <entry key="app/src/main/res/layout/fragment_tests.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/item_group.xml" value="0.25" />
         <entry key="app/src/main/res/layout/item_progress_indicator.xml" value="0.20923913043478262" />
         <entry key="app/src/main/res/layout/nav_header_main.xml" value="0.20923913043478262" />
         <entry key="app/src/main/res/menu/activity_main_drawer.xml" value="0.335" />
         <entry key="app/src/main/res/menu/main.xml" value="0.3098958333333333" />
+        <entry key="chat/src/main/res/layout/fragment_chat.xml" value="0.23125" />
+        <entry key="common/src/main/res/drawable/divider_item.xml" value="0.31145833333333334" />
+        <entry key="common/src/main/res/drawable/ic_search_icon_gray.xml" value="0.24791666666666667" />
+        <entry key="common/src/main/res/drawable/icon_add.xml" value="0.17552083333333332" />
+        <entry key="common/src/main/res/layout/item_progress_indicator.xml" value="0.16927083333333334" />
+        <entry key="core/src/main/res/drawable/btn_group_join_leave.xml" value="0.30648148148148147" />
+        <entry key="core/src/main/res/drawable/button_filled_bg.xml" value="0.30648148148148147" />
+        <entry key="core/src/main/res/drawable/button_outlined_bg.xml" value="0.30648148148148147" />
+        <entry key="core/src/main/res/drawable/ic_baseline_leaderboard_24.xml" value="0.30648148148148147" />
+        <entry key="core/src/main/res/drawable/ic_test_svgrepo_com.xml" value="0.2601851851851852" />
+        <entry key="core/src/main/res/layout/item_progress_indicator.xml" value="0.15070921985815602" />
+        <entry key="core/src/main/res/layout/progress.xml" value="0.18840579710144928" />
+        <entry key="group/src/main/res/drawable/ic_avatar_no_photo_100_100.xml" value="0.3260416666666667" />
+        <entry key="group/src/main/res/layout/fragment_group_detail.xml" value="0.25" />
+        <entry key="group/src/main/res/layout/fragment_groups_list.xml" value="0.25" />
+        <entry key="group/src/main/res/layout/item_group.xml" value="0.25" />
+        <entry key="group/src/main/res/layout/item_test_grid.xml" value="0.25" />
+        <entry key="group/src/main/res/layout/layout.xml" value="0.21965579710144928" />
+        <entry key="test/src/main/res/layout/fragment_tests.xml" value="0.335" />
+        <entry key="test/src/main/res/layout/item_test.xml" value="0.335" />
       </map>
     </option>
   </component>
