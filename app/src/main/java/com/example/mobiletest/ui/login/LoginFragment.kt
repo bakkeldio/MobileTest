@@ -7,18 +7,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.isVisible
-import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.example.common.presentation.ResourceState
 import com.example.mobiletest.MainActivity
 import com.example.mobiletest.R
 import com.example.mobiletest.databinding.FragmentLoginBinding
 import com.example.mobiletest.utils.isValidEmail
+import com.example.mobiletest.utils.removeErrorIfUserIsTyping
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -27,7 +27,7 @@ class LoginFragment : Fragment() {
     @Inject
     lateinit var auth: FirebaseAuth
 
-    private val viewModel by viewModels<LoginViewModel>()
+    private val viewModel by activityViewModels<LoginViewModel>()
     private var _binding: FragmentLoginBinding? = null
     private val binding: FragmentLoginBinding
         get() = _binding!!
@@ -52,6 +52,9 @@ class LoginFragment : Fragment() {
                     binding.passwordEditText.text.toString()
                 )
             }
+        }
+        binding.forgotPwd.setOnClickListener {
+            findNavController().navigate(R.id.password_reset_fragment)
         }
         lifecycleScope.launchWhenStarted {
             viewModel.signUserState.collect { state ->
@@ -96,11 +99,7 @@ class LoginFragment : Fragment() {
     }
 
     private fun attachListenersForFields() {
-        binding.emailEditText.doOnTextChanged { _, _, _, _ ->
-            binding.emailField.error = null
-        }
-        binding.passwordEditText.doOnTextChanged { _, _, _, _ ->
-            binding.passwordField.error = null
-        }
+        binding.emailEditText.removeErrorIfUserIsTyping(binding.emailField)
+        binding.passwordEditText.removeErrorIfUserIsTyping(binding.passwordField)
     }
 }

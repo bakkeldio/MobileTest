@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/progress"
+        layout="@layout/progress"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/white"
+        android:theme="@style/AppTheme.AppBarOverlay"
+        app:elevation="0dp">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:layout_scrollFlags="scroll|enterAlways|snap" />
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_anchorGravity="center"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/groupLogo"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/ic_avatar_no_photo_100_100"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:textAppearance="@style/Text_18_main_blue"
+                app:layout_constraintBottom_toBottomOf="@id/groupLogo"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@id/groupLogo"
+                app:layout_constraintTop_toTopOf="@id/groupLogo"
+                tools:text="The name of the group" />
+
+            <LinearLayout
+                android:id="@+id/group_buttons"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginTop="18dp"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@id/groupLogo">
+
+                <TextView
+                    android:id="@+id/status"
+                    android:layout_width="match_parent"
+                    android:layout_height="32dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_weight="0.5"
+                    android:gravity="center"
+                    android:text="@string/you_are_student"
+                    android:textColor="@color/main_text_color"
+                    tools:text="Вы участник" />
+
+                <ToggleButton
+                    android:id="@+id/enterBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="32dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_weight="0.5"
+                    android:background="@drawable/btn_group_join_leave"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:lines="1"
+                    android:stateListAnimator="@null"
+                    android:textColor="@color/text_color"
+                    android:textOff="@string/enter_group"
+                    android:textOn="@string/leave_group"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/firstDivider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="20dp"
+                android:background="@color/divider_color"
+                app:layout_constraintTop_toBottomOf="@id/group_buttons" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/btn_group_leader_board"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:drawablePadding="10dp"
+                android:gravity="center"
+                android:focusable="true"
+                android:minHeight="48dp"
+                android:text="@string/rating_of_students_of_group"
+                android:textAppearance="@style/Text_15_main_blue"
+                app:drawableStartCompat="@drawable/ic_baseline_leaderboard_24"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/firstDivider" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/students"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:drawableStart="@drawable/ic_baseline_people_24"
+                android:drawablePadding="10dp"
+                android:focusable="true"
+                android:gravity="center"
+                android:minHeight="48dp"
+                android:text="@string/students"
+                android:textAppearance="@style/Text_15_main_blue"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btn_group_leader_board" />
+
+            <View
+                android:id="@+id/second_divider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="20dp"
+                android:background="@color/divider_color"
+                app:layout_constraintTop_toBottomOf="@id/students" />
+
+            <LinearLayout
+                android:id="@+id/testLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:gravity="center"
+                android:focusable="true"
+                android:minHeight="48dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/second_divider">
+
+                <TextView
+                    android:id="@+id/tests"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tests"
+                    android:textAppearance="@style/Text_18_main_blue" />
+
+                <TextView
+                    android:id="@+id/testsCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:textAppearance="@style/Text_18_main_blue"
+                    tools:text="24" />
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/testsRv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                app:spanCount="2"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintTop_toBottomOf="@id/testLayout"
+                tools:listitem="@layout/item_test_grid"
+                tools:itemCount="3"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Text_18_main_blue">
+        <item name="android:textColor">@color/main_blue_color</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="Text_15_main_blue">
+        <item name="android:textColor">@color/main_blue_color</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.ActionBar">
+        <item name="colorControlNormal">@color/main_blue_color</item>
+    </style>
+</resources>

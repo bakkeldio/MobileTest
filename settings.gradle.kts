@@ -8,3 +8,7 @@ dependencyResolutionManagement {
 }
 rootProject.name = "MobileTest"
 include(":app")
+include(":test")
+include(":core")
+include(":chat")
+include(":group")

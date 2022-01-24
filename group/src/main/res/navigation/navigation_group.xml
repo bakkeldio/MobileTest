@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/navigation_group"
+    app:startDestination="@id/groupListFragment">
+
+    <fragment
+        android:id="@+id/groupListFragment"
+        android:name="com.example.group.presentation.GroupsListFragment"
+        android:label="@string/groups_label"
+        tools:layout="@layout/fragment_groups_list" >
+        <action
+            android:id="@+id/action_groupListFragment_to_groupDetailFragment"
+            app:destination="@id/groupDetailFragment"
+            app:enterAnim="@anim/nav_graph_enter"
+            app:exitAnim="@anim/nav_graph_exit" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/groupDetailFragment"
+        android:name="com.example.group.presentation.GroupDetailFragment"
+        tools:layout="@layout/fragment_group_detail">
+
+        <argument
+            android:name="groupId"
+            app:argType="string" />
+    </fragment>
+
+</navigation>

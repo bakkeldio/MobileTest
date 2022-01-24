@@ -3,23 +3,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_home">
+    app:startDestination="@id/navigation_group">
+
+
+    <include app:graph="@navigation/navigation_group" />
+    <include app:graph="@navigation/navigation_test" />
+
+    <include app:graph="@navigation/navigation_chat" />
 
     <fragment
-        android:id="@+id/nav_home"
-        android:name="com.example.mobiletest.ui.tests.TestsFragment"
-        android:label="@string/menu_home"
-        tools:layout="@layout/fragment_tests" />
-
-    <fragment
-        android:id="@+id/nav_gallery"
+        android:id="@+id/nav_profile"
         android:name="com.example.mobiletest.ui.profile.ProfileFragment"
         android:label="@string/menu_gallery"
         tools:layout="@layout/fragment_profile" />
 
-    <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="com.example.mobiletest.ui.chat.ChatFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_chat" />
 </navigation>

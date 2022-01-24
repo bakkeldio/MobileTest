@@ -17,4 +17,10 @@
         android:label="@string/register"
         tools:layout="@layout/fragment_registration"/>
 
+    <fragment
+        android:id="@+id/password_reset_fragment"
+        android:name="com.example.mobiletest.ui.login.PasswordResetFragment"
+        android:label="@string/password_reset_title"
+        tools:layout="@layout/fragment_password_reset" />
+
 </navigation>

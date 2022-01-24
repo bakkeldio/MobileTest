@@ -38,10 +38,14 @@ android {
     buildFeatures {
         viewBinding  = true
     }
+
 }
 
 dependencies {
-
+    implementation(project(":test"))
+    implementation(project(":chat"))
+    implementation(project(":core"))
+    implementation(project(":group"))
     implementation(Dependencies.Deps.coreKtx)
     implementation(Dependencies.Deps.appCompat)
     implementation(Dependencies.Deps.material)
@@ -52,8 +56,9 @@ dependencies {
     implementation(Dependencies.Deps.navigationUIKtx)
     implementation(Dependencies.Deps.firebaseAnalytics)
     implementation(Dependencies.Deps.firebaseAuth)
-    implementation(Dependencies.Deps.hiltAndroid)
     implementation(Dependencies.Deps.firebaseCoroutines)
+    implementation(Dependencies.Deps.firebaseFirestore)
+    implementation(Dependencies.Deps.hiltAndroid)
     kapt(Dependencies.Deps.hiltAndroidCompiler)
     testImplementation(Dependencies.Deps.jUnit)
     androidTestImplementation(Dependencies.Deps.androidJUnit)

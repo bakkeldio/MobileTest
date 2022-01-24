@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/chatFragment"
+    android:id="@+id/navigation_chat">
+
+    <fragment
+        android:id="@+id/chatFragment"
+        android:name="com.example.chat.presentation.ChatFragment"
+        android:label="@string/chat_label"
+        tools:layout="@layout/fragment_chat" >
+        <deepLink app:uri="mobileTest://chatFragment" />
+    </fragment>
+
+
+</navigation>
