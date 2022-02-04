@@ -9,7 +9,7 @@ internal object TestMapperImpl: ApiMapper<Test, TestDomainModel> {
     override fun mapToDomain(apiEntity: Test): TestDomainModel {
         return TestDomainModel(
             uid = apiEntity.uid ?: throw IllegalArgumentException("id of test can not be null"),
-            authorUid = apiEntity.authorUid ?: throw IllegalArgumentException("id of author can not be null"),
+            authorUid = apiEntity.authorUid ?: "",
             date = apiEntity.date ?: Date(),
             time = apiEntity.time ?: 0,
             maxPoint = apiEntity.maxPoint ?: 0,

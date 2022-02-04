@@ -6,4 +6,14 @@
     <color name="gray">#BBBBBB</color>
     <color name="divider_color">#EDEDED</color>
     <color name="main_text_color">#333333</color>
+    <color name="main_color_pink">#bc477b</color>
+    <color name="purple_300">#ba68c8</color>
+    <color name="primary_light">#d96864</color>
+    <color name="purple_200">#ce93d8</color>
+    <color name="purple_700">#7b1fa2</color>
+    <color name="purple_800">#6a1b9a</color>
+    <color name="teal_200">#80cbc4</color>
+    <color name="green">#37A224</color>
+    <color name="red">#ef5350</color>
+    <color name="red_500">#f44336</color>
 </resources>

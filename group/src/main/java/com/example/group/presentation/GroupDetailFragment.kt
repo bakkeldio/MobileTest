@@ -8,18 +8,17 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.setupWithNavController
 import com.example.common.navigation.Navigation
 import com.example.common.presentation.ResourceState
+import com.example.common.utils.buildMaterialAlertDialog
 import com.example.common.utils.showToast
 import com.example.group.R
 import com.example.group.databinding.FragmentGroupDetailBinding
 import com.example.group.presentation.adapter.GroupTestsAdapter
 import com.example.group.presentation.model.GroupData
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -98,16 +97,17 @@ class GroupDetailFragment : Fragment() {
             }
         })
 
-        val alertDialog = MaterialAlertDialogBuilder(requireContext())
-            .setMessage(resources.getString(R.string.alert_msg_leaving_group).format(groupName))
-            .setNegativeButton(resources.getString(R.string.cancel)) { dialog, _ ->
-                binding.enterBtn.isChecked = true
-                dialog.dismiss()
-            }
-            .setPositiveButton(resources.getString(R.string.agree)) { dialog, _ ->
+        val alertDialog = buildMaterialAlertDialog(
+            resources.getString(R.string.alert_msg_leaving_group).format(groupName),
+            R.string.cancel,
+            R.string.agree,
+            positiveBtnClick = {
                 viewModel.leaveFromGroup(args.groupId)
-                dialog.dismiss()
-            }
+            },
+            negativeBtnClick = {
+                binding.enterBtn.isChecked = true
+            })
+
         binding.enterBtn.setOnClickListener {
             if (!binding.enterBtn.isChecked) {
                 alertDialog.show()
@@ -143,8 +143,13 @@ class GroupDetailFragment : Fragment() {
         binding.testsRv.adapter = adapter
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        (activity as AppCompatActivity).supportActionBar?.show()
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
-        (activity as AppCompatActivity).supportActionBar?.show()
+        _binding = null
     }
 }

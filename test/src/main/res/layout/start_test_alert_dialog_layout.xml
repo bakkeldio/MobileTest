@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <ImageView
+        android:id="@+id/timerImageView"
+        android:layout_width="0dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="20dp"
+        android:adjustViewBounds="true"
+        android:src="@drawable/timer_image"
+        android:scaleType="fitXY"
+        app:layout_constraintCircleRadius="10dp"
+        app:layout_constraintEnd_toEndOf="@id/alertMessage"
+        app:layout_constraintStart_toStartOf="@id/alertMessage"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/alertMessage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/main_text_color"
+        android:textSize="15sp"
+        app:layout_constraintTop_toBottomOf="@+id/timerImageView"
+        tools:text="После того как вы начнете тест вы не сможете приостановить его. Вам будет дано 10 минут чтобы закончить тест. После завершения времени результаты автоматически будут записаны." />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

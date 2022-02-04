@@ -10,7 +10,7 @@
         android:id="@+id/groupLogo"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:src="@drawable/ic_avatar_no_photo_100_100"
+        android:src="@drawable/ic_group"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

@@ -5,6 +5,9 @@
     <string name="enter_search_query">Введите название теста</string>
     <string name="cancel">Отменить</string>
     <string name="agree">Да</string>
+    <string name="finish">Завершить</string>
+    <string name="search">Поиск</string>
+    <string name="finish_test_and_submit_the_results">Вы хотите завершить тест и отправить результаты?</string>
     
     <plurals name="students_plurals">
         <item quantity="zero">%1$d студентов</item>

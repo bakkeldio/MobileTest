@@ -5,9 +5,10 @@ import com.example.common.data.Result
 import com.example.common.domain.test.model.TestDomainModel
 import com.example.common.domain.test.repository.ITestsRepository
 import dagger.hilt.android.scopes.ActivityRetainedScoped
+import dagger.hilt.android.scopes.ViewModelScoped
 import javax.inject.Inject
 
-@ActivityRetainedScoped
+@ViewModelScoped
 internal class GetAllTestsOfGroup @Inject constructor(private val testsRepo: ITestsRepository) {
 
     suspend operator fun invoke(page: Int, groupId: String): Result<Pagination<TestDomainModel>> {

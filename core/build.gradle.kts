@@ -1,10 +1,9 @@
-import com.android.build.gradle.internal.utils.findKaptConfigurationsForVariant
-
 plugins {
     kotlin("kapt")
     id("com.android.library")
     id("kotlin-android")
     id("dagger.hilt.android.plugin")
+    id("kotlin-parcelize")
 }
 
 android {
@@ -14,19 +13,21 @@ android {
         minSdk = Dependencies.ConfigData.minSdk
         targetSdk = Dependencies.ConfigData.targetSdk
 
-        testInstrumentationRunner  = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
         release {
-            isMinifyEnabled  = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-files.pro")
+            isMinifyEnabled = false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-files.pro"
+            )
         }
     }
     compileOptions {
-        sourceCompatibility  = JavaVersion.VERSION_1_8
-        targetCompatibility  = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
     buildFeatures {
         viewBinding = true
@@ -38,16 +39,18 @@ android {
 
 dependencies {
 
-    implementation(Dependencies.Deps.coreKtx)
-    implementation(Dependencies.Deps.appCompat)
-    implementation(Dependencies.Deps.material)
-    implementation(Dependencies.Deps.coroutinesCore)
-    implementation(Dependencies.Deps.firebaseFirestore)
-    implementation(Dependencies.Deps.firebaseCoroutines)
-    implementation(Dependencies.Deps.firebaseAuth)
+    api(Dependencies.Deps.coreKtx)
+    api(Dependencies.Deps.appCompat)
+    api(Dependencies.Deps.material)
+    api(Dependencies.Deps.coroutinesCore)
+    api(Dependencies.Deps.coroutinesAndroid)
+    api(Dependencies.Deps.firebaseFirestore)
+    api(Dependencies.Deps.firebaseCoroutines)
+    api(Dependencies.Deps.firebaseAuth)
+    api(Dependencies.Deps.navigationUIKtx)
+    api(Dependencies.Deps.navigationFragmentKtx)
+    api(Dependencies.Deps.workManager)
     implementation(Dependencies.Deps.hiltAndroid)
-    implementation("androidx.navigation:navigation-common-ktx:2.3.5")
-    implementation("androidx.navigation:navigation-fragment-ktx:2.3.5")
     kapt(Dependencies.Deps.hiltAndroidCompiler)
     testImplementation(Dependencies.Deps.jUnit)
 }

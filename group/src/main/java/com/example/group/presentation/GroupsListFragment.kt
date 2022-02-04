@@ -5,17 +5,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.setupWithNavController
 import com.example.common.domain.group.model.GroupDomain
 import com.example.common.presentation.ResourceState
 import com.example.common.utils.DebounceQueryTextListener
 import com.example.common.utils.addItemDecorationWithoutLastItem
 import com.example.common.utils.showToast
+import com.example.group.R
 import com.example.group.databinding.FragmentGroupsListBinding
 import com.example.group.presentation.adapter.GroupsListAdapter
+import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -30,6 +34,11 @@ internal class GroupsListFragment : Fragment(), GroupsListAdapter.Listener {
 
     private val groupsAdapter by lazy {
         GroupsListAdapter(this)
+    }
+
+    companion object{
+        private const val TO_PASS = 0
+        private const val PASSED = 1
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,6 +58,7 @@ internal class GroupsListFragment : Fragment(), GroupsListAdapter.Listener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.toolbar.setupWithNavController(findNavController())
         binding.groupsRv.apply {
             adapter = groupsAdapter
             addItemDecorationWithoutLastItem()
@@ -73,11 +83,13 @@ internal class GroupsListFragment : Fragment(), GroupsListAdapter.Listener {
             }
         })
 
-        binding.searchView.setOnQueryTextListener(DebounceQueryTextListener { query ->
-            if (binding.searchView.hasFocus()) {
-                viewModel.getAllGroups(query)
-            }
-        })
+        (binding.toolbar.menu.findItem(R.id.action_search).actionView as SearchView).apply {
+            setOnQueryTextListener(DebounceQueryTextListener { query ->
+                if (hasFocus()) {
+                    viewModel.getAllGroups(query)
+                }
+            })
+        }
 
     }
 
