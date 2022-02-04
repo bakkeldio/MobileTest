@@ -15,7 +15,55 @@
             android:name="groupId"
             app:argType="string" />
 
+        <action
+            android:id="@+id/fromTestsFragmentToTestResultFragment"
+            app:destination="@id/testResultFragment"
+            app:enterAnim="@anim/nav_graph_enter"
+            app:exitAnim="@anim/nav_graph_exit" />
+
+        <action
+            android:id="@+id/fromTestsFragmentToTestQuestionsFragment"
+            app:destination="@id/questionsFragment"
+            app:enterAnim="@anim/nav_graph_enter"
+            app:exitAnim="@anim/nav_graph_exit" />
+
         <deepLink app:uri="mobileTest://navigationTests/{groupId}" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/questionsFragment"
+        android:name="com.example.test.presentation.QuestionsFragment"
+        tools:layout="@layout/fragment_questions">
+        <argument
+            android:name="groupId"
+            app:argType="string" />
+        <argument
+            android:name="testId"
+            app:argType="string" />
+
+        <argument
+            android:name="testTitle"
+            app:argType="string" />
+
+        <action
+            android:id="@+id/actionFromQuestionsListToTestsList"
+            app:destination="@id/testsFragment"
+            app:popEnterAnim="@anim/nav_graph_pop_enter"
+            app:popExitAnim="@anim/nav_graph_exit"
+            app:popUpTo="@id/testsFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/testResultFragment"
+        android:name="com.example.test.presentation.TestResultFragment"
+        tools:layout="@layout/fragment_test_result">
+        <argument
+            android:name="groupId"
+            app:argType="string" />
+        <argument
+            android:name="testId"
+            app:argType="string" />
     </fragment>
 
 </navigation>

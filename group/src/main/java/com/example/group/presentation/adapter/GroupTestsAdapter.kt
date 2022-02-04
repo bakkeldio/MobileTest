@@ -13,6 +13,7 @@ class GroupTestsAdapter(val itemClick: (TestDomainModel) -> Unit) : RecyclerView
 
     @SuppressLint("NotifyDataSetChanged")
     fun submitTests(tests: List<TestDomainModel>) {
+        groupTestsList.clear()
         groupTestsList.addAll(tests)
         notifyDataSetChanged()
     }

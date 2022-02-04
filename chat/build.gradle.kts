@@ -33,11 +33,6 @@ android {
 
 dependencies {
     implementation(project(":core"))
-    implementation(Dependencies.Deps.coreKtx)
-    implementation(Dependencies.Deps.appCompat)
-    implementation(Dependencies.Deps.material)
-    implementation("androidx.navigation:navigation-fragment-ktx:2.3.5")
-    implementation("androidx.navigation:navigation-ui-ktx:2.3.5")
     testImplementation(Dependencies.Deps.jUnit)
     androidTestImplementation(Dependencies.Deps.androidJUnit)
     androidTestImplementation(Dependencies.Deps.espresso)

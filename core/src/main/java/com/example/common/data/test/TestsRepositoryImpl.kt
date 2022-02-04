@@ -1,15 +1,18 @@
 package com.example.common.data.test
 
 import android.content.SharedPreferences
-import com.example.common.presentation.Pagination
 import com.example.common.data.Result
 import com.example.common.data.groups.model.Group
 import com.example.common.data.test.model.Student
 import com.example.common.data.test.model.Teacher
 import com.example.common.data.test.model.Test
+import com.example.common.data.test.model.TestResult
 import com.example.common.data.test.model.mapper.TestMapperImpl
+import com.example.common.data.test.model.mapper.TestResultMapper
 import com.example.common.domain.test.model.TestDomainModel
+import com.example.common.domain.test.model.TestResultDomain
 import com.example.common.domain.test.repository.ITestsRepository
+import com.example.common.presentation.Pagination
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
@@ -43,7 +46,7 @@ internal class TestsRepositoryImpl @Inject constructor(
                     .toObject(Group::class.java)?.students_count ?: 0
 
                 val queryRef = db.collection("groups").document(groupId).collection("tests")
-                    .limit(Pagination.DEFAULT_PAGE_SIZE.toLong())
+                    .limit(Pagination.DEFAULT_PAGE_SIZE.toLong()).orderBy("title")
                 val currentPageSnapshots = if (page == 1) {
                     queryRef.get().await()
                 } else {
@@ -116,6 +119,75 @@ internal class TestsRepositoryImpl @Inject constructor(
                     TestMapperImpl.mapToDomain(it)
                 }.toList()
                 Result.Success(results)
+            } catch (e: Exception) {
+                Result.Error(e)
+            }
+        }
+    }
+
+    override suspend fun submitTestResultOfUser(
+        testId: String,
+        groupId: String,
+        testTitle: String
+    ): Result<Unit> {
+        return withContext(Dispatchers.IO) {
+            try {
+                if (auth.uid.isNullOrEmpty()) {
+                    throw IllegalArgumentException("uid of user can't be null")
+                }
+                db.collection("groups").document(groupId).collection("students")
+                    .document(auth.uid!!).collection("tests").document(testId).set(
+                        TestResult(
+                            testId,
+                            testTitle,
+                            TestProcessHandler.calculateTotalScore(),
+                            TestProcessHandler.mapTo()
+                        )
+                    ).await()
+                Result.Success(Unit)
+            } catch (e: Exception) {
+                Result.Error(e)
+            }
+        }
+    }
+
+    override suspend fun getCompletedTests(groupId: String): Result<List<TestDomainModel>> {
+        return withContext(Dispatchers.IO) {
+            try {
+                if (auth.uid.isNullOrEmpty()) {
+                    throw java.lang.IllegalArgumentException("uid of user can't be null")
+                }
+                val response = db.collection("groups").document(groupId).collection("students")
+                    .document(auth.uid!!).collection("tests").get().await()
+
+                Result.Success(response.documents.asSequence().mapNotNull {
+                    it.toObject(Test::class.java)
+                }.map {
+                    TestMapperImpl.mapToDomain(it)
+                }.toList())
+            } catch (e: Exception) {
+                Result.Error(e)
+            }
+        }
+    }
+
+    override suspend fun getCompletedTestQuestions(
+        groupId: String,
+        testId: String
+    ): Result<TestResultDomain> {
+        return withContext(Dispatchers.IO) {
+            try {
+                if (auth.uid.isNullOrEmpty()) {
+                    throw java.lang.IllegalArgumentException("uid of user can't be null")
+                }
+                val response = db.collection("groups").document(groupId).collection("students")
+                    .document(auth.uid!!).collection("tests").document(testId).get().await()
+                val result = response.toObject(TestResult::class.java)?.let {
+                    TestResultMapper.mapToDomain(
+                        it
+                    )
+                }
+                Result.Success(result)
             } catch (e: Exception) {
                 Result.Error(e)
             }

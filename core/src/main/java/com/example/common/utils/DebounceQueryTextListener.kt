@@ -8,7 +8,7 @@ class DebounceQueryTextListener(
 ) : SearchView.OnQueryTextListener {
     var debouncePeriod: Long = 500
 
-    val coroutineScope = CoroutineScope(Dispatchers.Main)
+    private val coroutineScope = CoroutineScope(Dispatchers.Main)
     var job: Job? = null
     override fun onQueryTextSubmit(query: String?): Boolean {
         return false

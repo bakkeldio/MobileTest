@@ -9,7 +9,7 @@
         android:id="@+id/testImage"
         android:layout_width="120dp"
         android:layout_height="140dp"
-        android:src="@drawable/ic_test_svgrepo_com"
+        android:src="@drawable/ic_test"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

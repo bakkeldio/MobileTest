@@ -5,7 +5,7 @@ plugins {
     id("androidx.navigation.safeargs.kotlin")
     kotlin("kapt")
 }
-android{
+android {
     compileSdk = Dependencies.ConfigData.compileSdk
 
     defaultConfig {
@@ -13,7 +13,7 @@ android{
         targetSdk = Dependencies.ConfigData.targetSdk
         compileSdk = Dependencies.ConfigData.compileSdk
 
-        testInstrumentationRunner  = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
     }
 
@@ -28,15 +28,14 @@ android{
 dependencies {
 
     implementation(project(":core"))
-    implementation(Dependencies.Deps.coreKtx)
-    implementation(Dependencies.Deps.appCompat)
-    implementation(Dependencies.Deps.material)
     implementation(Dependencies.Deps.hiltAndroid)
-    kapt(Dependencies.Deps.hiltAndroidCompiler)
-    implementation(Dependencies.Deps.navigationFragmentKtx)
+    implementation(Dependencies.Deps.fragmentKtx)
+    implementation(Dependencies.Deps.hiltWork)
     implementation(Dependencies.Deps.coroutinesCore)
     implementation(Dependencies.Deps.coroutinesAndroid)
-    implementation(Dependencies.Deps.navigationUIKtx)
+    kapt(Dependencies.Deps.hiltWorkCompiler)
+    kapt(Dependencies.Deps.hiltAndroidCompiler)
+    implementation(Dependencies.Deps.viewPager2)
     testImplementation(Dependencies.Deps.jUnit)
     androidTestImplementation(Dependencies.Deps.androidJUnit)
     androidTestImplementation(Dependencies.Deps.espresso)

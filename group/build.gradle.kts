@@ -27,14 +27,7 @@ android {
 
 dependencies {
     implementation(project(":core"))
-    implementation(Dependencies.Deps.coreKtx)
-    implementation(Dependencies.Deps.appCompat)
     implementation(Dependencies.Deps.constraintLayout)
-    implementation(Dependencies.Deps.material)
-    implementation(Dependencies.Deps.coroutinesCore)
-    implementation(Dependencies.Deps.coroutinesAndroid)
-    implementation(Dependencies.Deps.navigationFragmentKtx)
-    implementation(Dependencies.Deps.navigationUIKtx)
     implementation(Dependencies.Deps.hiltAndroid)
     kapt(Dependencies.Deps.hiltAndroidCompiler)
     testImplementation(Dependencies.Deps.jUnit)

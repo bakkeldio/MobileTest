@@ -1,4 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="tests_label">Tests</string>
+    <string name="tests_label">Тесты</string>
+    <string name="next">Следующий</string>
+    <string name="prev">Назад</string>
+    <string name="minutes_left">Осталось %s</string>
+    <string name="test_will_end_in">Тест завершится через %s</string>
+    <string name="notification_title">Начался тест!</string>
+    <string name="search_hint_text">Введите название теста</string>
+    <string name="ok_text">Ок</string>
+
+    <string name="all_tests">Все</string>
+    <string name="passed_tests">Завершенные</string>
+
+    <string name="correct_answers">Правильный ответ: %s</string>
+
+    <string name="alert_message_before_test">После того как вы начнете тест вы не сможете приостановить его. Вам будет дано %s чтобы закончить тест. После завершения времени результаты автоматически будут записаны.</string>
+    <string name="no_data_found">Ничего не найдено</string>
+
+    <plurals name="minutes_plural">
+        <item quantity="zero">%1$d минут</item>
+        <item quantity="one">%1$d минута</item>
+        <item quantity="two">%1$d минуты</item>
+        <item quantity="few">%1$d минуты</item>
+        <item quantity="many">%1$d минут</item>
+        <item quantity="other">%1$d минут</item>
+    </plurals>
 </resources>

@@ -22,4 +22,5 @@ class CoreModule {
     fun provideSharedPreferences(@ApplicationContext context: Context): SharedPreferences {
         return context.getSharedPreferences(APP_NAME, Context.MODE_PRIVATE)
     }
+
 }
