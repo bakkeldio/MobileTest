@@ -27,6 +27,12 @@
             app:enterAnim="@anim/nav_graph_enter"
             app:exitAnim="@anim/nav_graph_exit" />
 
+        <action
+            android:id="@+id/fromTestsFragmentToCreateQuestionsFragment"
+            app:destination="@id/createQuestionsFragment"
+            app:enterAnim="@anim/nav_graph_enter"
+            app:exitAnim="@anim/nav_graph_exit" />
+
         <deepLink app:uri="mobileTest://navigationTests/{groupId}" />
     </fragment>
 
@@ -66,4 +72,18 @@
             app:argType="string" />
     </fragment>
 
+    <fragment
+        android:id="@+id/createQuestionsFragment"
+        android:name="com.example.test.presentation.CreateQuestionsFragment"
+        android:label="@string/test_creation"
+        tools:layout="@layout/fragment_create_questions">
+        <action
+            android:id="@+id/action_createQuestionsFragment_self"
+            app:destination="@id/createQuestionsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/newQuestionFragment"
+        android:name="com.example.test.presentation.NewQuestionFragment"
+        tools:layout="@layout/fragment_new_question" />
 </navigation>

@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.chat.databinding.FragmentChatBinding
+import com.google.firebase.auth.FirebaseAuth
 
 class ChatFragment : Fragment() {
 
@@ -35,6 +36,10 @@ class ChatFragment : Fragment() {
             textView.text = it
         })
         return root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
     }
 
     override fun onDestroyView() {

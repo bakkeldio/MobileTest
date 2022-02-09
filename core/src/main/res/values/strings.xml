@@ -7,8 +7,14 @@
     <string name="agree">Да</string>
     <string name="finish">Завершить</string>
     <string name="search">Поиск</string>
+    <string name="add">Добавить</string>
     <string name="finish_test_and_submit_the_results">Вы хотите завершить тест и отправить результаты?</string>
-    
+    <string name="save_your_previous_question">Сохраните предыдущий вопрос</string>
+    <string name="save_changes">Сохраните изменения</string>
+    <string name="saved">Сохранено</string>
+    <string name="possible_answers_not_enough">Вариантов ответа не достаточно(минимум 2)</string>
+    <string name="choose_correct_answer_for_given_question">Выберите правильный ответ для данного вопроса</string>
+    <string name="question_field_must_not_be_null">Вопрос обязателен для заполнения</string>
     <plurals name="students_plurals">
         <item quantity="zero">%1$d студентов</item>
         <item quantity="one">%1$d студент</item>

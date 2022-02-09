@@ -29,14 +29,12 @@
 
     <style name="Widget.RadioButton" parent="Widget.MaterialComponents.CompoundButton.RadioButton">
         <item name="android:textAppearance">@style/Text_16_main_text_color</item>
-        <item name="maxLines">3</item>
         <item name="android:background">@android:color/transparent</item>
     </style>
 
     <style name="Widget.CheckBox" parent="Widget.MaterialComponents.CompoundButton.CheckBox">
         <item name="android:textAppearance">@style/Text_16_main_text_color</item>
         <item name="android:background">@android:color/transparent</item>
-        <item name="maxLines">3</item>
     </style>
 
     <style name="MaterialToolbar" parent="Widget.MaterialComponents.Toolbar">
@@ -44,6 +42,39 @@
         <item name="titleTextColor">@color/main_text_color</item>
     </style>
 
+    <style name="ThemeOverlay.App.BottomSheetDialog" parent="Theme.MaterialComponents.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/ModalBottomSheetDialog</item>
+        <item name="materialButtonStyle">@style/BottomSheetDialog.Button</item>
+        <item name="android:windowSoftInputMode">adjustResize</item>
+    </style>
 
+    <style name="ModalBottomSheetDialog" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/bg_rounded</item>
+        <item name="behavior_peekHeight">200dp</item>
+    </style>
+
+
+
+    <style name="BottomSheetDialog.Button" parent="Widget.MaterialComponents.Button">
+        <item name="backgroundTint">@color/main_color_pink</item>
+    </style>
+
+    <style name="PlusMinusButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="android:insetLeft">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetRight">0dp</item>
+        <item name="iconTint">@color/main_color_pink</item>
+        <item name="strokeColor">@color/main_color_pink</item>
+        <item name="strokeWidth">1dp</item>
+        <item name="iconSize">35dp</item>
+        <item name="iconGravity">textStart</item>
+        <item name="iconPadding">0dp</item>
+    </style>
+
+    <style name="Widget.EditText" parent="@style/Widget.AppCompat.EditText">
+        <item name="android:textCursorDrawable">@drawable/edit_text_color</item>
+        <item name="android:backgroundTint">@color/main_color_pink</item>
+    </style>
 
 </resources>
