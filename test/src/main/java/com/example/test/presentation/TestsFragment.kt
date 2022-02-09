@@ -141,7 +141,7 @@ internal class TestsFragment : Fragment(), TestsAdapter.ItemClickListener {
         }
 
         binding.addTestBtn.setOnClickListener {
-
+            findNavController().navigate(TestsFragmentDirections.fromTestsFragmentToCreateQuestionsFragment())
         }
 
     }
@@ -160,7 +160,7 @@ internal class TestsFragment : Fragment(), TestsAdapter.ItemClickListener {
 
     }
 
-    private fun sendUpdatedTestDataToLiveData(tests: List<TestModel>){
+    private fun sendUpdatedTestDataToLiveData(tests: List<TestModel>) {
         viewModel.updateTestsLiveData(tests)
     }
 
@@ -226,12 +226,16 @@ internal class TestsFragment : Fragment(), TestsAdapter.ItemClickListener {
             }
 
         } else {
+
+            findNavController().navigate(R.id.newQuestionFragment)
+            /*
             findNavController().navigate(
                 TestsFragmentDirections.fromTestsFragmentToTestResultFragment(
                     args.groupId,
                     model.uid
                 )
             )
+             */
         }
     }
 }

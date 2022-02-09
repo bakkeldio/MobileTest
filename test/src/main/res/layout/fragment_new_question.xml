@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:overScrollMode="never"
+    android:fillViewport="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/questionTextInputLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="25dp"
+            android:layout_marginTop="20dp"
+            android:hint="@string/enter_question_name"
+            app:boxBackgroundColor="@color/white"
+            app:errorEnabled="true"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/questionEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <TextView
+            android:id="@+id/questionTypeTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="25dp"
+            android:layout_marginTop="5dp"
+            android:text="@string/choose_question_type"
+            android:textAppearance="@style/Text_16_main_text_color"
+            app:layout_constraintTop_toBottomOf="@id/questionTextInputLayout" />
+
+
+        <RadioGroup
+            android:id="@+id/questionTypesRadioGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:checkedButton="@id/withOneCorrectAnswer"
+            app:layout_constraintTop_toBottomOf="@id/questionTypeTextView"
+            tools:ignore="UselessLeaf">
+
+            <RadioButton
+                android:id="@+id/withOneCorrectAnswer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/questionType_1" />
+
+            <RadioButton
+                android:id="@+id/withMultipleCorrectAnswers"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/questionType_2" />
+
+            <RadioButton
+                android:id="@+id/openQuestion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/questionType_3" />
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/enterPointsLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/pointsLabel"
+            android:textAppearance="@style/Text_16_main_text_color"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/questionTypesRadioGroup" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/minusBtn"
+            style="@style/PlusMinusButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="20dp"
+            android:elevation="0dp"
+            app:icon="@drawable/ic_minus"
+            app:layout_constraintStart_toEndOf="@id/enterPointsLabel"
+            app:layout_constraintTop_toBottomOf="@id/questionTypesRadioGroup" />
+
+        <TextView
+            android:id="@+id/pointTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="10dp"
+            android:text="@string/_10"
+            android:textAppearance="@style/Text_16_main_text_color"
+            app:layout_constraintBottom_toBottomOf="@id/addBtn"
+            app:layout_constraintEnd_toStartOf="@id/addBtn"
+            app:layout_constraintStart_toEndOf="@id/minusBtn"
+            app:layout_constraintTop_toTopOf="@id/addBtn" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/addBtn"
+            style="@style/PlusMinusButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            app:icon="@drawable/icon_add"
+            app:layout_constraintStart_toEndOf="@id/pointTextView"
+            app:layout_constraintTop_toTopOf="@id/minusBtn" />
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/answersRv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:nestedScrollingEnabled="false"
+            android:orientation="vertical"
+            android:overScrollMode="never"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintTop_toBottomOf="@id/addBtn" />
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/addAnswerBtn"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="25dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/add_answer_text"
+            app:icon="@drawable/ic_baseline_add_24"
+            app:layout_constraintTop_toBottomOf="@id/answersRv" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/updateQuestionBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="25dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/update_question"
+            app:icon="@drawable/edit_text_color"
+            app:layout_constraintTop_toBottomOf="@id/addAnswerBtn" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

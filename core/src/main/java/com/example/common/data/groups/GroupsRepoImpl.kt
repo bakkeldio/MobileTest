@@ -105,7 +105,7 @@ class GroupsRepoImpl @Inject constructor(
         return withContext(Dispatchers.IO) {
             try {
                 val response = db.collection("teachers").limit(1)
-                    .whereEqualTo("uid", firebaseAuth.currentUser?.uid.orEmpty()).get().await()
+                    .whereEqualTo("id", firebaseAuth.currentUser?.uid.orEmpty()).get().await()
                 sharedPreferences.edit().putBoolean("isUserAdmin", response.size() == 1).apply()
                 Result.Success(Unit)
             } catch (e: Exception) {
