@@ -7,9 +7,9 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.group.R
 import com.example.group.databinding.ItemGroupBinding
-import com.example.common.domain.group.model.GroupDomain
+import com.example.group.domain.model.GroupDomain
 
-internal class GroupsListAdapter(private val listener: Listener) :
+class GroupsListAdapter(private val listener: Listener) :
     ListAdapter<GroupDomain, GroupsListAdapter.GroupViewHolder>(Callback) {
 
     inner class GroupViewHolder(private val binding: ItemGroupBinding) :

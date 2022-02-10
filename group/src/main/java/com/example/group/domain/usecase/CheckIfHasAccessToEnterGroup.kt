@@ -1,9 +1,8 @@
 package com.example.group.domain.usecase
 
 import com.example.common.data.Result
-import com.example.common.domain.group.model.CoreRoleEnum
-import com.example.common.domain.group.repository.IGroupsRepo
-import dagger.hilt.android.scopes.ActivityRetainedScoped
+import com.example.group.domain.model.CoreRoleEnum
+import com.example.group.domain.repository.IGroupsRepo
 import dagger.hilt.android.scopes.ViewModelScoped
 import javax.inject.Inject
 

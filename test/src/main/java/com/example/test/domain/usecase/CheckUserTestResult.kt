@@ -1,10 +1,10 @@
 package com.example.test.domain.usecase
 
 import com.example.common.data.Result
-import com.example.common.domain.test.model.QuestionDomain
-import com.example.common.domain.test.model.QuestionType
-import com.example.common.domain.test.repository.IQuestionRepository
-import com.example.common.domain.test.repository.ITestsRepository
+import com.example.common.domain.model.QuestionDomain
+import com.example.common.domain.model.QuestionType
+import com.example.test.domain.repository.IQuestionRepository
+import com.example.test.domain.repository.ITestsRepository
 import com.example.test.domain.model.AnswerDomain
 import com.example.test.domain.model.QuestionResultDomain
 import dagger.hilt.android.scopes.ViewModelScoped
@@ -12,7 +12,7 @@ import javax.inject.Inject
 
 
 @ViewModelScoped
-internal class CheckUserTestResult @Inject constructor(
+class CheckUserTestResult @Inject constructor(
     private val testRepo: ITestsRepository,
     private val questionRepo: IQuestionRepository
 ) {

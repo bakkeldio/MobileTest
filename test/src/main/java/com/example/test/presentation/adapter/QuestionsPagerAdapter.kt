@@ -3,8 +3,8 @@ package com.example.test.presentation.adapter
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.example.common.domain.test.model.QuestionDomain
-import com.example.test.presentation.QuestionFragment
+import com.example.common.domain.model.QuestionDomain
+import com.example.test.presentation.question.QuestionFragment
 
 class QuestionsPagerAdapter(
     fragment: Fragment

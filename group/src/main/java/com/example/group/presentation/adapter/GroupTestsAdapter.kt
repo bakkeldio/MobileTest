@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.common.domain.test.model.TestDomainModel
+import com.example.common.domain.model.TestDomainModel
 import com.example.group.databinding.ItemTestGridBinding
 
 class GroupTestsAdapter(val itemClick: (TestDomainModel) -> Unit) : RecyclerView.Adapter<GroupTestsAdapter.GroupTestVH>() {

@@ -41,6 +41,7 @@
     <string name="enter_test_name">Введите название теста</string>
     <string name="date_and_time_are_required">Дата и время обязательны для заполнения</string>
     <string name="enter_duration_for_test">Укажите продолжительность для теста</string>
+    <string name="save_last_question">Сохраните последний вопрос</string>
     <plurals name="minutes_plural">
         <item quantity="zero">%1$d минут</item>
         <item quantity="one">%1$d минута</item>

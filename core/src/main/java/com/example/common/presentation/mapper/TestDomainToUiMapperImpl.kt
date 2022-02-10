@@ -1,6 +1,6 @@
 package com.example.common.presentation.mapper
 
-import com.example.common.domain.test.model.TestDomainModel
+import com.example.common.domain.model.TestDomainModel
 import com.example.common.presentation.UiMapper
 import com.example.common.presentation.model.TestModel
 

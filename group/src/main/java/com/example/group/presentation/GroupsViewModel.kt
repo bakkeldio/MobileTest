@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.common.data.Result
-import com.example.common.domain.group.model.GroupDomain
+import com.example.group.domain.model.GroupDomain
 import com.example.common.presentation.ResourceState
 import com.example.group.domain.usecase.GetAllGroups
 import com.example.group.domain.usecase.SaveUserRole
@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 
 @HiltViewModel
-internal class GroupsViewModel @Inject constructor(
+class GroupsViewModel @Inject constructor(
     private val getGroups: GetAllGroups,
     private val saveUserRole: SaveUserRole
 ) :

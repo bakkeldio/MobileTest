@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.common.data.Result
-import com.example.common.domain.group.model.CoreRoleEnum
+import com.example.group.domain.model.CoreRoleEnum
 import com.example.common.presentation.ResourceState
 import com.example.group.domain.usecase.*
 import com.example.group.presentation.model.GroupData

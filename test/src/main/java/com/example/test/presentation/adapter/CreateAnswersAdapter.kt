@@ -3,7 +3,6 @@ package com.example.test.presentation.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.common.domain.test.model.QuestionType
 import com.example.test.R
 import com.example.test.databinding.NewQuestionAnswerLayoutBinding
 import com.example.test.presentation.model.NewAnswer
