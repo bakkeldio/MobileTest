@@ -10,7 +10,7 @@ import androidx.hilt.work.HiltWorker
 import androidx.navigation.NavDeepLinkBuilder
 import androidx.work.*
 import com.example.test.R
-import com.example.test.presentation.QuestionsViewModel
+import com.example.test.presentation.question.QuestionsViewModel
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.delay

@@ -1,14 +1,13 @@
 package com.example.test.presentation.workers
 
 import android.content.Context
-import android.content.SharedPreferences
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import androidx.work.workDataOf
-import com.example.common.data.test.TestProcessHandler
-import com.example.common.data.test.model.TestResult
-import com.example.test.presentation.QuestionsViewModel
+import com.example.test.data.datamanager.TestProcessHandler
+import com.example.test.data.model.TestResult
+import com.example.test.presentation.question.QuestionsViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.assisted.Assisted
@@ -36,7 +35,9 @@ class UploadTestResultToFirestoreWorker @AssistedInject constructor(
                 .set(TestResult(testId, testTitle, totalScore, TestProcessHandler.mapTo())).await()
 
             TestProcessHandler.clear()
-            Result.success(workDataOf(QuestionsViewModel.TEST_ID to inputData.getString(QuestionsViewModel.TEST_ID)))
+            Result.success(workDataOf(
+                QuestionsViewModel.TEST_ID to inputData.getString(
+                    QuestionsViewModel.TEST_ID)))
         } catch (e: Throwable) {
             e.printStackTrace()
             return Result.failure()

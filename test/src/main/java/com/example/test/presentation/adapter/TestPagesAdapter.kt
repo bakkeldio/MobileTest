@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
-import com.example.common.domain.test.model.QuestionType
+import com.example.common.domain.model.QuestionType
 import com.example.test.databinding.ItemQuestionStateBinding
 import com.example.test.presentation.model.PageModel
 

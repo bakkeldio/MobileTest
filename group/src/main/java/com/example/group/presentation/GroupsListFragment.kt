@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
-import com.example.common.domain.group.model.GroupDomain
+import com.example.group.domain.model.GroupDomain
 import com.example.common.presentation.ResourceState
 import com.example.common.utils.DebounceQueryTextListener
 import com.example.common.utils.addItemDecorationWithoutLastItem
@@ -19,12 +19,11 @@ import com.example.common.utils.showToast
 import com.example.group.R
 import com.example.group.databinding.FragmentGroupsListBinding
 import com.example.group.presentation.adapter.GroupsListAdapter
-import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-internal class GroupsListFragment : Fragment(), GroupsListAdapter.Listener {
+class GroupsListFragment : Fragment(), GroupsListAdapter.Listener {
 
     private var _binding: FragmentGroupsListBinding? = null
     private val binding: FragmentGroupsListBinding

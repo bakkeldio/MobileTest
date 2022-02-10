@@ -2,7 +2,7 @@ package com.example.test.presentation.adapter
 
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.example.test.presentation.NewQuestionFragment
+import com.example.test.presentation.newQuestion.NewQuestionFragment
 
 class CreateQuestionsAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
 

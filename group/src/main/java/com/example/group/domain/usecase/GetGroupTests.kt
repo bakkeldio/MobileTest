@@ -1,8 +1,8 @@
 package com.example.group.domain.usecase
 
 import com.example.common.data.Result
-import com.example.common.domain.group.repository.IGroupsRepo
-import com.example.common.domain.test.model.TestDomainModel
+import com.example.group.domain.repository.IGroupsRepo
+import com.example.common.domain.model.TestDomainModel
 import dagger.hilt.android.scopes.ViewModelScoped
 import javax.inject.Inject
 

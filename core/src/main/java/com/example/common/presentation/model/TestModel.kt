@@ -1,6 +1,6 @@
 package com.example.common.presentation.model
 
-import com.example.common.domain.test.model.QuestionDomain
+import com.example.common.domain.model.QuestionDomain
 import java.util.*
 
 data class TestModel(

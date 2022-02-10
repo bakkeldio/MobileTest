@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/testsFragment"
-        android:name="com.example.test.presentation.TestsFragment"
+        android:name="com.example.test.presentation.tests.TestsFragment"
         android:label="@string/tests_label"
         tools:layout="@layout/fragment_tests">
 
@@ -38,7 +38,7 @@
 
     <fragment
         android:id="@+id/questionsFragment"
-        android:name="com.example.test.presentation.QuestionsFragment"
+        android:name="com.example.test.presentation.question.QuestionsFragment"
         tools:layout="@layout/fragment_questions">
         <argument
             android:name="groupId"
@@ -62,7 +62,7 @@
 
     <fragment
         android:id="@+id/testResultFragment"
-        android:name="com.example.test.presentation.TestResultFragment"
+        android:name="com.example.test.presentation.testResult.TestResultFragment"
         tools:layout="@layout/fragment_test_result">
         <argument
             android:name="groupId"
@@ -74,7 +74,7 @@
 
     <fragment
         android:id="@+id/createQuestionsFragment"
-        android:name="com.example.test.presentation.CreateQuestionsFragment"
+        android:name="com.example.test.presentation.newQuestion.CreateQuestionsFragment"
         android:label="@string/test_creation"
         tools:layout="@layout/fragment_create_questions">
         <action
@@ -84,6 +84,6 @@
 
     <fragment
         android:id="@+id/newQuestionFragment"
-        android:name="com.example.test.presentation.NewQuestionFragment"
+        android:name="com.example.test.presentation.newQuestion.NewQuestionFragment"
         tools:layout="@layout/fragment_new_question" />
 </navigation>
