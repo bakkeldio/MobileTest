@@ -59,21 +59,21 @@ class ChatViewModel @Inject constructor(
                     is Result.Success -> {
                         val chatUsers = members.map { member ->
                             val allMessages = messagesResult.data ?: emptyList()
-                            val lastMessageWithThisStudent = allMessages.last {
+                            val lastMessageWithThisStudent = allMessages.lastOrNull {
                                 it.chatUsers.contains(member.uid)
                             }
 
                             ChatMemberItem(
                                 MessageTypeEnum.getTypeByValue(
-                                    lastMessageWithThisStudent.messageType
+                                    lastMessageWithThisStudent?.messageType
                                 ),
                                 member.uid,
                                 member.name,
                                 member.avatarUrl,
-                                if (lastMessageWithThisStudent.from == firebaseAuth.uid) MessageAuthorEnum.ME else MessageAuthorEnum.OTHER,
-                                lastMessageWithThisStudent.status,
-                                lastMessageWithThisStudent.time,
-                                lastMessageWithThisStudent.message,
+                                if (lastMessageWithThisStudent?.from == firebaseAuth.uid) MessageAuthorEnum.ME else MessageAuthorEnum.OTHER,
+                                lastMessageWithThisStudent?.status ?: 0,
+                                lastMessageWithThisStudent?.time,
+                                lastMessageWithThisStudent?.message,
                                 allMessages.filter {
                                     it.status == 1 && it.from == member.uid
                                 }.count()

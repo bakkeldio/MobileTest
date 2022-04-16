@@ -140,9 +140,9 @@ class ChatRepository @Inject constructor(
                         close(error)
                         return@addSnapshotListener
                     }
-                    val channels = value?.map {
-                        val channel = it.toObject(ChatChannel::class.java)
-                        Pair(it.id, channel)
+                    val channels = value?.map { snapshot ->
+                        val channel = snapshot.toObject(ChatChannel::class.java)
+                        Pair(snapshot.id, channel)
                     } ?: emptyList()
                     trySend(Result.Success(channels))
                 }
@@ -280,9 +280,9 @@ class ChatRepository @Inject constructor(
         }
     }
 
-    override suspend fun getChatMemberInfo(userId: String): Result<ChatMember> {
+    override suspend fun getChatMemberInfo(userId: String, role: String): Result<ChatMember> {
         return try {
-            if (sharedPreferences.getBoolean("isUserAdmin", false)) {
+            if (role == "teacher") {
                 val snapshot = db.collection("teachers").document(userId).get().await()
                 val teacher = snapshot.toObject(TeacherProfile::class.java)
                 teacher ?: throw IllegalArgumentException("teacher model can't be null")

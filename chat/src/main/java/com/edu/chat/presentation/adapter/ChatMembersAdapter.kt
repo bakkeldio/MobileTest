@@ -50,7 +50,7 @@ class ChatMembersAdapter(
                 } else {
                     binding.lastMessage.removeAnyDrawables()
                 }
-                binding.lastMessageTime.text = this.time.parseDateForChat()
+                binding.lastMessageTime.text = this.time?.parseDateForChat()
                 imageLoader.loadImageWithCircleShape(
                     chatUserAvatar,
                     binding.logo,

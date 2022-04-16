@@ -45,9 +45,9 @@ class ChatDetailsViewModel @Inject constructor(
 
     private var messagesCount: Int = 0
 
-    fun getProfileInfo(userId: String) {
+    fun getProfileInfo(userId: String, role: String) {
         viewModelScope.launch {
-            when (val response = chatMemberInfoUseCase(userId)) {
+            when (val response = chatMemberInfoUseCase(userId, role)) {
                 is Result.Success -> {
                     _chatMemberInfo.value = response.data
                 }
@@ -67,6 +67,7 @@ class ChatDetailsViewModel @Inject constructor(
                     channel = response.data
                     getCountOfMessages()
                     coroutineScope {
+                        getProfileInfo(otherUserId, response.data?.role ?: "student")
                         listenToChatMessagesBeforeCurrentTimeStamp(response.data!!.channelId)
                     }
                     listenToNewMessages(otherUserId, response.data!!.channelId)
