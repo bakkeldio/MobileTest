@@ -40,7 +40,6 @@ class ChatDetailFragment : BaseFragment<ChatDetailsViewModel, FragmentChatDetail
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.getProfileInfo(args.userId)
         viewModel.getOrCreateChannel(args.userId)
     }
 

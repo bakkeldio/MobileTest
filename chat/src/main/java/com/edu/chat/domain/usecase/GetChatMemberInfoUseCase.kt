@@ -9,5 +9,5 @@ class GetChatMemberInfoUseCase @Inject constructor(
     private val chatRepo: IChatRepo
 ) {
 
-    suspend operator fun invoke(userId: String) = chatRepo.getChatMemberInfo(userId)
+    suspend operator fun invoke(userId: String, role: String) = chatRepo.getChatMemberInfo(userId, role)
 }

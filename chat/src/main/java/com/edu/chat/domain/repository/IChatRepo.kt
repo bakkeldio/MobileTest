@@ -30,5 +30,5 @@ interface IChatRepo {
 
     suspend fun markNewMessagesAsSeen(channelId: String, ids: List<String>): Result<Unit>
 
-    suspend fun getChatMemberInfo(userId: String): Result<ChatMember>
+    suspend fun getChatMemberInfo(userId: String, role: String): Result<ChatMember>
 }

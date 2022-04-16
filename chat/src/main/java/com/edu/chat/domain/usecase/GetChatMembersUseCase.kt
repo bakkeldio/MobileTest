@@ -61,9 +61,9 @@ class GetChatMembersUseCase @Inject constructor(
                         }).map {
                             ChatMember(
                                 it.uid
-                                    ?: throw IllegalArgumentException("id of teacher can't be null"),
+                                    ?: throw IllegalArgumentException("The id of teacher can't be null"),
                                 it.name
-                                    ?: throw IllegalArgumentException("name of the teacher can't be null"),
+                                    ?: throw IllegalArgumentException("The name of the teacher can't be null"),
                                 it.avatarUrl
                             )
                         })
