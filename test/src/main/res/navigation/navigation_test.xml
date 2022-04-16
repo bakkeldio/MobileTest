@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/testsFragment"
-        android:name="com.example.test.presentation.tests.TestsFragment"
+        android:name="com.edu.test.presentation.tests.TestsFragment"
         android:label="@string/tests_label"
         tools:layout="@layout/fragment_tests">
 
@@ -38,7 +38,7 @@
 
     <fragment
         android:id="@+id/questionsFragment"
-        android:name="com.example.test.presentation.question.QuestionsFragment"
+        android:name="com.edu.test.presentation.question.QuestionsFragment"
         tools:layout="@layout/fragment_questions">
         <argument
             android:name="groupId"
@@ -62,7 +62,7 @@
 
     <fragment
         android:id="@+id/testResultFragment"
-        android:name="com.example.test.presentation.testResult.TestResultFragment"
+        android:name="com.edu.test.presentation.testResult.TestResultFragment"
         tools:layout="@layout/fragment_test_result">
         <argument
             android:name="groupId"
@@ -70,20 +70,27 @@
         <argument
             android:name="testId"
             app:argType="string" />
+
+        <deepLink
+            app:uri="mobileTest://navigationCompletedTest/{groupId};{testId}" />
     </fragment>
 
     <fragment
         android:id="@+id/createQuestionsFragment"
-        android:name="com.example.test.presentation.newQuestion.CreateQuestionsFragment"
+        android:name="com.edu.test.presentation.createTest.CreateQuestionsFragment"
         android:label="@string/test_creation"
         tools:layout="@layout/fragment_create_questions">
         <action
             android:id="@+id/action_createQuestionsFragment_self"
             app:destination="@id/createQuestionsFragment" />
+
+        <argument
+            android:name="groupId"
+            app:argType="string" />
     </fragment>
 
     <fragment
         android:id="@+id/newQuestionFragment"
-        android:name="com.example.test.presentation.newQuestion.NewQuestionFragment"
+        android:name="com.edu.test.presentation.newQuestion.NewQuestionFragment"
         tools:layout="@layout/fragment_new_question" />
 </navigation>

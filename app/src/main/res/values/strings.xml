@@ -35,5 +35,14 @@
     <string name="forgot_password">Забыли пароль?</string>
 
     <string name="email_reset_password_sent">На ваш email отправлена ссылка по сбросу пароля</string>
+    <string name="app_main_title">MobileTest</string>
+    <string name="signOut">Выйти</string>
+    <string name="finished_tests">Завершенные тесты</string>
+
+    <string name="notification_channel_id">channel-mobileTest</string>
+    <string name="choose_profile_photo">Выбрать фото</string>
+    <string name="delete_profile_photo">Удалить фото профиля</string>
+    <string name="make_picture_for_profile">Сделать снимок</string>
+    <string name="choose">Выбрать</string>
 
 </resources>

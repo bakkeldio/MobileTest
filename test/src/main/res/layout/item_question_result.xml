@@ -18,7 +18,8 @@
         android:paddingHorizontal="10dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/questionTextView" />
+        app:layout_constraintTop_toBottomOf="@id/questionTextView"
+        tools:visibility="gone" />
 
     <TextView
         android:id="@+id/pointTextView"
@@ -49,6 +50,20 @@
         tools:text="1. What is the highest mountain in the world? aldlkasndkl" />
 
     <TextView
+        android:id="@+id/openQuestionText"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/bg_outlined_gray"
+        android:scrollbars="vertical"
+        android:textColor="@color/main_text_color"
+        android:paddingVertical="10dp"
+        android:paddingHorizontal="10dp"
+        app:layout_constraintTop_toBottomOf="@id/questionTextView"
+        tools:text="Hello World "/>
+
+    <TextView
         android:id="@+id/correctAnswerTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -58,7 +73,8 @@
         android:padding="20dp"
         android:textColor="@color/main_text_color"
         app:layout_constraintTop_toBottomOf="@id/questionAnswers"
-        tools:text="sdnlaknd klasnkldasnkl dnaksnd kanlkdankd klal kandklandkl an asd mkland." />
+        tools:text="sdnlaknd klasnkldasnkl dnaksnd kanlkdankd klal kandklandkl an asd mkland."
+        tools:visibility="gone" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

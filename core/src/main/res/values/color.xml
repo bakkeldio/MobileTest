@@ -4,9 +4,12 @@
     <color name="main_blue_color">#3D74E7</color>
     <color name="black">#000000</color>
     <color name="gray">#BBBBBB</color>
+    <color name="gray_717677">#717677</color>
     <color name="divider_color">#EDEDED</color>
+    <color name="e5e5e5">#e5e5e5</color>
     <color name="main_text_color">#333333</color>
     <color name="main_color_pink">#bc477b</color>
+    <color name="color_transparent">#00000000</color>
     <color name="pink_200">#ffc1e3</color>
     <color name="pink_300">#f06292</color>
     <color name="pink_500">#ec407a</color>
@@ -22,4 +25,5 @@
     <color name="green_400">#47BC87</color>
     <color name="red">#ef5350</color>
     <color name="red_500">#f44336</color>
+    <color name="hint_text_color">#6E6A6A</color>
 </resources>

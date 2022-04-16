@@ -16,6 +16,10 @@
         <item name="android:editTextColor">@color/main_text_color</item>
     </style>
 
+    <style name="MaterialToolbar.Custom">
+        <item name="colorControlNormal">?attr/colorPrimary</item>
+    </style>
+
     <style name="Text_16_main_text_color" parent="Widget.MaterialComponents.TextView">
         <item name="android:textColor">@color/main_text_color</item>
         <item name="android:textSize">16sp</item>
@@ -51,6 +55,14 @@
     <style name="ModalBottomSheetDialog" parent="Widget.Design.BottomSheet.Modal">
         <item name="android:background">@drawable/bg_rounded</item>
         <item name="behavior_peekHeight">200dp</item>
+    </style>
+
+
+    <style name="Widget.AppCompat.SearchView.Chat">
+        <item name="android:background">@drawable/border_bg_gray</item>
+        <item name="android:textColorHint">@color/hint_text_color</item>
+        <item name="queryBackground">@null</item>
+        <item name="iconifiedByDefault">false</item>
     </style>
 
 
