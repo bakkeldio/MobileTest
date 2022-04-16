@@ -7,19 +7,19 @@
 
     <fragment
         android:id="@+id/login_fragment"
-        android:name="com.example.mobiletest.ui.login.LoginFragment"
+        android:name="com.edu.mobiletest.ui.login.LoginFragment"
         android:label="@string/login"
         tools:layout="@layout/fragment_login" />
 
     <fragment
         android:id="@+id/registration_fragment"
-        android:name="com.example.mobiletest.ui.login.RegistrationFragment"
+        android:name="com.edu.mobiletest.ui.login.RegistrationFragment"
         android:label="@string/register"
         tools:layout="@layout/fragment_registration"/>
 
     <fragment
         android:id="@+id/password_reset_fragment"
-        android:name="com.example.mobiletest.ui.login.PasswordResetFragment"
+        android:name="com.edu.mobiletest.ui.login.PasswordResetFragment"
         android:label="@string/password_reset_title"
         tools:layout="@layout/fragment_password_reset" />
 
