@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/image_home_indicator"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_home_indicator"
+        tools:ignore="ContentDescription" />
+
+    <Button
+        android:id="@+id/choosePhotoBtn"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/choose_profile_photo"
+        android:textColor="@color/black"
+        android:textSize="13sp"
+        app:layout_constraintTop_toBottomOf="@id/image_home_indicator" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/divider_color"
+        app:layout_constraintTop_toBottomOf="@id/choosePhotoBtn" />
+
+    <Button
+        android:id="@+id/makePictureBtn"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="0.5dp"
+        android:text="@string/make_picture_for_profile"
+        android:textColor="@color/black"
+        android:textSize="13sp"
+        app:layout_constraintTop_toBottomOf="@id/choosePhotoBtn" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/divider_color"
+        app:layout_constraintTop_toBottomOf="@id/makePictureBtn" />
+
+    <Button
+        android:id="@+id/deleteProfilePicture"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="0.5dp"
+        android:text="@string/delete_profile_photo"
+        android:textColor="@color/red"
+        android:textSize="13sp"
+        app:layout_constraintTop_toBottomOf="@id/makePictureBtn" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

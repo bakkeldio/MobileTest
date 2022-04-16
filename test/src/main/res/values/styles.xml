@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="AddTestFabStyle" parent="android:Widget">
+        <item name="android:background">@drawable/design_fab_background</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="fabCustomSize">40dp</item>
+        <item name="tint">@color/white</item>
+        <item name="backgroundTint">@color/main_color_pink</item>
+        <item name="elevation">@dimen/design_fab_elevation</item>
+        <item name="rippleColor">?attr/colorControlHighlight</item>
+        <item name="srcCompat">@drawable/icon_add</item>
+    </style>
+
+</resources>

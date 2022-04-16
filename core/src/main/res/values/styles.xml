@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Text_18_main_color">
+        <item name="android:textColor">?attr/colorPrimary</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="Text_15_main_color">
+        <item name="android:textColor">?attr/colorPrimary</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.ActionBar">
+        <item name="colorControlNormal">?attr/colorPrimary</item>
+        <item name="android:editTextColor">@color/main_text_color</item>
+    </style>
+
+    <style name="MaterialToolbar.Custom">
+        <item name="colorControlNormal">?attr/colorPrimary</item>
+    </style>
+
+    <style name="Text_16_main_text_color" parent="Widget.MaterialComponents.TextView">
+        <item name="android:textColor">@color/main_text_color</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+
+    <style name="Text_18_main_text_color" parent="Widget.MaterialComponents.TextView">
+        <item name="android:textColor">@color/main_text_color</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="Widget.RadioButton" parent="Widget.MaterialComponents.CompoundButton.RadioButton">
+        <item name="android:textAppearance">@style/Text_16_main_text_color</item>
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
+    <style name="Widget.CheckBox" parent="Widget.MaterialComponents.CompoundButton.CheckBox">
+        <item name="android:textAppearance">@style/Text_16_main_text_color</item>
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
+    <style name="MaterialToolbar" parent="Widget.MaterialComponents.Toolbar">
+        <item name="materialThemeOverlay">@style/AppTheme.AppBarOverlay</item>
+        <item name="titleTextColor">@color/main_text_color</item>
+    </style>
+
+    <style name="ThemeOverlay.App.BottomSheetDialog" parent="Theme.MaterialComponents.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/ModalBottomSheetDialog</item>
+        <item name="materialButtonStyle">@style/BottomSheetDialog.Button</item>
+        <item name="android:windowSoftInputMode">adjustResize</item>
+    </style>
+
+    <style name="ModalBottomSheetDialog" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/bg_rounded</item>
+        <item name="behavior_peekHeight">200dp</item>
+    </style>
+
+
+    <style name="Widget.AppCompat.SearchView.Chat">
+        <item name="android:background">@drawable/border_bg_gray</item>
+        <item name="android:textColorHint">@color/hint_text_color</item>
+        <item name="queryBackground">@null</item>
+        <item name="iconifiedByDefault">false</item>
+    </style>
+
+
+
+    <style name="BottomSheetDialog.Button" parent="Widget.MaterialComponents.Button">
+        <item name="backgroundTint">@color/main_color_pink</item>
+    </style>
+
+    <style name="PlusMinusButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="android:insetLeft">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetRight">0dp</item>
+        <item name="iconTint">@color/main_color_pink</item>
+        <item name="strokeColor">@color/main_color_pink</item>
+        <item name="strokeWidth">1dp</item>
+        <item name="iconSize">35dp</item>
+        <item name="iconGravity">textStart</item>
+        <item name="iconPadding">0dp</item>
+    </style>
+
+    <style name="Widget.EditText" parent="@style/Widget.AppCompat.EditText">
+        <item name="android:textCursorDrawable">@drawable/edit_text_color</item>
+        <item name="android:backgroundTint">@color/main_color_pink</item>
+    </style>
+
+</resources>

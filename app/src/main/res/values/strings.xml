@@ -9,12 +9,12 @@
 
     <string name="register">Регистрация</string>
 
-    <string name="menu_home">Tests</string>
-    <string name="menu_gallery">Profile</string>
-    <string name="menu_slideshow">Chat</string>
+    <string name="menu_groups">Группы</string>
+    <string name="menu_tests">Тесты</string>
+    <string name="menu_gallery">Профиль</string>
+    <string name="menu_slideshow">Чат</string>
     <string name="enter_email">Введите ваш email</string>
     <string name="enter_password">Введите пароль</string>
-    <string name="enter_search_query">Введите название теста</string>
     <string name="login">Вход</string>
     <string name="enter">Войти</string>
 
@@ -24,8 +24,25 @@
     <string name="teacher_role">Учитель</string>
     <string name="sign_up_button_text">Зарегистрироваться</string>
 
+    <string name="send_password_reset_link">Сбросить</string>
+    <string name="password_reset_title">Сброс пароля</string>
+
+    <string name="enter_valid_password">Ваш пароль должен содержать не менее 4 символов, 1 спец символ и без пробелов.</string>
     <string name="enter_valid_email">Введите правильный email</string>
     <string name="empty_password">Пароль не должен быть пустым</string>
+    <string name="empty_field">Это поле не должно быть пустым</string>
     <string name="logout">Выйти</string>
+    <string name="forgot_password">Забыли пароль?</string>
+
+    <string name="email_reset_password_sent">На ваш email отправлена ссылка по сбросу пароля</string>
+    <string name="app_main_title">MobileTest</string>
+    <string name="signOut">Выйти</string>
+    <string name="finished_tests">Завершенные тесты</string>
+
+    <string name="notification_channel_id">channel-mobileTest</string>
+    <string name="choose_profile_photo">Выбрать фото</string>
+    <string name="delete_profile_photo">Удалить фото профиля</string>
+    <string name="make_picture_for_profile">Сделать снимок</string>
+    <string name="choose">Выбрать</string>
 
 </resources>

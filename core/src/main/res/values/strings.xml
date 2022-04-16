@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="chat_label">Чат</string>
+    <string name="groups_label">Группы</string>
+    <string name="enter_search_query">Введите название теста</string>
+    <string name="cancel">Отменить</string>
+    <string name="agree">Да</string>
+    <string name="finish">Завершить</string>
+    <string name="search">Поиск</string>
+    <string name="add">Добавить</string>
+    <string name="finish_test_and_submit_the_results">Вы хотите завершить тест и отправить результаты?</string>
+    <string name="save_your_previous_question">Сохраните предыдущий вопрос</string>
+    <string name="save_changes">Сохраните изменения</string>
+    <string name="saved">Сохранено</string>
+    <string name="possible_answers_not_enough">Вариантов ответа не достаточно(минимум 2)</string>
+    <string name="choose_correct_answer_for_given_question">Выберите правильный ответ для данного вопроса</string>
+    <string name="question_field_must_not_be_null">Вопрос обязателен для заполнения</string>
+    <string name="search_student">Введите имя студента</string>
+    <string name="do_you_want_to_change_profile_picture">Вы хотите поменять картинку профиля?</string>
+    <plurals name="students_plurals">
+        <item quantity="zero">%1$d студентов</item>
+        <item quantity="one">%1$d студент</item>
+        <item quantity="two">%1$d студента</item>
+        <item quantity="few">%1$d студента</item>
+        <item quantity="many">%1$d студентов</item>
+        <item quantity="other">%1$d студентов</item>
+    </plurals>
+</resources>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="change_group_avatar">Изменить</string>
+    <string name="delete_group_avatar">Удалить</string>
+    <string name="group_description">Описание группы</string>
+    <string name="group_name_label">Название группы</string>
+    <string name="editing">Редактирование</string>
+    <string name="students">Студенты</string>
+    <string name="add">Добавить</string>
+    <string name="save_changes">Сохранить</string>
+    <string name="edit">Изменить</string>
+    <string name="rating_of_students_of_group">Рейтинг студентов группы</string>
+    <string name="no_completed_tests">Нету завершенных тестов</string>
+    <string name="enter_group">Вступить</string>
+    <string name="leave_group">Покинуть</string>
+    <string name="you_are_student">Вы участник</string>
+    <string name="you_are_admin">Вы админ</string>
+    <string name="alert_msg_leaving_group">Вы действительно хотите покинуть группу %s?</string>
+    <string name="tests">Тесты</string>
+    <string name="do_you_want_to_delete_student_from_group">Вы действительно хотите удалить студента из группы?</string>
+    <string name="there_are_no_available_students">Нету свободных студентов</string>
+    <string name="group_description_should_not_be_empty">Описание группы не должно быть пустым</string>
+    <string name="name_of_the_group_should_not_be_empty">Название группы не должно быть пустым</string>
+    <string name="number">#</string>
+    <string name="name">ФИО</string>
+    <string name="points">Баллы</string>
+</resources>
