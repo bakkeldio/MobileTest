@@ -1,6 +1,7 @@
 package com.edu.test.domain.usecase
 
-import com.edu.test.domain.model.TestsListState
+import com.edu.common.data.Result
+import com.edu.test.domain.model.PassedTestDomain
 import com.edu.test.domain.repository.ITestsRepository
 import dagger.hilt.android.scopes.ViewModelScoped
 import kotlinx.coroutines.flow.Flow
@@ -10,9 +11,9 @@ import javax.inject.Inject
 @ViewModelScoped
 class GetCompletedTests @Inject constructor(val testsRepo: ITestsRepository) {
 
-    suspend operator fun invoke(groupId: String): Flow<TestsListState> {
+    suspend operator fun invoke(groupId: String): Flow<Result<List<PassedTestDomain>>> {
         return testsRepo.getCompletedTests(groupId).catch {
-            emit(TestsListState.Error(it))
+            emit(Result.Error(it))
         }
     }
 }

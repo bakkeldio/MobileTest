@@ -48,7 +48,7 @@
         <entry key="chat/src/main/res/drawable/v_bubble_corner_right.xml" value="0.19138549804687502" />
         <entry key="chat/src/main/res/layout/fragment_chat.xml" value="0.25" />
         <entry key="chat/src/main/res/layout/fragment_chat_details.xml" value="0.1" />
-        <entry key="chat/src/main/res/layout/item_chat.xml" value="0.1659637451171875" />
+        <entry key="chat/src/main/res/layout/item_chat.xml" value="0.29349365234375" />
         <entry key="chat/src/main/res/layout/item_chat_time_header.xml" value="0.165" />
         <entry key="chat/src/main/res/layout/item_header.xml" value="0.25" />
         <entry key="chat/src/main/res/layout/item_received_message.xml" value="0.1" />
@@ -111,7 +111,9 @@
         <entry key="core/src/main/res/drawable/ic_test_icon_menu.xml" value="0.31145833333333334" />
         <entry key="core/src/main/res/drawable/ic_test_svgrepo_com.xml" value="0.2601851851851852" />
         <entry key="core/src/main/res/drawable/ic_triangle.xml" value="0.321025641025641" />
+        <entry key="core/src/main/res/drawable/ic_update.xml" value="0.1795" />
         <entry key="core/src/main/res/drawable/icon_add.xml" value="0.27870370370370373" />
+        <entry key="core/src/main/res/drawable/item_results_ripple.xml" value="0.192" />
         <entry key="core/src/main/res/drawable/progress_animation.xml" value="0.1" />
         <entry key="core/src/main/res/drawable/ripple.xml" value="0.31145833333333334" />
         <entry key="core/src/main/res/layout/item_progress_indicator.xml" value="0.15070921985815602" />
@@ -145,7 +147,8 @@
         <entry key="test/src/main/res/layout/bg_rounded.xml" value="0.1" />
         <entry key="test/src/main/res/layout/check_box_layout.xml" value="0.1" />
         <entry key="test/src/main/res/layout/fragment_add_new_answer_bottomsheet.xml" value="0.1" />
-        <entry key="test/src/main/res/layout/fragment_choose_date.xml" value="0.375" />
+        <entry key="test/src/main/res/layout/fragment_change_open_question_score_bottomsheet.xml" value="0.3098958333333333" />
+        <entry key="test/src/main/res/layout/fragment_choose_date.xml" value="0.13298187255859376" />
         <entry key="test/src/main/res/layout/fragment_choose_date_time.xml" value="0.1" />
         <entry key="test/src/main/res/layout/fragment_create_questions.xml" value="0.165" />
         <entry key="test/src/main/res/layout/fragment_create_test.xml" value="0.2418478260869565" />
@@ -153,13 +156,15 @@
         <entry key="test/src/main/res/layout/fragment_question.xml" value="0.1" />
         <entry key="test/src/main/res/layout/fragment_questions.xml" value="0.1" />
         <entry key="test/src/main/res/layout/fragment_test_result.xml" value="0.20199275362318841" />
-        <entry key="test/src/main/res/layout/fragment_tests.xml" value="0.25" />
+        <entry key="test/src/main/res/layout/fragment_test_takers.xml" value="0.2942708333333333" />
+        <entry key="test/src/main/res/layout/fragment_tests.xml" value="0.1" />
         <entry key="test/src/main/res/layout/item_answer.xml" value="0.25" />
         <entry key="test/src/main/res/layout/item_answer_var.xml" value="0.1" />
+        <entry key="test/src/main/res/layout/item_person_result.xml" value="0.1" />
         <entry key="test/src/main/res/layout/item_question_add.xml" value="0.1" />
         <entry key="test/src/main/res/layout/item_question_indicator.xml" value="0.25" />
         <entry key="test/src/main/res/layout/item_question_resukt.xml" value="0.2105978260869565" />
-        <entry key="test/src/main/res/layout/item_question_result.xml" value="0.2451202392578125" />
+        <entry key="test/src/main/res/layout/item_question_result.xml" value="0.32427673339843754" />
         <entry key="test/src/main/res/layout/item_question_state.xml" value="0.375" />
         <entry key="test/src/main/res/layout/item_test.xml" value="0.25" />
         <entry key="test/src/main/res/layout/new_question_answer_layout.xml" value="0.29595015576323985" />

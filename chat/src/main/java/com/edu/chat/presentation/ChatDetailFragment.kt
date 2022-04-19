@@ -48,7 +48,6 @@ class ChatDetailFragment : BaseFragment<ChatDetailsViewModel, FragmentChatDetail
     }
 
     override fun setupUI() {
-        super.setupUI()
         binding.toolbar.setupWithNavController(findNavController())
         binding.recyclerView.apply {
             adapter = this@ChatDetailFragment.adapter

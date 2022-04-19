@@ -7,7 +7,7 @@ data class StudentInfoDomain(
     val avatarUrl: String?,
     val overallScore: Double,
     val uid: String,
-    val fcmTokens: MutableList<String> = mutableListOf()
+    val registrationTokens: MutableList<String> = mutableListOf()
 ) {
     constructor() : this(null, "", "", null, 0.0, "", mutableListOf())
 }

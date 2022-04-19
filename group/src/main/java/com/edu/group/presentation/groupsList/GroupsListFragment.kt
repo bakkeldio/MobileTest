@@ -41,28 +41,6 @@ class GroupsListFragment : BaseFragment<GroupsViewModel, FragmentGroupsListBindi
         viewModel.getAllGroups()
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        binding.toolbar.setupWithNavController(findNavController())
-        binding.groupsRv.apply {
-            adapter = groupsAdapter
-            addItemDecorationWithoutLastItem()
-        }
-
-        viewModel.allGroupsState.observe(viewLifecycleOwner) { result ->
-            groupsAdapter.submitList(result)
-        }
-
-        (binding.toolbar.menu.findItem(R.id.action_search).actionView as SearchView).apply {
-            setOnQueryTextListener(DebounceQueryTextListener { query ->
-                if (hasFocus()) {
-                    viewModel.getAllGroups(query)
-                }
-            })
-        }
-
-    }
-
     override fun onGroupClick(item: GroupDomain) {
         findNavController().navigate(
             GroupsListFragmentDirections.actionGroupListFragmentToGroupDetailFragment(
@@ -73,5 +51,28 @@ class GroupsListFragment : BaseFragment<GroupsViewModel, FragmentGroupsListBindi
 
     override fun progressLoader(show: Boolean) {
         binding.progress.root.isVisible = show
+    }
+
+    override fun setupUI() {
+        binding.toolbar.setupWithNavController(findNavController())
+        binding.groupsRv.apply {
+            adapter = groupsAdapter
+            addItemDecorationWithoutLastItem()
+        }
+
+        (binding.toolbar.menu.findItem(R.id.action_search).actionView as SearchView).apply {
+            setOnQueryTextListener(DebounceQueryTextListener { query ->
+                if (hasFocus()) {
+                    viewModel.getAllGroups(query)
+                }
+            })
+        }
+    }
+
+    override fun setupVM() {
+        super.setupVM()
+        viewModel.allGroupsState.observe(viewLifecycleOwner) { result ->
+            groupsAdapter.submitList(result)
+        }
     }
 }

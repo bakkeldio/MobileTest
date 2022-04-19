@@ -41,7 +41,6 @@ class ChatFragment : BaseFragment<ChatViewModel, FragmentChatBinding>(
     }
 
     override fun setupUI() {
-        super.setupUI()
         binding.recyclerView.adapter = concatAdapter
         binding.searchView.setOnQueryTextListener(DebounceQueryTextListener {
             if (binding.searchView.hasFocus()) {

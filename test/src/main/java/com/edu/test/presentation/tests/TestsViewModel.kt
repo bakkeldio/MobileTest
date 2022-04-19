@@ -12,11 +12,10 @@ import com.edu.common.presentation.PagedObject
 import com.edu.common.presentation.mapper.TestDomainToUiMapperImpl
 import com.edu.common.presentation.model.TestModel
 import com.edu.common.presentation.model.TestStatusEnum
+import com.edu.test.domain.model.PassedTestDomain
 import com.edu.test.domain.model.TestsListState
 import com.edu.test.domain.usecase.*
-import com.edu.test.presentation.question.QuestionsViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -26,6 +25,7 @@ import javax.inject.Inject
 class TestsViewModel @Inject constructor(
     private val getGroupTests: GetAllTestsOfGroup,
     private val searchTests: SearchThroughGroupTests,
+    private val searchCompletedTests: SearchThroughCompletedTests,
     private val completedTests: GetCompletedTests,
     private val getTestsOfTeacher: GetTestsOfTeacher,
     private val deleteTestUseCase: DeleteTestUseCase,
@@ -55,8 +55,8 @@ class TestsViewModel @Inject constructor(
     val testsState: LiveData<List<TestModel>>
         get() = _testsState
 
-    private val _completedTests: MutableLiveData<List<TestModel>> = MutableLiveData()
-    val completedTestsState: LiveData<List<TestModel>> get() = _completedTests
+    private val _completedTests: MutableLiveData<List<PassedTestDomain>> = MutableLiveData()
+    val completedTestsState: LiveData<List<PassedTestDomain>> get() = _completedTests
 
     private val _deletedTest: MutableLiveData<Unit> = MutableLiveData()
     val deletedTest: LiveData<Unit> = _deletedTest
@@ -67,15 +67,13 @@ class TestsViewModel @Inject constructor(
 
             getGroupTests(groupId).collectLatest { result ->
 
-
                 when (result) {
                     is TestsListState.Loading -> {
                         _loading.value = true
                     }
                     is TestsListState.Success -> {
                         _loading.value = false
-                        getTestsStatuses(groupId, result.data)
-
+                        getCompletedTests(groupId, result.data)
                     }
                     is TestsListState.Error -> {
                         _loading.value = false
@@ -94,24 +92,39 @@ class TestsViewModel @Inject constructor(
         _testsState.value = tests
     }
 
-    fun getCompletedTests(groupId: String) {
+    private fun getCompletedTests(groupId: String, result: List<TestDomainModel>) {
         _loading.value = true
         viewModelScope.launch {
             completedTests(groupId).collect { state ->
                 when (state) {
-                    is TestsListState.Success -> {
-                        val completedTests = state.data
-                        _completedTests.value = completedTests.map {
-                            TestDomainToUiMapperImpl.mapToUi(it)
+                    is Result.Success -> {
+                        val completedTests = state.data ?: emptyList()
+                        _completedTests.value = completedTests
+
+                        val testsList = result.toMutableList()
+                        val testId =
+                            if (timerWorkResult.value?.size ?: 0 > 0 && timerWorkResult.value?.get(0)?.state == WorkInfo.State.RUNNING) {
+                                timerWorkResult.value!![0].progress.getString("testId")
+                            } else {
+                                null
+                            }
+
+                        val testsUi = testsList.map { test ->
+                            val isCompletedTest = completedTests.find { completedTest ->
+                                completedTest.uid == test.uid
+                            }
+                            TestDomainToUiMapperImpl.mapToUi(test)
+                                .copy(status = if (isCompletedTest != null) TestStatusEnum.PASSED else if (test.uid == testId) TestStatusEnum.IN_PROGRESS else TestStatusEnum.NOT_STARTED)
                         }
+                        _testsState.value = testsUi
                     }
-                    is TestsListState.Error -> {
-                        _error.value = state.message
+                    is Result.Error -> {
+                        _error.value = state.data
                     }
                     else -> Unit
                 }
+                _loading.value = false
             }
-            _loading.value = false
         }
     }
 
@@ -140,24 +153,16 @@ class TestsViewModel @Inject constructor(
     fun searchThroughTests(
         groupId: String,
         query: String,
-        isUserAdmin: Boolean,
-        searchCompletedTests: Boolean
+        isUserAdmin: Boolean
     ) {
-        _loading.value = true
         viewModelScope.launch {
-            when (val result = searchTests(query, groupId, isUserAdmin, searchCompletedTests)) {
+            when (val result = searchTests(query, groupId, isUserAdmin)) {
                 is Result.Success -> {
-                    if (!isUserAdmin && !searchCompletedTests) {
-                        getTestsStatuses(groupId, result.data ?: emptyList())
+                    if (!isUserAdmin) {
+                        getCompletedTests(groupId, result.data ?: emptyList())
                     } else {
-                        if (searchCompletedTests) {
-                            _completedTests.value = ((result.data) ?: emptyList()).map {
-                                TestDomainToUiMapperImpl.mapToUi(it)
-                            }
-                        } else {
-                            _testsState.value = ((result.data) ?: emptyList()).map {
-                                TestDomainToUiMapperImpl.mapToUi(it)
-                            }
+                        _testsState.value = ((result.data) ?: emptyList()).map {
+                            TestDomainToUiMapperImpl.mapToUi(it)
                         }
                     }
                 }
@@ -165,7 +170,22 @@ class TestsViewModel @Inject constructor(
                     _error.value = result.data
                 }
             }
-            _loading.value = false
+        }
+    }
+
+    fun searchThroughCompletedTests(
+        groupId: String,
+        query: String
+    ) {
+        viewModelScope.launch {
+            when (val response = searchCompletedTests(groupId, query)) {
+                is Result.Success -> {
+                    _completedTests.value = response.data ?: emptyList()
+                }
+                is Result.Error -> {
+                    _error.value = response.data
+                }
+            }
         }
     }
 
@@ -173,7 +193,8 @@ class TestsViewModel @Inject constructor(
         _loading.value = true
         viewModelScope.launch {
             when (val result = deleteTestUseCase(groupId, testId)) {
-                is Result.Success -> { }
+                is Result.Success -> {
+                }
                 is Result.Error -> {
                     _error.value = result.data
                 }
@@ -182,33 +203,4 @@ class TestsViewModel @Inject constructor(
         }
     }
 
-    private fun getTestsStatuses(groupId: String, result: List<TestDomainModel>) {
-        viewModelScope.launch {
-            val completedTestsDeferred = async {
-                completedTests(groupId)
-            }
-            completedTestsDeferred.await().collectLatest {
-
-                val completedTests =
-                    (it as? TestsListState.Success)?.data ?: emptyList()
-                val testsList = result.toMutableList()
-                val testId =
-                    if (timerWorkResult.value?.size ?: 0 > 0 && timerWorkResult.value?.get(0)?.state == WorkInfo.State.RUNNING) {
-                        timerWorkResult.value!![0].progress.getString("testId")
-                    } else {
-                        null
-                    }
-
-                val testsUi = testsList.map { test ->
-                    val isCompletedTest = completedTests.find { completedTest ->
-                        completedTest.uid == test.uid
-                    }
-                    TestDomainToUiMapperImpl.mapToUi(test)
-                        .copy(status = if (isCompletedTest != null) TestStatusEnum.PASSED else if (test.uid == testId) TestStatusEnum.IN_PROGRESS else TestStatusEnum.NOT_STARTED)
-                }
-                _testsState.value = testsUi
-            }
-
-        }
-    }
 }

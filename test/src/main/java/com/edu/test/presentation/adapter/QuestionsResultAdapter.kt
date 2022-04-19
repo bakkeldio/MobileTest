@@ -13,7 +13,7 @@ import com.edu.test.databinding.ItemQuestionResultBinding
 import com.edu.test.domain.model.QuestionResultDomain
 
 
-internal class QuestionsResultAdapter :
+internal class QuestionsResultAdapter(private val listener: Listener, private val isTeacher: Boolean) :
     ListAdapter<QuestionResultDomain, QuestionsResultAdapter.QuestionVH>(Callback) {
 
 
@@ -23,13 +23,18 @@ internal class QuestionsResultAdapter :
             getItem(position).let { question ->
                 binding.questionTextView.text = "${position + 1}. ${question.questionTitle}"
                 binding.pointTextView.text = question.questionPoint.toString()
-
+                binding.pointTextView.setOnLongClickListener {
+                    if (question.answerForOpenQuestion != null && isTeacher) {
+                        listener.updateQuestionScore(question)
+                    }
+                    true
+                }
                 binding.questionAnswers.isVisible = question.answerForOpenQuestion == null
                 binding.openQuestionText.isVisible = question.answerForOpenQuestion != null
                 binding.correctAnswerTextView.isVisible = question.answerForOpenQuestion == null
-                if (question.answerForOpenQuestion != null){
+                if (question.answerForOpenQuestion != null) {
                     binding.openQuestionText.text = question.answerForOpenQuestion
-                }else {
+                } else {
                     val adapter = QuestionAnswersAdapter()
                     adapter.setData(question.answers)
                     binding.questionAnswers.adapter = adapter
@@ -85,4 +90,7 @@ internal class QuestionsResultAdapter :
 
     }
 
+    interface Listener {
+        fun updateQuestionScore(question: QuestionResultDomain)
+    }
 }
