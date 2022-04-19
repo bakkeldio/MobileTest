@@ -19,6 +19,7 @@ import com.edu.mobiletest.ui.model.ProfileStudentUI
 import com.edu.mobiletest.ui.model.ProfileTeacherUI
 import com.edu.mobiletest.ui.model.StudentProfileDomainToUIMapper
 import com.edu.mobiletest.ui.model.TeacherProfileDomainToUIMapper
+import com.edu.test.domain.model.PassedTestDomain
 import com.edu.test.domain.model.TestsListState
 import com.edu.test.domain.usecase.GetCompletedTests
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -45,8 +46,8 @@ class ProfileViewModel @Inject constructor(
     private val _teacherProfile: MutableLiveData<ProfileTeacherUI> = MutableLiveData()
     val teacherProfile: LiveData<ProfileTeacherUI> = _teacherProfile
 
-    private val _completedTests: MutableLiveData<List<TestDomainModel>> = MutableLiveData()
-    val completedTests: LiveData<List<TestDomainModel>> = _completedTests
+    private val _completedTests: MutableLiveData<List<PassedTestDomain>> = MutableLiveData()
+    val completedTests: LiveData<List<PassedTestDomain>> = _completedTests
 
     private val _startDownload: MutableLiveData<String?> = MutableLiveData()
     val startToDownload: LiveData<String?> = _startDownload
@@ -94,12 +95,12 @@ class ProfileViewModel @Inject constructor(
         viewModelScope.launch {
             getCompletedTests(groupId).collect {
                 when (it) {
-                    is TestsListState.Success -> {
-                        _completedTests.value = it.data
+                    is Result.Success -> {
+                        _completedTests.value = it.data ?: emptyList()
 
                     }
-                    is TestsListState.Error -> {
-                        _error.value = it.message
+                    is Result.Error -> {
+                        _error.value = it.data
                     }
                     else -> Unit
                 }

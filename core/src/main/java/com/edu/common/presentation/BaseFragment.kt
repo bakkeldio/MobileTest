@@ -23,7 +23,7 @@ abstract class BaseFragment<R : BaseViewModel, VB: ViewBinding>(@LayoutRes id: I
         setupVM()
     }
 
-    open fun setupUI() = Unit
+    abstract fun setupUI()
     open fun setupVM() {
         viewModel.error.observe(viewLifecycleOwner) {
             showToast(it)

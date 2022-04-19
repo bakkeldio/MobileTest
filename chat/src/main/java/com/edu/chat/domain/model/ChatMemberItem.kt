@@ -9,7 +9,7 @@ data class ChatMemberItem(
     val chatUserAvatar: String?,
     val messageAuthor: MessageAuthorEnum,
     val lastMessageStatus: Int,
-    val time: Date,
-    val message: String,
+    val time: Date?,
+    val message: String?,
     val newMessagesCount: Int
 )

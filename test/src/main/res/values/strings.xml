@@ -44,6 +44,9 @@
     <string name="save_last_question">Сохраните последний вопрос</string>
     <string name="removing_test">Удаление теста</string>
     <string name="confirm_test_removing">Вы действительно хотите удалить тест %s?</string>
+    <string name="see_results">Посмотреть результаты</string>
+    <string name="update_points">Обновите баллы</string>
+    <string name="update">Обновить</string>
     <plurals name="minutes_plural">
         <item quantity="zero">%1$d минут</item>
         <item quantity="one">%1$d минута</item>

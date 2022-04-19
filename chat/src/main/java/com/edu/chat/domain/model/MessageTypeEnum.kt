@@ -5,7 +5,7 @@ enum class MessageTypeEnum(val value: String) {
     Image("image");
 
     companion object {
-        fun getTypeByValue(value: String) = values().find {
+        fun getTypeByValue(value: String?) = values().find {
             it.value == value
         } ?: Text
     }

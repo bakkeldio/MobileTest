@@ -7,18 +7,19 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.setupWithNavController
 import com.edu.common.utils.addItemDecorationWithoutLastItem
 import com.edu.common.utils.showToast
 import com.edu.test.databinding.FragmentTestResultBinding
+import com.edu.test.domain.model.QuestionResultDomain
 import com.edu.test.presentation.adapter.QuestionsResultAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class TestResultFragment : Fragment() {
+class TestResultFragment : Fragment(), QuestionsResultAdapter.Listener,
+    ChangeOpenQuestionScoreBottomSheetFragment.Listener {
 
     private var _binding: FragmentTestResultBinding? = null
     private val binding: FragmentTestResultBinding get() = _binding!!
@@ -27,8 +28,13 @@ class TestResultFragment : Fragment() {
 
     private val navArgs by navArgs<TestResultFragmentArgs>()
 
+    private var lastQuestionUid: String? = null
+
+    private var changeOpenQuestionScoreBottomSheetFragment: ChangeOpenQuestionScoreBottomSheetFragment? =
+        null
+
     private val adapter: QuestionsResultAdapter by lazy {
-        QuestionsResultAdapter()
+        QuestionsResultAdapter(this, navArgs.studentUid != null)
     }
 
     override fun onCreateView(
@@ -42,26 +48,26 @@ class TestResultFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.getResultsOfTest(navArgs.groupId, navArgs.testId)
+        viewModel.getResultsOfTest(navArgs.studentUid, navArgs.groupId, navArgs.testId)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         binding.toolbar.setupWithNavController(findNavController())
+        binding.testResultRv.adapter = this.adapter
         viewModel.loading.observe(viewLifecycleOwner) {
             binding.progress.root.isVisible = it
         }
-        viewModel.testResultError.observe(viewLifecycleOwner, Observer {
+        viewModel.testResultError.observe(viewLifecycleOwner) {
             showToast(it)
-        })
+        }
 
         binding.testResultRv.apply {
             addItemDecorationWithoutLastItem()
         }
 
         viewModel.testResult.observe(viewLifecycleOwner) { data ->
-            binding.testResultRv.adapter = this.adapter
             adapter.submitList(data)
         }
 
@@ -70,5 +76,30 @@ class TestResultFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun updateQuestionScore(question: QuestionResultDomain) {
+        lastQuestionUid = question.questionUid
+        changeOpenQuestionScoreBottomSheetFragment =
+            ChangeOpenQuestionScoreBottomSheetFragment(question.questionPoint.toInt(), this)
+        changeOpenQuestionScoreBottomSheetFragment?.show(
+            childFragmentManager,
+            ChangeOpenQuestionScoreBottomSheetFragment.TAG
+        )
+    }
+
+    override fun updateScore(newScore: Int) {
+        changeOpenQuestionScoreBottomSheetFragment?.dismiss()
+        lastQuestionUid?.let { questionUid ->
+            viewModel.updateQuestionScore(
+                navArgs.groupId,
+                navArgs.testId,
+                questionUid,
+                navArgs.studentUid!!,
+                newScore
+            )
+        }
+        lastQuestionUid = null
+
     }
 }

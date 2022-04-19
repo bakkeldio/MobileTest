@@ -102,7 +102,7 @@ class ProfileRepoImpl @Inject constructor(
                             val student = documentSnapshot.toObject(StudentInfoDomain::class.java)!!
                             sharedPreferences.edit().putString("currentUserName", student.name)
                                 .apply()
-                            onComplete(student.fcmTokens)
+                            onComplete(student.registrationTokens)
                         }
                 }
             }

@@ -39,7 +39,6 @@ class GroupDetailFragment :
     }
 
     override fun setupUI() {
-        super.setupUI()
         viewModel.fetchGroupDetails(args.groupId)
         binding.toolbar.menu.findItem(R.id.edit).isVisible = false
         binding.toolbar.setupWithNavController(findNavController())

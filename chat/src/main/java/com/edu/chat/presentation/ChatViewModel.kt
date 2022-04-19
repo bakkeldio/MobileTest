@@ -14,6 +14,7 @@ import com.edu.common.data.Result
 import com.edu.common.presentation.BaseViewModel
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -28,12 +29,12 @@ class ChatViewModel @Inject constructor(
 
 
     private val _chatMembers: MutableLiveData<List<ChatMemberItem>> = MutableLiveData()
-    val chatMembers: LiveData<List<ChatMemberItem>> = _chatMembers
+    var chatMembers: LiveData<List<ChatMemberItem>> = _chatMembers
 
     private val _nonMembers: MutableLiveData<List<ChatMember>> = MutableLiveData()
     val nonMembers: LiveData<List<ChatMember>> = _nonMembers
 
-    private var chatMemberItems = mutableListOf<ChatMemberItem>()
+    private var chatMemberItems = listOf<ChatMemberItem>()
 
 
     fun getChatMembers() {
@@ -54,33 +55,33 @@ class ChatViewModel @Inject constructor(
 
     private fun getChatsLastMessages(members: List<ChatMember>) {
         viewModelScope.launch {
-            getMessagesUpdatesForChatsUseCase().collect { messagesResult ->
+            getMessagesUpdatesForChatsUseCase().collectLatest { messagesResult ->
                 when (messagesResult) {
                     is Result.Success -> {
                         val chatUsers = members.map { member ->
                             val allMessages = messagesResult.data ?: emptyList()
-                            val lastMessageWithThisStudent = allMessages.last {
+                            val lastMessageWithThisStudent = allMessages.lastOrNull {
                                 it.chatUsers.contains(member.uid)
                             }
 
                             ChatMemberItem(
                                 MessageTypeEnum.getTypeByValue(
-                                    lastMessageWithThisStudent.messageType
+                                    lastMessageWithThisStudent?.messageType
                                 ),
                                 member.uid,
                                 member.name,
                                 member.avatarUrl,
-                                if (lastMessageWithThisStudent.from == firebaseAuth.uid) MessageAuthorEnum.ME else MessageAuthorEnum.OTHER,
-                                lastMessageWithThisStudent.status,
-                                lastMessageWithThisStudent.time,
-                                lastMessageWithThisStudent.message,
+                                if (lastMessageWithThisStudent?.from == firebaseAuth.uid) MessageAuthorEnum.ME else MessageAuthorEnum.OTHER,
+                                lastMessageWithThisStudent?.status ?: 0,
+                                lastMessageWithThisStudent?.time,
+                                lastMessageWithThisStudent?.message,
                                 allMessages.filter {
                                     it.status == 1 && it.from == member.uid
                                 }.count()
                             )
 
                         }
-                        chatMemberItems.addAll(chatUsers)
+                        chatMemberItems = chatUsers
                         _chatMembers.value = chatUsers
                     }
                     is Result.Error -> {

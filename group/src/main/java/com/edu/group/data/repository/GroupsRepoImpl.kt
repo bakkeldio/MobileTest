@@ -3,11 +3,10 @@ package com.edu.group.data.repository
 import android.content.SharedPreferences
 import android.net.Uri
 import com.edu.common.data.Result
-import com.edu.common.data.mapper.StudentInfoMapperImpl
 import com.edu.common.data.mapper.TestMapperImpl
-import com.edu.common.data.model.Student
 import com.edu.common.data.model.Test
 import com.edu.common.domain.model.StudentInfoDomain
+import com.edu.common.domain.model.TeacherProfile
 import com.edu.common.domain.model.TestDomainModel
 import com.edu.group.data.mapper.GroupMapperImpl
 import com.edu.group.data.model.Group
@@ -96,18 +95,26 @@ class GroupsRepoImpl @Inject constructor(
     override suspend fun checkTheRoleOfTheUser(groupId: String): Result<CoreRoleEnum> {
         return withContext(Dispatchers.IO) {
             try {
-                val isTeacher = !db.collection("groups").document(groupId).collection("teachers")
-                    .whereEqualTo("uid", firebaseAuth.uid).get().await().isEmpty
-
-                val isStudent = !db.collection("groups").document(groupId).collection("students")
-                    .whereEqualTo("uid", firebaseAuth.uid).get().await().isEmpty
-                val role = when {
-                    isTeacher -> CoreRoleEnum.TEACHER
-                    isStudent -> CoreRoleEnum.STUDENT
-                    else -> CoreRoleEnum.NONE
+                val teacherResponse =
+                    db.collection("teachers").document(firebaseAuth.uid!!).get().await()
+                val isTeacher = if (teacherResponse.exists()) {
+                    teacherResponse.toObject(TeacherProfile::class.java)?.groupIds?.contains(groupId) == true
+                } else {
+                    false
                 }
-                Result.Success(role)
-
+                if (isTeacher) {
+                    Result.Success(CoreRoleEnum.TEACHER)
+                } else {
+                    val studentResponse =
+                        db.collection("students").document(firebaseAuth.uid!!).get().await()
+                    if (studentResponse.exists()) {
+                        val isStudentOfThisGroup =
+                            studentResponse.toObject(StudentInfoDomain::class.java)?.groupId == groupId
+                        Result.Success(if (isStudentOfThisGroup) CoreRoleEnum.STUDENT else CoreRoleEnum.NONE)
+                    } else {
+                        Result.Success(CoreRoleEnum.NONE)
+                    }
+                }
             } catch (e: Exception) {
                 Result.Error(e)
             }
@@ -127,6 +134,7 @@ class GroupsRepoImpl @Inject constructor(
         }
     }
 
+    //TODO:REMOVE
     override suspend fun enterGroup(groupId: String): Result<Unit> {
         return withContext(Dispatchers.IO) {
             try {
@@ -155,6 +163,7 @@ class GroupsRepoImpl @Inject constructor(
         }
     }
 
+    //TODO:REMOVE
     override suspend fun leaveGroup(groupId: String): Result<Unit> {
         return withContext(Dispatchers.IO) {
             try {
@@ -206,7 +215,7 @@ class GroupsRepoImpl @Inject constructor(
 
     override fun getStudentsOfGroup(groupId: String): Flow<Result<List<StudentInfoDomain>>> {
         return callbackFlow {
-            val callback = db.collection("groups").document(groupId).collection("students")
+            val callback = db.collection("students").whereEqualTo("groupId", groupId)
                 .addSnapshotListener { value, error ->
                     if (error != null) {
                         trySend(Result.Error(error))
@@ -214,12 +223,8 @@ class GroupsRepoImpl @Inject constructor(
                         return@addSnapshotListener
                     }
                     try {
-                        val tests = value?.documents?.map {
-                            val model = it.toObject(Student::class.java)
-                                ?: throw IllegalArgumentException("Student model can't be null")
-                            StudentInfoMapperImpl.mapToDomain(model, it.id)
-                        }
-                        trySend(Result.Success(tests))
+                        val students = value?.toObjects(StudentInfoDomain::class.java)
+                        trySend(Result.Success(students))
                     } catch (e: Exception) {
                         trySend(Result.Error(e))
                     }
@@ -239,11 +244,6 @@ class GroupsRepoImpl @Inject constructor(
                         mainPath,
                         "studentsCount",
                         FieldValue.increment(-1)
-                    )
-
-                    batch.delete(
-                        mainPath.collection("students")
-                            .document(studentId)
                     )
 
                     batch.update(db.collection("students").document(studentId), "groupId", null)

@@ -8,7 +8,7 @@ import javax.inject.Inject
 @ViewModelScoped
 class SubmitUserScore @Inject constructor(private val testsRepo: ITestsRepository) {
 
-    suspend operator fun invoke(testId: String, groupId: String, testTitle: String): Result<Unit>{
-        return testsRepo.submitTestResultOfUser(testId, groupId, testTitle)
+    suspend operator fun invoke(testId: String, groupId: String): Result<Unit>{
+        return testsRepo.submitTestResultOfUser(testId, groupId)
     }
 }

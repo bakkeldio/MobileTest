@@ -5,10 +5,13 @@ import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import androidx.work.workDataOf
+import com.edu.common.domain.model.StudentInfoDomain
+import com.edu.common.domain.model.TestDomainModel
 import com.edu.test.data.datamanager.TestProcessHandler
 import com.edu.test.data.model.TestResult
 import com.edu.test.presentation.question.QuestionsViewModel
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
@@ -26,21 +29,42 @@ class UploadTestResultToFirestoreWorker @AssistedInject constructor(
         return try {
             val groupId = inputData.getString("groupId") ?: return Result.failure()
             val testId = inputData.getString("testId") ?: return Result.failure()
-            val testTitle = inputData.getString("testTitle") ?: return Result.failure()
             val totalScore =
                 TestProcessHandler.calculateTotalScore()
 
 
-            db.collection("groups").document(groupId).collection("students")
-                .document(firebaseAuth.uid!!).collection("tests").document(testId)
-                .set(
+            db.runTransaction { transaction ->
+                val student =
+                    transaction.get(db.collection("students").document(firebaseAuth.uid!!))
+                        .toObject(StudentInfoDomain::class.java) ?: StudentInfoDomain()
+                val test = transaction.get(
+                    db.collection("groups").document(groupId).collection("tests").document(testId)
+                ).toObject(TestDomainModel::class.java) ?: return@runTransaction
+                transaction.set(
+                    db.collection("groups")
+                        .document(groupId)
+                        .collection("tests")
+                        .document(testId)
+                        .collection("passedStudents")
+                        .document(firebaseAuth.uid!!),
                     TestResult(
-                        testTitle,
+                        student.uid,
+                        student.name,
+                        student.avatarUrl,
+                        testId,
+                        test.title,
+                        test.date,
                         totalScore,
                         TestProcessHandler.mapTo(),
                         TestProcessHandler.getAnswersToOpenQuestions()
                     )
-                ).await()
+                )
+                transaction.update(
+                    db.collection("students").document(firebaseAuth.uid!!),
+                    "overallScore",
+                    FieldValue.increment(totalScore.toDouble())
+                )
+            }.await()
 
             TestProcessHandler.clear()
             Result.success(

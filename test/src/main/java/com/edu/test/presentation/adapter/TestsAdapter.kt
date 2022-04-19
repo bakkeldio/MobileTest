@@ -15,7 +15,6 @@ import java.util.*
 
 class TestsAdapter(
     private val listener: ItemClickListener,
-    private val adapterTypeEnum: TestsAdapterTypeEnum,
     private val isUserAdmin: Boolean = false
 ) :
     ListAdapter<TestModel, TestsAdapter.TestViewHolder>(ItemCallback) {
@@ -26,28 +25,27 @@ class TestsAdapter(
         fun bind(position: Int) {
             getItem(position).apply {
                 binding.root.setOnClickListener {
-                    listener.onItemClick(this)
+                    listener.onTestClick(this)
                 }
-                binding.testTitle.text = getItem(position).title
-                if (adapterTypeEnum == TestsAdapterTypeEnum.ALL_TESTS) {
-                    if (!isUserAdmin) {
-                        binding.statusTextView.text = status.status
-                        if (status == TestStatusEnum.IN_PROGRESS) {
-                            binding.statusTextView.setBackgroundColor(
-                                binding.root.resources.getColor(
-                                    R.color.green
-                                )
+                binding.testTitle.text = title
+                if (!isUserAdmin) {
+                    binding.statusTextView.text = status.status
+                    if (status == TestStatusEnum.IN_PROGRESS) {
+                        binding.statusTextView.setBackgroundColor(
+                            binding.root.resources.getColor(
+                                R.color.green
                             )
-                        }
-                    } else {
-                        binding.statusTextView.isVisible = false
+                        )
                     }
                 } else {
                     binding.statusTextView.isVisible = false
                 }
+
                 val dayMonthFormat = SimpleDateFormat("dd MMMM", Locale.getDefault())
                 val hourMinuteFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
-                val date = "${dayMonthFormat.format(date)} ${hourMinuteFormat.format(date)}"
+
+                val date =
+                    "${dayMonthFormat.format(date)} ${hourMinuteFormat.format(date)}"
                 binding.dateTime.text = date
             }
         }
@@ -86,6 +84,6 @@ class TestsAdapter(
     }
 
     interface ItemClickListener {
-        fun onItemClick(model: TestModel)
+        fun onTestClick(model: TestModel)
     }
 }

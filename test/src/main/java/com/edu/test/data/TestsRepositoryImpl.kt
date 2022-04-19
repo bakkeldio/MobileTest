@@ -5,13 +5,15 @@ import com.edu.common.data.Result
 import com.edu.common.data.mapper.TestMapperImpl
 import com.edu.common.data.model.Student
 import com.edu.common.data.model.Test
+import com.edu.common.domain.model.StudentInfoDomain
 import com.edu.common.domain.model.TestDomainModel
-import com.edu.common.domain.model.TestResultDomain
 import com.edu.test.data.datamanager.TestCreationHandler
 import com.edu.test.data.datamanager.TestProcessHandler
 import com.edu.test.data.mapper.TestResultMapper
 import com.edu.test.data.model.Teacher
 import com.edu.test.data.model.TestResult
+import com.edu.test.domain.model.PassedTestDomain
+import com.edu.test.domain.model.TestResultDomain
 import com.edu.test.domain.model.TestsListState
 import com.edu.test.domain.repository.ITestsRepository
 import com.google.firebase.auth.FirebaseAuth
@@ -27,7 +29,6 @@ import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
-import java.util.*
 import javax.inject.Inject
 
 @ActivityRetainedScoped
@@ -102,12 +103,10 @@ class TestsRepositoryImpl @Inject constructor(
         }
     }
 
-
     override suspend fun searchTests(
         query: String,
         groupId: String,
-        isUserAdmin: Boolean,
-        isSearchCompletedTests: Boolean,
+        isUserAdmin: Boolean
     ): Result<List<TestDomainModel>> {
         return withContext(Dispatchers.IO) {
             try {
@@ -126,14 +125,9 @@ class TestsRepositoryImpl @Inject constructor(
                     .startAt(query)
                     .endAt(query + "\uf8ff")
 
-                val queryCompletedTests =
-                    db.collection("groups").document(groupId).collection("students")
-                        .document(auth.uid!!).collection("tests").orderBy("title").startAt(query)
-                        .endAt(query + "\uf8ff")
 
                 val response =
                     if (isUserAdmin) queryAdmin.get()
-                        .await() else if (isSearchCompletedTests) queryCompletedTests.get()
                         .await() else queryUser.get().await()
 
                 val results = response.documents.map {
@@ -149,29 +143,62 @@ class TestsRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun searchThroughCompletedTests(
+        query: String,
+        groupId: String
+    ): Result<List<PassedTestDomain>> {
+        return withContext(Dispatchers.IO) {
+            try {
+
+                val completedTests =
+                    db.collectionGroup("passedTests").whereEqualTo("studentUid", auth.uid!!)
+                        .startAt(query)
+                        .endAt(query + "\uf8ff").get().await()
+                        .toObjects(PassedTestDomain::class.java)
+                Result.Success(completedTests)
+
+            } catch (e: Exception) {
+                Result.Error(e)
+            }
+        }
+    }
+
     override suspend fun submitTestResultOfUser(
         testId: String,
-        groupId: String,
-        testTitle: String,
+        groupId: String
     ): Result<Unit> {
         return withContext(Dispatchers.IO) {
             try {
                 val totalScore = TestProcessHandler.calculateTotalScore()
-                val mainRef = db.collection("groups").document(groupId).collection("students")
-                    .document(auth.uid!!)
-                db.runBatch { batch ->
-                    batch.set(
-                        mainRef.collection("tests").document(testId),
+                val student = db.collection("students").document(auth.uid!!).get().await()
+                    .toObject(StudentInfoDomain::class.java)
+                    ?: throw IllegalArgumentException("student model can't be null")
+                db.runTransaction { transaction ->
+                    val documentSnapshot = transaction.get(
+                        db.collection("groups").document(groupId).collection("tests")
+                            .document(testId)
+                    )
+                    val test = documentSnapshot.toObject(Test::class.java)
+                        ?: throw IllegalArgumentException("test model can't be null")
+                    transaction.set(
+                        db.collection("groups").document(groupId).collection("tests")
+                            .document(testId).collection("passedStudents").document(auth.uid!!),
                         TestResult(
-                            testTitle,
+                            student.uid,
+                            student.name,
+                            student.avatarUrl,
+                            documentSnapshot.id,
+                            test.title
+                                ?: throw IllegalArgumentException("test title can't be null"),
+                            test.date,
                             totalScore,
                             TestProcessHandler.mapTo(),
                             TestProcessHandler.getAnswersToOpenQuestions()
                         )
                     )
-                    batch.update(
-                        mainRef,
-                        "overall_score",
+                    transaction.update(
+                        db.collection("students").document(auth.uid!!),
+                        "overallScore",
                         FieldValue.increment(totalScore.toDouble())
                     )
                 }.await()
@@ -182,23 +209,27 @@ class TestsRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getCompletedTests(groupId: String): Flow<TestsListState> {
+    override fun getStudentsWhoPassedTheTest(
+        testId: String
+    ): Flow<Result<List<TestResultDomain>>> {
         return callbackFlow {
 
-            val callback = db.collection("groups").document(groupId).collection("students")
-                .document(auth.uid!!).collection("tests").addSnapshotListener { value, error ->
+            val callback = db.collectionGroup("passedStudents").whereEqualTo("testUid", testId)
+                .addSnapshotListener { value, error ->
                     if (error != null) {
-                        cancel(error.localizedMessage ?: "")
+                        close(error)
                         return@addSnapshotListener
                     }
-
-                    val tests = value?.documents?.map {
-                        TestMapperImpl.mapToDomain(
-                            it.toObject(Test::class.java)
-                                ?: throw IllegalArgumentException("Test model can't be null"), it.id
+                    val results = value?.toObjects(TestResult::class.java) ?: emptyList()
+                    val resultsDomain = results.map {
+                        TestResultDomain(
+                            it.studentUid,
+                            it.studentName,
+                            it.studentAvatar,
+                            it.totalPoints
                         )
                     }
-                    trySend(TestsListState.Success(tests ?: emptyList()))
+                    trySend(Result.Success(resultsDomain))
                 }
 
             awaitClose {
@@ -207,25 +238,64 @@ class TestsRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun getCompletedTests(groupId: String): Flow<Result<List<PassedTestDomain>>> {
+        return callbackFlow {
+            val callback = db.collectionGroup("passedStudents").whereEqualTo("studentUid", auth.uid)
+                .addSnapshotListener { value, error ->
+                    if (error != null) {
+                        cancel(error.localizedMessage ?: "")
+                        return@addSnapshotListener
+                    }
+
+                    val tests = value?.documents?.map {
+                        val testResult = it.toObject(TestResult::class.java)
+                            ?: throw IllegalArgumentException("testResult model can't be null")
+                        PassedTestDomain(
+                            testResult.testUid,
+                            testResult.testTitle
+                                ?: throw IllegalArgumentException("test title can't be null"),
+                            testResult.testDate
+                        )
+                    }
+                    trySend(Result.Success(tests))
+                }
+
+            awaitClose {
+                callback.remove()
+            }
+
+        }
+    }
+
     override suspend fun getCompletedTestQuestions(
+        studentUid: String?,
         groupId: String,
         testId: String
-    ): Result<TestResultDomain> {
-        return withContext(Dispatchers.IO) {
-            try {
-                val response = db.collection("groups").document(groupId).collection("students")
-                    .document(auth.uid!!).collection("tests").document(testId).get().await()
-                val result = response.toObject(TestResult::class.java)?.let {
-                    TestResultMapper.mapToDomain(
-                        it,
-                        response.id
-                    )
-                }
-                Result.Success(result)
-            } catch (e: Exception) {
-                Result.Error(e)
+    ): Flow<Result<TestResultDomain>> {
+        return callbackFlow {
+
+            val listener =
+                db.collection("groups")
+                    .document(groupId)
+                    .collection("tests")
+                    .document(testId)
+                    .collection("passedStudents").document(studentUid ?: auth.uid!!)
+                    .addSnapshotListener { value, error ->
+                        if (error != null) {
+                            close(error)
+                            return@addSnapshotListener
+                        }
+                        val result = value?.toObject(TestResult::class.java)?.let { testResult ->
+                            TestResultMapper.mapToDomain(
+                                testResult
+                            )
+                        }
+                        trySend(Result.Success(result))
+                    }
+            awaitClose {
+                listener.remove()
             }
-        }
+        }.flowOn(Dispatchers.IO)
     }
 
     override suspend fun createTest(groupId: String): Result<Unit> {
@@ -282,6 +352,27 @@ class TestsRepositoryImpl @Inject constructor(
         return try {
             db.collection("groups").document(groupId).collection("tests").document(testId)
                 .delete().await()
+            Result.Success(Unit)
+        } catch (e: Exception) {
+            Result.Error(e)
+        }
+    }
+
+    override suspend fun updateOpenQuestionScore(
+        groupId: String,
+        testId: String,
+        questionId: String,
+        studentUid: String,
+        newScore: Int
+    ): Result<Unit> {
+        return try {
+            db.collection("groups")
+                .document(groupId)
+                .collection("tests")
+                .document(testId)
+                .collection("passedStudents")
+                .document(studentUid)
+                .update(mapOf("pointsToOpenQuestions.$questionId" to newScore)).await()
             Result.Success(Unit)
         } catch (e: Exception) {
             Result.Error(e)

@@ -16,7 +16,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
-import java.util.*
 import javax.inject.Inject
 
 @ActivityRetainedScoped
@@ -61,13 +60,6 @@ class StudentsRepoImpl @Inject constructor(
                         groupId
                     )
                     batch.update(mainPath, "studentsCount", FieldValue.increment(1))
-                    batch.set(
-                        mainPath.collection("students").document(student.uid), hashMapOf(
-                            "avatar" to student.avatarUrl,
-                            "name" to student.name,
-                            "uid" to student.uid
-                        )
-                    )
 
                 }.await()
                 Result.Success(Unit)
@@ -79,16 +71,14 @@ class StudentsRepoImpl @Inject constructor(
 
     override fun getStudentsWithRatingInGroup(groupId: String): Flow<Result<List<StudentInfoDomain>>> =
         callbackFlow {
-            val listener = db.collection("groups").document(groupId).collection("students")
-                .orderBy("overall_score", Query.Direction.DESCENDING)
+            val listener = db.collection("students").whereEqualTo("groupId", groupId)
+                .orderBy("overallScore", Query.Direction.DESCENDING)
                 .addSnapshotListener { value, error ->
                     if (error != null) {
                         close(error)
                         return@addSnapshotListener
                     }
-                    val students = value?.toObjects(Student::class.java)?.map {
-                        StudentInfoMapperImpl.mapToDomain(it)
-                    } ?: emptyList()
+                    val students = value?.toObjects(StudentInfoDomain::class.java) ?: emptyList()
                     trySend(Result.Success(students))
                 }
             awaitClose {
@@ -102,7 +92,7 @@ class StudentsRepoImpl @Inject constructor(
             val student = result.toObject(Student::class.java)
                 ?: throw IllegalArgumentException("Student model can not be null")
             val callback =
-                db.collection("groups").document(student.groupId!!).collection("students")
+                db.collection("students").whereEqualTo("groupId", student.groupId!!)
                     .addSnapshotListener { value, error ->
                         if (error != null) {
                             trySend(Result.Error(error))
