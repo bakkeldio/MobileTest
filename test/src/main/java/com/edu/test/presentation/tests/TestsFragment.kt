@@ -20,11 +20,11 @@ import com.edu.common.utils.showToast
 import com.edu.test.R
 import com.edu.test.databinding.FragmentTestsBinding
 import com.edu.test.databinding.StartTestAlertDialogLayoutBinding
+import com.edu.test.domain.model.PassedTestDomain
+import com.edu.test.presentation.adapter.PassedTestsAdapter
 import com.edu.test.presentation.adapter.TestsAdapter
-import com.edu.test.presentation.adapter.TestsAdapterTypeEnum
 import com.edu.test.presentation.adapter.TestsPagerAdapter
 import com.edu.test.presentation.model.UserTestsTypeEnum
-import com.edu.test.presentation.question.QuestionsViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
@@ -37,7 +37,7 @@ class TestsFragment : BaseFragment<TestsViewModel, FragmentTestsBinding>(
     R.layout.fragment_tests,
     FragmentTestsBinding::bind
 ), TestsAdapter.ItemClickListener,
-    TestsPagerAdapter.TestsAdapterListener {
+    TestsPagerAdapter.TestsAdapterListener, PassedTestsAdapter.Listener {
 
 
     override val viewModel by viewModels<TestsViewModel>()
@@ -51,11 +51,11 @@ class TestsFragment : BaseFragment<TestsViewModel, FragmentTestsBinding>(
     lateinit var sharedPreferences: SharedPreferences
 
     private val allTestsAdapter by lazy {
-        TestsAdapter(this, TestsAdapterTypeEnum.ALL_TESTS, isTeacher)
+        TestsAdapter(this, isTeacher)
     }
 
     private val passedTestsAdapter by lazy {
-        TestsAdapter(this, TestsAdapterTypeEnum.PASSED_TESTS)
+        PassedTestsAdapter(this)
     }
 
     private val testPagerAdapter by lazy {
@@ -73,12 +73,10 @@ class TestsFragment : BaseFragment<TestsViewModel, FragmentTestsBinding>(
             viewModel.getTeacherTests(args.groupId)
         } else {
             viewModel.getAllTests(args.groupId)
-            viewModel.getCompletedTests(args.groupId)
         }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun setupUI() {
         if (isTeacher) {
             binding.tabLayout.isVisible = false
         }
@@ -94,16 +92,26 @@ class TestsFragment : BaseFragment<TestsViewModel, FragmentTestsBinding>(
 
         searchView.setOnQueryTextListener(DebounceQueryTextListener {
             if (searchView.hasFocus()) {
-                viewModel.searchThroughTests(
-                    query = it,
-                    groupId = args.groupId,
-                    isUserAdmin = isTeacher,
-                    searchCompletedTests = binding.viewPager.currentItem == FINISHED_TESTS
-                )
+                if (binding.viewPager.currentItem == FINISHED_TESTS) {
+                    viewModel.searchThroughCompletedTests(args.groupId, it)
+                } else {
+                    viewModel.searchThroughTests(args.groupId, it, isTeacher)
+                }
             }
         })
         searchView.queryHint = resources.getString(R.string.search_hint_text)
 
+        binding.addTestBtn.setOnClickListener {
+            findNavController().navigate(
+                TestsFragmentDirections.fromTestsFragmentToCreateQuestionsFragment(
+                    args.groupId
+                )
+            )
+        }
+    }
+
+    override fun setupVM() {
+        super.setupVM()
         viewModel.apply {
 
             testsState.observe(viewLifecycleOwner) { data ->
@@ -121,7 +129,7 @@ class TestsFragment : BaseFragment<TestsViewModel, FragmentTestsBinding>(
                 }
                 val testId = it[0].progress.getString("testId")
                 if (it[0].state == WorkInfo.State.RUNNING) {
-                    updateCurrentTestStatusInList(TestStatusEnum.IN_PROGRESS, testId)
+                    makeCurrentTestStatusInProgress(testId)
                 }
             }
 
@@ -129,35 +137,25 @@ class TestsFragment : BaseFragment<TestsViewModel, FragmentTestsBinding>(
                 if (it.isNullOrEmpty()) {
                     return@observe
                 }
-                if (it[0].state == WorkInfo.State.SUCCEEDED) {
-                    val testId = it[0].outputData.getString(QuestionsViewModel.TEST_ID)
-                    updateCurrentTestStatusInList(TestStatusEnum.PASSED, testId)
-                }
+
                 if (it[0].state.isFinished) {
                     viewModel.pruneWorks()
                 }
             }
         }
-
-        binding.addTestBtn.setOnClickListener {
-            findNavController().navigate(
-                TestsFragmentDirections.fromTestsFragmentToCreateQuestionsFragment(
-                    args.groupId
-                )
-            )
-        }
-
     }
 
-    private fun updateCurrentTestStatusInList(status: TestStatusEnum, testId: String?) {
-        val arrayList = ArrayList(allTestsAdapter.currentList)
+    private fun makeCurrentTestStatusInProgress(testId: String?) {
+        val arrayList = ArrayList(viewModel.testsState.value ?: emptyList())
         val model = arrayList.find {
             it.uid == testId
         }
 
         if (arrayList.indexOf(model) != -1) {
+
             arrayList[arrayList.indexOf(model)] =
-                model?.copy(status = status)
+                model?.copy(status = TestStatusEnum.IN_PROGRESS)
+
             sendUpdatedTestDataToLiveData(arrayList)
         }
 
@@ -187,71 +185,12 @@ class TestsFragment : BaseFragment<TestsViewModel, FragmentTestsBinding>(
 
     }
 
-    override fun onItemClick(model: TestModel) {
-        val calendar1 = Calendar.getInstance()
-        val calendar2 = Calendar.getInstance()
-        val calendar3 = Calendar.getInstance()
-        calendar1.time = model.date
-        calendar3.time = model.date
-        calendar3[Calendar.MINUTE] += model.time
+    override fun showFloatingActionButton() {
+        binding.addTestBtn.show()
+    }
 
-        if (isTeacher) {
-            //Open page with students who has passed the test
-        } else {
-
-            if (calendar1 > calendar2 && TestStatusEnum.PASSED != model.status){
-                showToast("Время прохождения теста еще не наступило")
-            }else{
-                if (calendar2 < calendar3 || TestStatusEnum.PASSED == model.status){
-                    if (binding.viewPager.currentItem == ALL_TESTS) {
-
-                        when (model.status) {
-                            TestStatusEnum.PASSED -> {
-                                findNavController().navigate(
-                                    TestsFragmentDirections.fromTestsFragmentToTestResultFragment(
-                                        args.groupId,
-                                        model.uid
-                                    )
-                                )
-                            }
-                            TestStatusEnum.IN_PROGRESS -> {
-                                findNavController().navigate(
-                                    TestsFragmentDirections.fromTestsFragmentToTestQuestionsFragment(
-                                        args.groupId,
-                                        model.uid,
-                                        model.title ?: ""
-                                    )
-                                )
-                            }
-                            TestStatusEnum.NOT_STARTED -> {
-                                val binding = StartTestAlertDialogLayoutBinding.inflate(
-                                    LayoutInflater.from(requireContext()), null, false
-                                )
-                                val time = resources.getQuantityString(
-                                    R.plurals.minutes_plural,
-                                    model.time,
-                                    model.time
-                                )
-                                binding.alertMessage.text =
-                                    resources.getString(R.string.alert_message_before_test).format(time)
-                                buildCustomAlertDialog(model, binding.root)
-                            }
-                        }
-
-                    }
-                    else {
-                        findNavController().navigate(
-                            TestsFragmentDirections.fromTestsFragmentToTestResultFragment(
-                                args.groupId,
-                                model.uid
-                            )
-                        )
-                    }
-                }else{
-                    showToast("Время прохождения теста прошло")
-                }
-            }
-        }
+    override fun hideFloatingActionButton() {
+        binding.addTestBtn.hide()
     }
 
     override fun deleteTestClick(model: TestModel) {
@@ -264,5 +203,74 @@ class TestsFragment : BaseFragment<TestsViewModel, FragmentTestsBinding>(
 
     override fun progressLoader(show: Boolean) {
         binding.progressBar.root.isVisible = show
+    }
+
+    override fun onTestClick(model: TestModel) {
+        if (!isTeacher) {
+            val calendar1 = Calendar.getInstance()
+            val calendar2 = Calendar.getInstance()
+            val calendar3 = Calendar.getInstance()
+            calendar1.time = model.date
+            calendar3.time = model.date
+            calendar3[Calendar.MINUTE] += model.time
+
+            if (calendar1 > calendar2) {
+                showToast("Время прохождения теста еще не наступило")
+            } else {
+                if (calendar1 < calendar3) {
+                    when (model.status) {
+                        TestStatusEnum.IN_PROGRESS -> {
+                            findNavController().navigate(
+                                TestsFragmentDirections.fromTestsFragmentToTestQuestionsFragment(
+                                    args.groupId,
+                                    model.uid,
+                                    model.title ?: ""
+                                )
+                            )
+                        }
+                        TestStatusEnum.NOT_STARTED -> {
+                            val binding = StartTestAlertDialogLayoutBinding.inflate(
+                                LayoutInflater.from(requireContext()), null, false
+                            )
+                            val time = resources.getQuantityString(
+                                R.plurals.minutes_plural,
+                                model.time,
+                                model.time
+                            )
+                            binding.alertMessage.text =
+                                resources.getString(R.string.alert_message_before_test)
+                                    .format(time)
+                            buildCustomAlertDialog(model, binding.root)
+                        }
+                        TestStatusEnum.PASSED -> {
+                            findNavController().navigate(
+                                TestsFragmentDirections.fromTestsFragmentToTestResultFragment(
+                                    args.groupId,
+                                    model.uid
+                                )
+                            )
+                        }
+                    }
+                } else {
+                    showToast("Время прохождения теста прошло")
+                }
+            }
+        } else {
+            findNavController().navigate(
+                TestsFragmentDirections.fromTestsFragmentToTestTakersFragment(
+                    model.uid,
+                    args.groupId
+                )
+            )
+        }
+    }
+
+    override fun onPassedTestClick(model: PassedTestDomain) {
+        findNavController().navigate(
+            TestsFragmentDirections.fromTestsFragmentToTestResultFragment(
+                args.groupId,
+                model.uid
+            )
+        )
     }
 }

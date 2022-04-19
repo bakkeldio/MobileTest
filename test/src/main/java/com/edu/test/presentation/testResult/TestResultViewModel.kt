@@ -7,13 +7,17 @@ import com.edu.common.data.Result
 import com.edu.common.presentation.BaseViewModel
 import com.edu.test.domain.model.QuestionResultDomain
 import com.edu.test.domain.usecase.CheckUserTestResult
+import com.edu.test.domain.usecase.UpdateQuestionScoreUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class TestResultViewModel @Inject constructor(
-    private val checkUserTestResult: CheckUserTestResult
+    private val checkUserTestResult: CheckUserTestResult,
+    private val updateQuestionScoreUseCase: UpdateQuestionScoreUseCase
 ) : BaseViewModel() {
 
     val testResultError: MutableLiveData<String> = MutableLiveData()
@@ -21,15 +25,40 @@ class TestResultViewModel @Inject constructor(
     val testResult: LiveData<List<QuestionResultDomain>> get() = _testResult
 
 
-    fun getResultsOfTest(groupId: String, testId: String) {
+    fun getResultsOfTest(studentUid: String?, groupId: String, testId: String) {
         _loading.value = true
         viewModelScope.launch {
-            when (val result = checkUserTestResult(groupId, testId)) {
+            checkUserTestResult(studentUid, groupId, testId).collect { result ->
+                when (result) {
+
+                    is Result.Success -> {
+                        _testResult.value = result.data ?: emptyList()
+                    }
+                    is Result.Error -> {
+                        testResultError.value = result.data?.localizedMessage ?: ""
+                    }
+                }
+                _loading.value = false
+            }
+        }
+    }
+
+    fun updateQuestionScore(
+        groupId: String,
+        testId: String,
+        questionId: String,
+        studentUid: String,
+        newScore: Int
+    ) {
+        _loading.value = true
+        viewModelScope.launch {
+            when (val result =
+                updateQuestionScoreUseCase(groupId, testId, questionId, studentUid, newScore)) {
                 is Result.Success -> {
-                    _testResult.value = result.data ?: emptyList()
+
                 }
                 is Result.Error -> {
-                    testResultError.value = result.data?.localizedMessage ?: ""
+                    _error.value = result.data
                 }
             }
             _loading.value = false

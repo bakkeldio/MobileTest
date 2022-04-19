@@ -4,7 +4,6 @@ import com.google.firebase.firestore.ServerTimestamp
 import java.util.*
 
 data class Test(
-    val uid: String ?= null,
     val authorUid: String ? = null,
     @ServerTimestamp
     val date: Date?= null,

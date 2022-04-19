@@ -13,9 +13,8 @@ class SearchThroughGroupTests @Inject constructor(
     suspend operator fun invoke(
         query: String,
         groupId: String,
-        isUserAdmin: Boolean,
-        searchCompletedTests: Boolean
+        isUserAdmin: Boolean
     ): Result<List<TestDomainModel>> {
-        return testsRepo.searchTests(query, groupId, isUserAdmin, searchCompletedTests)
+        return testsRepo.searchTests(query, groupId, isUserAdmin)
     }
 }

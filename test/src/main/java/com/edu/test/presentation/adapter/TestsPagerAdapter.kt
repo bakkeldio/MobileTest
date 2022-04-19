@@ -12,9 +12,9 @@ import com.edu.test.databinding.ViewPagerItemTestBinding
 
 class TestsPagerAdapter(
     private val allTests: TestsAdapter,
-    private val passedTests: TestsAdapter,
+    private val passedTests: PassedTestsAdapter,
     private val isUserAdmin: Boolean = false,
-    private val deleteTestListener: TestsAdapterListener
+    private val listener: TestsAdapterListener
 ) : RecyclerView.Adapter<TestsPagerAdapter.TestPageViewHolder>() {
 
     companion object {
@@ -37,6 +37,17 @@ class TestsPagerAdapter(
             } else {
                 hideEmptyDataState()
             }
+            binding.viewPagerRv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                    super.onScrollStateChanged(recyclerView, newState)
+                    if (isUserAdmin) {
+                        when (newState) {
+                            RecyclerView.SCROLL_STATE_IDLE -> listener.showFloatingActionButton()
+                            RecyclerView.SCROLL_STATE_DRAGGING -> listener.hideFloatingActionButton()
+                        }
+                    }
+                }
+            })
             binding.viewPagerRv.adapter = when (position) {
                 ALL_TESTS -> {
                     allTests
@@ -55,7 +66,7 @@ class TestsPagerAdapter(
                                 R.drawable.ic_baseline_delete_24,
                                 R.color.main_color_pink
                             ) {
-                                deleteTestListener.deleteTestClick(allTests.currentList[it])
+                                listener.deleteTestClick(allTests.currentList[it])
                             }
                         )
                     }
@@ -104,6 +115,9 @@ class TestsPagerAdapter(
     }
 
     interface TestsAdapterListener {
+        fun showFloatingActionButton()
+        fun hideFloatingActionButton()
         fun deleteTestClick(model: TestModel)
+
     }
 }

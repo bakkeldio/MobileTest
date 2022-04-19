@@ -8,6 +8,9 @@ import com.edu.test.domain.model.QuestionResultDomain
 import com.edu.test.domain.repository.IQuestionRepository
 import com.edu.test.domain.repository.ITestsRepository
 import dagger.hilt.android.scopes.ViewModelScoped
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 
@@ -17,33 +20,45 @@ class CheckUserTestResult @Inject constructor(
     private val questionRepo: IQuestionRepository
 ) {
     suspend operator fun invoke(
+        studentUid: String?,
         groupUid: String,
         testUid: String
-    ): Result<List<QuestionResultDomain>> {
-        return when (val result = testRepo.getCompletedTestQuestions(groupUid, testUid)) {
-            is Result.Success -> {
-                val testResult = result.data
-                    ?: return Result.Error(Exception("test result can't be null if it exists"))
-                when (val questionResult = questionRepo.getQuestionsOfTest(testUid, groupUid)) {
+    ): Flow<Result<List<QuestionResultDomain>>> {
+
+        return flow {
+            testRepo.getCompletedTestQuestions(studentUid, groupUid, testUid).collect { result ->
+                when (result) {
                     is Result.Success -> {
-                        val testQuestions = questionResult.data ?: emptyList()
-                        Result.Success(
-                            checkTheResultsWithOriginal(
-                                testResult.answers,
-                                testResult.answersToOpenQuestions,
-                                testQuestions
-                            )
-                        )
+                        val testResult = result.data ?: return@collect
+                        when (val questionResult =
+                            questionRepo.getQuestionsOfTest(testUid, groupUid)) {
+                            is Result.Success -> {
+                                val testQuestions = questionResult.data ?: emptyList()
+                                emit(
+                                    Result.Success(
+                                        checkTheResultsWithOriginal(
+                                            testResult.answers,
+                                            testResult.pointsToOpenQuestions,
+                                            testResult.answersToOpenQuestions,
+                                            testQuestions
+                                        )
+                                    )
+                                )
+                            }
+                            is Result.Error -> emit(questionResult)
+                        }
                     }
-                    is Result.Error -> questionResult
+                    is Result.Error -> emit(result)
                 }
             }
-            is Result.Error -> result
+        }.catch {
+            emit(Result.Error(it))
         }
     }
 
     private fun checkTheResultsWithOriginal(
         answersToMultipleChoiceQuestions: HashMap<String, List<String>>,
+        openQuestionsPoints: HashMap<String, Double>,
         answersToOpenQuestions: HashMap<String, String>,
         questions: List<QuestionDomain>
     ): List<QuestionResultDomain> {
@@ -75,7 +90,12 @@ class CheckUserTestResult @Inject constructor(
                 }
                 Pair(questionPoint, answersResult)
             } else {
-                Pair(0.0, question.answersList.map { answer ->
+                val point = if (openQuestionsPoints.containsKey(question.uid)) {
+                    openQuestionsPoints[question.uid]!!
+                } else {
+                    0.0
+                }
+                Pair(point, question.answersList.map { answer ->
                     AnswerDomain("${answer.key}. ${answer.value}")
                 })
             }

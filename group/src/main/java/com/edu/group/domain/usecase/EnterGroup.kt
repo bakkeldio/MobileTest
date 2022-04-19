@@ -5,6 +5,7 @@ import com.edu.group.domain.repository.IGroupsRepo
 import dagger.hilt.android.scopes.ViewModelScoped
 import javax.inject.Inject
 
+//TODO:Remove
 @ViewModelScoped
 class EnterGroup @Inject constructor(private val groupRepo: IGroupsRepo) {
 

@@ -1,7 +1,6 @@
 package com.edu.test.presentation.question
 
 import android.os.Bundle
-import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -52,21 +51,15 @@ class QuestionsFragment : BaseFragment<QuestionsViewModel, FragmentQuestionsBind
         viewModel.getAllQuestions(navArgs.groupId, navArgs.testId)
     }
 
+    override fun onPageClick(position: Int) {
+        binding.viewPager.currentItem = position
+    }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        viewModel.timerLiveData.observe(viewLifecycleOwner) { workInfos ->
-            if (workInfos != null) {
-                val time = workInfos[0].progress.getInt("time", 1)
-                binding.timeRemaining.text = resources.getString(R.string.minutes_left)
-                    .format(resources.getQuantityString(R.plurals.minutes_plural, time, time))
-                if (workInfos[0].state == WorkInfo.State.SUCCEEDED) {
-                    findNavController().popBackStack()
-                }
-            }
-        }
+    override fun progressLoader(show: Boolean) {
+        binding.progress.root.isVisible = show
+    }
 
-
+    override fun setupUI() {
         childFragmentManager.setFragmentResultListener("result", this) { _, bundle ->
             if (QuestionType.getByValue(bundle.getString("questionType")) == QuestionType.OPEN) {
                 TestProcessHandler.put(
@@ -107,20 +100,6 @@ class QuestionsFragment : BaseFragment<QuestionsViewModel, FragmentQuestionsBind
             adapter = pagesAdapter
         }
         ViewPager2ViewHeightAnimator().viewPager2 = binding.viewPager
-        viewModel.questionsState.observe(viewLifecycleOwner) { questions ->
-            TestProcessHandler.setQuestions(questions)
-            pagesAdapter.submitData(questions.map {
-                PageModel(
-                    !TestProcessHandler.userAnswersMap[it.uid]?.userAnswer.isNullOrEmpty()
-                            || !TestProcessHandler.userAnswersMap[it.uid]?.answerOpenQuestion.isNullOrEmpty()
-                )
-            })
-            questionsSize = questions.size
-            pagerAdapter.submitData(questions)
-            binding.nextBtn.isVisible = true
-        }
-
-
 
         binding.viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
@@ -140,8 +119,7 @@ class QuestionsFragment : BaseFragment<QuestionsViewModel, FragmentQuestionsBind
                     positiveBtnClick = {
                         viewModel.submitResultAndCancelWorker(
                             navArgs.groupId,
-                            navArgs.testId,
-                            navArgs.testTitle
+                            navArgs.testId
                         )
                         findNavController().navigate(
                             QuestionsFragmentDirections.actionFromQuestionsListToTestsList(
@@ -158,11 +136,31 @@ class QuestionsFragment : BaseFragment<QuestionsViewModel, FragmentQuestionsBind
         }
     }
 
-    override fun onPageClick(position: Int) {
-        binding.viewPager.currentItem = position
-    }
+    override fun setupVM() {
+        super.setupVM()
+        viewModel.timerLiveData.observe(viewLifecycleOwner) { workInfos ->
+            if (workInfos != null) {
+                val time = workInfos[0].progress.getInt("time", 1)
+                binding.timeRemaining.text = resources.getString(R.string.minutes_left)
+                    .format(resources.getQuantityString(R.plurals.minutes_plural, time, time))
+                if (workInfos[0].state == WorkInfo.State.SUCCEEDED) {
+                    findNavController().popBackStack()
+                }
+            }
+        }
 
-    override fun progressLoader(show: Boolean) {
-        binding.progress.root.isVisible = show
+        viewModel.questionsState.observe(viewLifecycleOwner) { questions ->
+            TestProcessHandler.setQuestions(questions)
+            pagesAdapter.submitData(questions.map {
+                PageModel(
+                    !TestProcessHandler.userAnswersMap[it.uid]?.userAnswer.isNullOrEmpty()
+                            || !TestProcessHandler.userAnswersMap[it.uid]?.answerOpenQuestion.isNullOrEmpty()
+                )
+            })
+            questionsSize = questions.size
+            pagerAdapter.submitData(questions)
+            binding.nextBtn.isVisible = true
+        }
+
     }
 }

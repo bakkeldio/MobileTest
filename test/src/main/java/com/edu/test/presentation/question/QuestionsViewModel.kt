@@ -15,6 +15,7 @@ import com.edu.test.presentation.workers.TestTimeWorker
 import com.edu.test.presentation.workers.UploadTestResultToFirestoreWorker
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -55,11 +56,13 @@ class QuestionsViewModel @Inject constructor(
         }
     }
 
-    fun submitResultAndCancelWorker(groupId: String, testId: String, testTitle: String) {
+    fun submitResultAndCancelWorker(groupId: String, testId: String) {
         workManager.cancelAllWorkByTag(TIMER_WORK)
         workManager.cancelAllWorkByTag(UPLOAD_WORK)
+        workManager.pruneWork()
+
         viewModelScope.launch {
-            when (val result = submitUserScore(testId, groupId, testTitle)) {
+            when (val result = submitUserScore(testId, groupId)) {
                 is Result.Success -> {
                     _scoreSubmitState.value = ResourceState.Success(Unit)
                 }

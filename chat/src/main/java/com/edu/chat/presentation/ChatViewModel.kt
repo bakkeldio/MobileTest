@@ -14,6 +14,7 @@ import com.edu.common.data.Result
 import com.edu.common.presentation.BaseViewModel
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -28,12 +29,12 @@ class ChatViewModel @Inject constructor(
 
 
     private val _chatMembers: MutableLiveData<List<ChatMemberItem>> = MutableLiveData()
-    val chatMembers: LiveData<List<ChatMemberItem>> = _chatMembers
+    var chatMembers: LiveData<List<ChatMemberItem>> = _chatMembers
 
     private val _nonMembers: MutableLiveData<List<ChatMember>> = MutableLiveData()
     val nonMembers: LiveData<List<ChatMember>> = _nonMembers
 
-    private var chatMemberItems = mutableListOf<ChatMemberItem>()
+    private var chatMemberItems = listOf<ChatMemberItem>()
 
 
     fun getChatMembers() {
@@ -54,7 +55,7 @@ class ChatViewModel @Inject constructor(
 
     private fun getChatsLastMessages(members: List<ChatMember>) {
         viewModelScope.launch {
-            getMessagesUpdatesForChatsUseCase().collect { messagesResult ->
+            getMessagesUpdatesForChatsUseCase().collectLatest { messagesResult ->
                 when (messagesResult) {
                     is Result.Success -> {
                         val chatUsers = members.map { member ->
@@ -80,7 +81,7 @@ class ChatViewModel @Inject constructor(
                             )
 
                         }
-                        chatMemberItems.addAll(chatUsers)
+                        chatMemberItems = chatUsers
                         _chatMembers.value = chatUsers
                     }
                     is Result.Error -> {
