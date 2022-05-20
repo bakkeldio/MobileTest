@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/loginFragment">
+
+
+    <action
+        android:id="@+id/fromMainAppFlowToLoginFragmnet"
+        app:destination="@id/loginFragment"
+        app:enterAnim="@anim/nav_graph_enter"
+        app:exitAnim="@anim/nav_graph_exit"
+        app:launchSingleTop="true"
+        app:popUpTo="@id/nav_graph"
+        app:popUpToInclusive="true" />
+
+    <fragment
+        android:id="@+id/usersFragment"
+        android:name="com.edu.mobiletestadmin.presentation.fragments.UsersFragment"
+        tools:layout="@layout/fragment_users">
+        <action
+            android:id="@+id/actionFromUsersFragmentToUserFragment"
+            app:destination="@id/userFragment"
+            app:enterAnim="@anim/nav_graph_enter"
+            app:exitAnim="@anim/nav_graph_exit" />
+    </fragment>
+    <fragment
+        android:id="@+id/groupsFragment"
+        android:name="com.edu.mobiletestadmin.presentation.fragments.GroupsFragment"
+        tools:layout="@layout/fragment_groups">
+        <action
+            android:id="@+id/from_nav_groups_to_group_fragment"
+            app:destination="@id/groupFragment"
+            app:enterAnim="@anim/nav_graph_enter"
+            app:exitAnim="@anim/nav_graph_exit" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/groupFragment"
+        android:name="com.edu.mobiletestadmin.presentation.fragments.GroupFragment"
+        tools:layout="@layout/fragment_group">
+        <argument
+            android:name="groupFragmentType"
+            android:defaultValue="CREATE_GROUP"
+            app:argType="com.edu.mobiletestadmin.presentation.model.GroupFragmentTypeEnum" />
+        <argument
+            android:name="groupId"
+            android:defaultValue="@null"
+            app:argType="string"
+            app:nullable="true" />
+        <action
+            android:id="@+id/fromGroupFragmentToGroupUsersFragment"
+            app:destination="@id/groupUsersFragment"
+            app:enterAnim="@anim/nav_graph_enter"
+            app:exitAnim="@anim/nav_graph_exit" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/groupUsersFragment"
+        android:name="com.edu.mobiletestadmin.presentation.fragments.GroupUsersFragment"
+        tools:layout="@layout/fragment_group_users">
+        <argument
+            android:name="groupUid"
+            app:argType="string" />
+        <argument
+            android:name="groupName"
+            app:argType="string" />
+        <action
+            android:id="@+id/actionFromGroupUsersToUserFragment"
+            app:destination="@id/userFragment"
+            app:enterAnim="@anim/nav_graph_enter"
+            app:exitAnim="@anim/nav_graph_exit" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.edu.mobiletestadmin.presentation.fragments.LoginFragment"
+        tools:layout="@layout/fragment_login">
+        <action
+            android:id="@+id/actionFromLoginFragmentTo"
+            app:destination="@id/usersFragment"
+            app:enterAnim="@anim/nav_graph_enter"
+            app:exitAnim="@anim/nav_graph_exit"
+            app:popUpTo="@id/nav_graph"
+            />
+    </fragment>
+
+    <fragment
+        android:id="@+id/userFragment"
+        android:name="com.edu.mobiletestadmin.presentation.fragments.UserFragment"
+        tools:layout="@layout/fragment_user">
+
+        <argument
+            android:name="userType"
+            android:defaultValue="STUDENT"
+            app:argType="com.edu.mobiletestadmin.presentation.model.UserTypeEnum" />
+        <argument
+            android:name="userUid"
+            android:defaultValue="@null"
+            app:argType="string"
+            app:nullable="true" />
+
+        <argument
+            android:name="userName"
+            android:defaultValue="@null"
+            app:argType="string"
+            app:nullable="true" />
+
+        <argument
+            android:name="groupId"
+            android:defaultValue="@null"
+            app:argType="string[]"
+            app:nullable="true" />
+    </fragment>
+</navigation>

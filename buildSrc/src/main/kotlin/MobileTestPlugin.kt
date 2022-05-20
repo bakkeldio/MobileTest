@@ -55,7 +55,7 @@ internal fun Project.configureDependencies() = dependencies {
 internal fun Project.configurePlugins() {
     if (this.name == "app") {
         plugins.apply("com.android.application")
-    }else{
+    } else {
         plugins.apply("com.android.library")
     }
     plugins.apply("kotlin-android")

@@ -6,6 +6,7 @@
         <item name="colorPrimaryVariant">@color/main_color_pink</item>
         <item name="colorOnPrimary">@color/white</item>
         <item name="colorAccent">@color/main_color_pink</item>
+        <item name="colorControlNormal">@color/main_color_pink</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/main_color_pink</item>
         <item name="colorSecondaryVariant">@color/main_color_pink</item>

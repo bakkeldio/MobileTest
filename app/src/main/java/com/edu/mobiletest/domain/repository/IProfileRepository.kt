@@ -4,9 +4,12 @@ import com.edu.common.data.Result
 import com.edu.common.domain.model.IProfile
 import com.edu.mobiletest.domain.model.NewUserData
 import com.edu.mobiletest.domain.model.ProfileType
+import kotlinx.coroutines.flow.Flow
 
 interface IProfileRepository {
     suspend fun getProfileInfo(): Result<Pair<ProfileType, IProfile>>
+
+    fun getProfileImage(): Flow<Result<String?>>
 
     suspend fun uploadProfilePhoto(url: String): Result<String>
 

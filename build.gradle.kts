@@ -8,11 +8,11 @@ buildscript {
     }
     dependencies {
         classpath(Dependencies.BuildPlugins.buildGradle)
-        classpath(Dependencies.BuildPlugins.kotlinGradle)
         classpath(Dependencies.BuildPlugins.googleServices)
         classpath(Dependencies.BuildPlugins.hiltAndroid)
         classpath(Dependencies.BuildPlugins.safeArgs)
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.20")
+        classpath(kotlin("serialization", version = Dependencies.Versions.kotlin))
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.30")
     }
 }
 

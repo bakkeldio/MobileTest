@@ -84,7 +84,7 @@
         android:id="@+id/finishedTests"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
+        android:layout_marginHorizontal="10dp"
         android:layout_marginTop="10dp"
         android:orientation="horizontal"
         android:overScrollMode="never"
@@ -136,7 +136,6 @@
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:backgroundTint="#E64C3D"
         android:text="@string/signOut"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/totalScore" />

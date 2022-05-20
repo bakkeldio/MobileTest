@@ -6,14 +6,25 @@
         <entry key="../../../../layout/custom_preview.xml" value="0.3104166666666667" />
         <entry key="../../.gradle/caches/transforms-3/9f56f20b7f0a22b436f17512712d3533/transformed/material-1.4.0/res/drawable/design_fab_background.xml" value="0.17552083333333332" />
         <entry key="../../.gradle/caches/transforms-3/a280b28a5c43ad0f4f0b91be120115ae/transformed/appcompat-1.4.0/res/drawable/abc_item_background_holo_dark.xml" value="0.2074074074074074" />
+        <entry key="app/src/main/res/drawable-anydpi-v26/ic_launcher_background.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable-anydpi-v26/ic_launcher_foreground.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable-v24/color_for_view_with_focus.xml" value="0.152" />
+        <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/bg_custom.xml" value="0.321025641025641" />
         <entry key="app/src/main/res/drawable/edit_text_cursor_color.xml" value="0.13703703703703704" />
         <entry key="app/src/main/res/drawable/ic_baseline_email_24.xml" value="0.14629629629629629" />
         <entry key="app/src/main/res/drawable/ic_baseline_group_24.xml" value="0.14629629629629629" />
+        <entry key="app/src/main/res/drawable/ic_baseline_group_pink_24.xml" value="0.1305" />
         <entry key="app/src/main/res/drawable/ic_baseline_lock_24.xml" value="0.14629629629629629" />
+        <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.152" />
         <entry key="app/src/main/res/drawable/ic_menu_camera.xml" value="0.31145833333333334" />
+        <entry key="app/src/main/res/drawable/ic_menu_gallery.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/ic_menu_slideshow.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_profile_user_svgrepo_com.xml" value="0.1735" />
         <entry key="app/src/main/res/drawable/ic_search_icon_gray.xml" value="0.2796296296296296" />
+        <entry key="app/src/main/res/drawable/selector_group_icon.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/side_nav_bar.xml" value="0.1" />
         <entry key="app/src/main/res/font/amita_bold.xml" value="0.18703703703703703" />
         <entry key="app/src/main/res/font/ubuntu_bold_italic.xml" value="0.2074074074074074" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.23504099009502138" />
@@ -23,10 +34,12 @@
         <entry key="app/src/main/res/layout/fragment_change_profile_photo_bottomsheet.xml" value="0.3274861653645834" />
         <entry key="app/src/main/res/layout/fragment_groups_list.xml" value="0.16927083333333334" />
         <entry key="app/src/main/res/layout/fragment_login.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_main_flow.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_password_reset.xml" value="0.21331521739130435" />
         <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_registration.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_select_profile_logo_bottomsheet.xml" value="0.2953125" />
+        <entry key="app/src/main/res/layout/fragment_sign_in_flow.xml" value="0.24850299401197604" />
         <entry key="app/src/main/res/layout/fragment_slideshow.xml" value="0.15070921985815602" />
         <entry key="app/src/main/res/layout/fragment_tests.xml" value="0.25" />
         <entry key="app/src/main/res/layout/item_completed_test.xml" value="0.45" />
@@ -34,13 +47,33 @@
         <entry key="app/src/main/res/layout/item_progress_indicator.xml" value="0.20923913043478262" />
         <entry key="app/src/main/res/layout/nav_header_main.xml" value="0.20923913043478262" />
         <entry key="app/src/main/res/menu/activity_main_drawer.xml" value="0.45" />
+        <entry key="app/src/main/res/menu/bottom_nav_menu_items.xml" value="0.1" />
         <entry key="app/src/main/res/menu/main.xml" value="0.3098958333333333" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.134" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.134" />
+        <entry key="chat/src/main/res/drawable/bg_item_document.xml" value="0.192" />
+        <entry key="chat/src/main/res/drawable/bg_item_received_document.xml" value="0.191" />
+        <entry key="chat/src/main/res/drawable/bg_item_sent_document.xml" value="0.2195" />
         <entry key="chat/src/main/res/drawable/ic_baseline_access_time_24.xml" value="0.1" />
+        <entry key="chat/src/main/res/drawable/ic_baseline_access_time_24_white.xml" value="0.197" />
+        <entry key="chat/src/main/res/drawable/ic_baseline_arrow_circle_up_24.xml" value="0.1835" />
+        <entry key="chat/src/main/res/drawable/ic_baseline_arrow_upward_24.xml" value="0.2045" />
+        <entry key="chat/src/main/res/drawable/ic_bxs_camera.xml" value="0.196" />
+        <entry key="chat/src/main/res/drawable/ic_bytesize_photo.xml" value="0.1965" />
+        <entry key="chat/src/main/res/drawable/ic_carbon_document_blank.xml" value="0.1965" />
         <entry key="chat/src/main/res/drawable/ic_chat_item.xml" value="0.192" />
-        <entry key="chat/src/main/res/drawable/ic_check.xml" value="0.186" />
-        <entry key="chat/src/main/res/drawable/ic_check_group.xml" value="0.186" />
+        <entry key="chat/src/main/res/drawable/ic_check.xml" value="0.12223504638671874" />
+        <entry key="chat/src/main/res/drawable/ic_check_group.xml" value="0.1" />
+        <entry key="chat/src/main/res/drawable/ic_check_white.xml" value="0.18" />
+        <entry key="chat/src/main/res/drawable/ic_ei_image.xml" value="0.1965" />
+        <entry key="chat/src/main/res/drawable/ic_fluent_camera_20_regular.xml" value="0.1965" />
+        <entry key="chat/src/main/res/drawable/ic_fluent_contact_card_16_regular.xml" value="0.1" />
+        <entry key="chat/src/main/res/drawable/ic_fluent_document_24_filled.xml" value="0.196" />
         <entry key="chat/src/main/res/drawable/ic_fluent_send_28_filled.xml" value="0.1855" />
         <entry key="chat/src/main/res/drawable/ic_group_10_2.xml" value="0.1985" />
+        <entry key="chat/src/main/res/drawable/ic_group_2.xml" value="0.1965" />
+        <entry key="chat/src/main/res/drawable/ic_pdf_svgrepo_com.xml" value="0.1955" />
+        <entry key="chat/src/main/res/drawable/ic_retry.xml" value="0.1885" />
         <entry key="chat/src/main/res/drawable/ic_round_border.xml" value="0.185" />
         <entry key="chat/src/main/res/drawable/item_received_bg.xml" value="0.169" />
         <entry key="chat/src/main/res/drawable/item_sent_bg.xml" value="0.18768096923828126" />
@@ -48,8 +81,11 @@
         <entry key="chat/src/main/res/drawable/v_bubble_corner_right.xml" value="0.19138549804687502" />
         <entry key="chat/src/main/res/layout/fragment_chat.xml" value="0.25" />
         <entry key="chat/src/main/res/layout/fragment_chat_details.xml" value="0.1" />
-        <entry key="chat/src/main/res/layout/item_chat.xml" value="0.29349365234375" />
+        <entry key="chat/src/main/res/layout/fragment_chat_media_documents_select_bottomsheet.xml" value="0.25" />
+        <entry key="chat/src/main/res/layout/fragment_submit_media_documents_bottomsheet.xml" value="0.3560704549153645" />
+        <entry key="chat/src/main/res/layout/item_chat.xml" value="0.379779052734375" />
         <entry key="chat/src/main/res/layout/item_chat_time_header.xml" value="0.165" />
+        <entry key="chat/src/main/res/layout/item_document.xml" value="0.3098958333333333" />
         <entry key="chat/src/main/res/layout/item_header.xml" value="0.25" />
         <entry key="chat/src/main/res/layout/item_received_message.xml" value="0.1" />
         <entry key="chat/src/main/res/layout/item_sent_message.xml" value="0.1" />
@@ -78,6 +114,7 @@
         <entry key="core/src/main/res/drawable/btn_group_join_leave.xml" value="0.30648148148148147" />
         <entry key="core/src/main/res/drawable/button_filled_bg.xml" value="0.30648148148148147" />
         <entry key="core/src/main/res/drawable/button_outlined_bg.xml" value="0.30648148148148147" />
+        <entry key="core/src/main/res/drawable/divider_item.xml" value="0.225" />
         <entry key="core/src/main/res/drawable/edit_text_color.xml" value="0.13703703703703704" />
         <entry key="core/src/main/res/drawable/filled_bg_item.xml" value="0.30925925925925923" />
         <entry key="core/src/main/res/drawable/ic_avatar_no_photo_100_100.xml" value="0.1" />
@@ -96,6 +133,7 @@
         <entry key="core/src/main/res/drawable/ic_baseline_timer_24.xml" value="0.1585" />
         <entry key="core/src/main/res/drawable/ic_baseline_upload_24.xml" value="0.3055555555555556" />
         <entry key="core/src/main/res/drawable/ic_border_item.xml" value="0.24010416666666667" />
+        <entry key="core/src/main/res/drawable/ic_chat_item.xml" value="0.1" />
         <entry key="core/src/main/res/drawable/ic_data.xml" value="0.31145833333333334" />
         <entry key="core/src/main/res/drawable/ic_delete_bg_pink.xml" value="0.1" />
         <entry key="core/src/main/res/drawable/ic_edit_ripple.xml" value="0.1287037037037037" />
@@ -105,6 +143,7 @@
         <entry key="core/src/main/res/drawable/ic_minus.xml" value="0.3260416666666667" />
         <entry key="core/src/main/res/drawable/ic_plus_.xml" value="0.1" />
         <entry key="core/src/main/res/drawable/ic_plus_main.xml" value="0.1835" />
+        <entry key="core/src/main/res/drawable/ic_remove.xml" value="0.101" />
         <entry key="core/src/main/res/drawable/ic_search_icon_gray.xml" value="0.16018518518518518" />
         <entry key="core/src/main/res/drawable/ic_spinner_1s_200px.xml" value="0.1" />
         <entry key="core/src/main/res/drawable/ic_test.xml" value="0.1" />
@@ -116,20 +155,31 @@
         <entry key="core/src/main/res/drawable/item_results_ripple.xml" value="0.192" />
         <entry key="core/src/main/res/drawable/progress_animation.xml" value="0.1" />
         <entry key="core/src/main/res/drawable/ripple.xml" value="0.31145833333333334" />
+        <entry key="core/src/main/res/layout/fragment_select_logo_bottomsheet.xml" value="0.27870370370370373" />
         <entry key="core/src/main/res/layout/item_progress_indicator.xml" value="0.15070921985815602" />
         <entry key="core/src/main/res/layout/progress.xml" value="0.18840579710144928" />
         <entry key="core/src/main/res/layout/progress_loader.xml" value="0.125" />
         <entry key="core/src/main/res/menu/toolbar_menu_with_search.xml" value="0.3098958333333333" />
+        <entry key="feature-chat/src/main/res/layout/fragment_chat_details.xml" value="0.15833333333333333" />
+        <entry key="feature-group/src/main/res/drawable/ic_fa6_solid_user_group.xml" value="0.171" />
+        <entry key="feature-group/src/main/res/layout/fragment_group_detail.xml" value="0.1" />
+        <entry key="feature-group/src/main/res/layout/fragment_group_detail_edit.xml" value="0.234210205078125" />
+        <entry key="feature-group/src/main/res/layout/fragment_group_students_bottomsheet.xml" value="0.1" />
+        <entry key="feature-group/src/main/res/layout/item_group.xml" value="0.20185185185185187" />
+        <entry key="feature-group/src/main/res/layout/item_student.xml" value="0.1175925925925926" />
+        <entry key="feature-test/src/main/res/layout/fragment_create_questions.xml" value="0.3098958333333333" />
+        <entry key="feature-test/src/main/res/layout/fragment_tests.xml" value="0.17714532922815393" />
         <entry key="group/src/main/res/drawable/bg_circle_with_minus.xml" value="0.167" />
         <entry key="group/src/main/res/drawable/ic_avatar_no_photo_100_100.xml" value="0.3260416666666667" />
         <entry key="group/src/main/res/drawable/ic_baseline_numbers_24.xml" value="0.2025" />
         <entry key="group/src/main/res/drawable/ic_baseline_remove_circle_outline_24.xml" value="0.167" />
         <entry key="group/src/main/res/drawable/ic_delete.xml" value="0.167" />
         <entry key="group/src/main/res/drawable/ic_delete_with_ripple.xml" value="0.1" />
+        <entry key="group/src/main/res/drawable/ic_group_12_2.xml" value="0.145891845703125" />
         <entry key="group/src/main/res/drawable/ic_group_first_place.xml" value="0.18" />
         <entry key="group/src/main/res/drawable/ic_group_second_place.xml" value="0.1935" />
         <entry key="group/src/main/res/drawable/ic_group_third_place.xml" value="0.1935" />
-        <entry key="group/src/main/res/layout/fragment_group_detail.xml" value="0.25" />
+        <entry key="group/src/main/res/layout/fragment_group_detail.xml" value="0.2653915405273437" />
         <entry key="group/src/main/res/layout/fragment_group_detail_edit.xml" value="0.25" />
         <entry key="group/src/main/res/layout/fragment_group_students_bottomsheet.xml" value="0.1" />
         <entry key="group/src/main/res/layout/fragment_group_students_rating.xml" value="0.1" />
@@ -143,6 +193,51 @@
         <entry key="group/src/main/res/layout/item_top_student.xml" value="0.3098958333333333" />
         <entry key="group/src/main/res/layout/layout.xml" value="0.21965579710144928" />
         <entry key="group/src/main/res/menu/group_detail_edit_menu.xml" value="0.3098958333333333" />
+        <entry key="mobiletestadmin/src/main/res/drawable-anydpi-v26/ic_launcher_background.xml" value="0.1" />
+        <entry key="mobiletestadmin/src/main/res/drawable-anydpi-v26/ic_launcher_foreground.xml" value="0.1" />
+        <entry key="mobiletestadmin/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.148" />
+        <entry key="mobiletestadmin/src/main/res/drawable/bg_border_gray_cbcbcb.xml" value="0.1285" />
+        <entry key="mobiletestadmin/src/main/res/drawable/bg_main_color.xml" value="0.1265" />
+        <entry key="mobiletestadmin/src/main/res/drawable/bg_rounded.xml" value="0.1625" />
+        <entry key="mobiletestadmin/src/main/res/drawable/border_bg_gray.xml" value="0.1395" />
+        <entry key="mobiletestadmin/src/main/res/drawable/color_for_view_with_focus.xml" value="0.1" />
+        <entry key="mobiletestadmin/src/main/res/drawable/divider_item.xml" value="0.208" />
+        <entry key="mobiletestadmin/src/main/res/drawable/ic_baseline_email_24.xml" value="0.1315" />
+        <entry key="mobiletestadmin/src/main/res/drawable/ic_baseline_groups.xml" value="0.141" />
+        <entry key="mobiletestadmin/src/main/res/drawable/ic_baseline_lock_24.xml" value="0.1315" />
+        <entry key="mobiletestadmin/src/main/res/drawable/ic_baseline_logout_24.xml" value="0.1" />
+        <entry key="mobiletestadmin/src/main/res/drawable/ic_fa6_solid_user_group.xml" value="0.171" />
+        <entry key="mobiletestadmin/src/main/res/drawable/ic_fe_users.xml" value="0.141" />
+        <entry key="mobiletestadmin/src/main/res/drawable/ic_home_indicator.xml" value="0.1495" />
+        <entry key="mobiletestadmin/src/main/res/drawable/ic_launcher_background.xml" value="0.1315" />
+        <entry key="mobiletestadmin/src/main/res/drawable/ic_remove.xml" value="0.174" />
+        <entry key="mobiletestadmin/src/main/res/drawable/ic_search_icon_gray.xml" value="0.131" />
+        <entry key="mobiletestadmin/src/main/res/drawable/ic_spinner.xml" value="0.148" />
+        <entry key="mobiletestadmin/src/main/res/drawable/ic_spinner_1s_200px.xml" value="0.1555" />
+        <entry key="mobiletestadmin/src/main/res/drawable/ic_user_placeholder.xml" value="0.1" />
+        <entry key="mobiletestadmin/src/main/res/drawable/icon_add.xml" value="0.1475" />
+        <entry key="mobiletestadmin/src/main/res/font/font_ubuntu_italic.xml" value="0.24722222222222223" />
+        <entry key="mobiletestadmin/src/main/res/font/ubuntu_bold_italic.xml" value="0.2740740740740741" />
+        <entry key="mobiletestadmin/src/main/res/layout/activity_main.xml" value="0.18896230061848956" />
+        <entry key="mobiletestadmin/src/main/res/layout/content_main.xml" value="0.3098958333333333" />
+        <entry key="mobiletestadmin/src/main/res/layout/fragment_all_groups_fragment.xml" value="0.1" />
+        <entry key="mobiletestadmin/src/main/res/layout/fragment_create_new_user.xml" value="0.25" />
+        <entry key="mobiletestadmin/src/main/res/layout/fragment_first.xml" value="0.3098958333333333" />
+        <entry key="mobiletestadmin/src/main/res/layout/fragment_group.xml" value="0.2849334716796875" />
+        <entry key="mobiletestadmin/src/main/res/layout/fragment_group_users.xml" value="0.1" />
+        <entry key="mobiletestadmin/src/main/res/layout/fragment_groups.xml" value="0.3098958333333333" />
+        <entry key="mobiletestadmin/src/main/res/layout/fragment_login.xml" value="0.3098958333333333" />
+        <entry key="mobiletestadmin/src/main/res/layout/fragment_user.xml" value="0.22314814814814815" />
+        <entry key="mobiletestadmin/src/main/res/layout/fragment_users.xml" value="0.31768035888671875" />
+        <entry key="mobiletestadmin/src/main/res/layout/fragment_users_bottom_sheet.xml" value="0.1" />
+        <entry key="mobiletestadmin/src/main/res/layout/item_group.xml" value="0.1" />
+        <entry key="mobiletestadmin/src/main/res/layout/item_user.xml" value="0.3098958333333333" />
+        <entry key="mobiletestadmin/src/main/res/layout/item_view_pager_user.xml" value="0.3098958333333333" />
+        <entry key="mobiletestadmin/src/main/res/layout/progress_loader.xml" value="0.19454803466796877" />
+        <entry key="mobiletestadmin/src/main/res/menu/admin_menu.xml" value="0.3098958333333333" />
+        <entry key="mobiletestadmin/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1" />
+        <entry key="test/src/main/res/drawable/drawable.xml" value="0.1715" />
+        <entry key="test/src/main/res/drawable/icon_add.xml" value="0.1475" />
         <entry key="test/src/main/res/layout/add_test_answer_layout.xml" value="0.25" />
         <entry key="test/src/main/res/layout/bg_rounded.xml" value="0.1" />
         <entry key="test/src/main/res/layout/check_box_layout.xml" value="0.1" />

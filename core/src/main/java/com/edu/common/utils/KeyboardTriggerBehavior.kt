@@ -1,36 +1,37 @@
 package com.edu.common.utils
 
-import android.app.Activity
 import android.graphics.Rect
 import android.view.View
 import android.view.ViewTreeObserver
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 
-open class KeyboardTriggerBehavior(activity: Activity, private val minKeyboardHeight: Int = 0) : LiveData<Pair<KeyboardTriggerBehavior.Status, Int>>() {
+class KeyboardTriggerBehavior(fragment: Fragment) :
+    LiveData<KeyboardTriggerBehavior.Status>() {
     enum class Status {
         OPEN, CLOSED
     }
 
-    private val contentView: View = activity.findViewById(android.R.id.content)
+    private val contentView: View = fragment.requireView()
 
     private val globalLayoutListener = ViewTreeObserver.OnGlobalLayoutListener {
         val displayRect = Rect().apply { contentView.getWindowVisibleDisplayFrame(this) }
         val keypadHeight = contentView.rootView.height - displayRect.bottom
-        if (keypadHeight > minKeyboardHeight) {
-            setDistinctValue(Pair(Status.OPEN, keypadHeight))
+        if (keypadHeight > contentView.rootView.height * 0.15) {
+            setDistinctValue(Status.OPEN)
         } else {
-            setDistinctValue(Pair(Status.CLOSED, keypadHeight))
+            setDistinctValue(Status.CLOSED)
         }
     }
 
-    override fun observe(owner: LifecycleOwner, observer: Observer<in Pair<Status, Int>>) {
+    override fun observe(owner: LifecycleOwner, observer: Observer<in Status>) {
         super.observe(owner, observer)
         observersUpdated()
     }
 
-    override fun observeForever(observer: Observer<in Pair<Status, Int>>) {
+    override fun observeForever(observer: Observer<in Status>) {
         super.observeForever(observer)
         observersUpdated()
     }
@@ -40,12 +41,12 @@ open class KeyboardTriggerBehavior(activity: Activity, private val minKeyboardHe
         observersUpdated()
     }
 
-    override fun removeObserver(observer: Observer<in Pair<Status, Int>>) {
+    override fun removeObserver(observer: Observer<in Status>) {
         super.removeObserver(observer)
         observersUpdated()
     }
 
-    private fun setDistinctValue(newValue: Pair<Status, Int>) {
+    private fun setDistinctValue(newValue: Status) {
         if (value != newValue) {
             value = newValue
         }

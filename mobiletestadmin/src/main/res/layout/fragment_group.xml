@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/white"
+        app:elevation="0dp">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_scrollFlags="scroll" />
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/groupLogo"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/ic_fa6_solid_user_group"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                android:id="@+id/changeLogo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/bg_border_gray_cbcbcb"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="8dp"
+                android:text="@string/change_logo"
+                android:textColor="@color/gray_6C6868"
+                app:layout_constraintBottom_toTopOf="@id/deleteLogo"
+                app:layout_constraintStart_toEndOf="@id/groupLogo"
+                app:layout_constraintTop_toTopOf="@id/groupLogo" />
+
+            <TextView
+                android:id="@+id/deleteLogo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/bg_main_color"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center"
+                android:text="@string/delete"
+                android:textColor="@color/white"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@id/groupLogo"
+                app:layout_constraintEnd_toEndOf="@id/changeLogo"
+                app:layout_constraintStart_toStartOf="@id/changeLogo"
+                app:layout_constraintTop_toBottomOf="@id/changeLogo"
+                tools:visibility="gone" />
+
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/barrier"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="bottom"
+                app:constraint_referenced_ids="groupLogo, groupMembersTextView" />
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/groupMembersTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:visibility="gone"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:drawableStart="@drawable/ic_fe_users"
+                android:drawablePadding="10dp"
+                android:focusable="true"
+                android:gravity="center"
+                android:text="@string/group_members"
+                android:textColor="@color/black"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/groupLogo" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/groupNameField"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="15dp"
+                android:hint="@string/enter_group_name"
+                android:textColorHint="@color/gray_B0B0B0"
+                app:boxStrokeColor="@color/text_input_layout_stroke_color"
+                app:boxStrokeWidthFocused="1dp"
+                app:hintTextColor="@color/gray_B0B0B0"
+                app:layout_constraintTop_toBottomOf="@id/barrier">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/groupNameEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/groupDescriptionField"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="10dp"
+                android:hint="@string/enter_group_description"
+                android:textColorHint="@color/gray_B0B0B0"
+                app:boxStrokeColor="@color/text_input_layout_stroke_color"
+                app:boxStrokeWidthFocused="1dp"
+                app:hintTextColor="@color/gray_B0B0B0"
+                app:layout_constraintTop_toBottomOf="@id/groupNameField">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/groupDescriptionEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:gravity="top|start"
+                    android:inputType="textPersonName|textMultiLine" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/createBtn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="25dp"
+                android:text="@string/create_group"
+                app:cornerRadius="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/updateGroupButton"
+                app:layout_constraintTop_toBottomOf="@id/groupDescriptionField"
+                app:layout_goneMarginStart="25dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/updateGroupButton"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="10dp"
+                android:text="@string/update_user"
+                app:cornerRadius="10dp"
+                app:layout_constraintEnd_toStartOf="@id/createBtn"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/groupDescriptionField" />
+
+            <include
+                android:id="@+id/loader"
+                layout="@layout/progress_loader"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

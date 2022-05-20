@@ -1,12 +1,12 @@
 package com.edu.mobiletest.ui.login
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.edu.common.data.Result
+import com.edu.common.presentation.BaseViewModel
 import com.edu.common.presentation.ResourceState
 import com.edu.mobiletest.data.IAuthRepository
-import com.edu.mobiletest.domain.repository.IProfileRepository
 import com.edu.mobiletest.domain.model.NewUserData
+import com.edu.mobiletest.domain.repository.IProfileRepository
 import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,7 +18,7 @@ class LoginViewModel @Inject constructor(
     private val authRepository: IAuthRepository,
     private val profileRepo: IProfileRepository
 ) :
-    ViewModel() {
+    BaseViewModel() {
 
     val signUserState: MutableStateFlow<ResourceState<FirebaseUser?>> =
         MutableStateFlow(ResourceState.Empty)
@@ -57,7 +57,8 @@ class LoginViewModel @Inject constructor(
         signUpUserState.value = ResourceState.Loading
         viewModelScope.launch {
             when (val result = authRepository.signUpUser(newUser)) {
-                is Result.Success -> { }
+                is Result.Success -> {
+                }
                 is Result.Error -> {
                     signUpUserState.emit(ResourceState.Error(result.data?.localizedMessage ?: ""))
                 }

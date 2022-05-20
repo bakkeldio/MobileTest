@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation_test"
+    app:startDestination="@id/testsFragment">
+
+    <fragment
+        android:id="@+id/testsFragment"
+        android:name="com.edu.test.presentation.tests.TestsFragment"
+        android:label="@string/tests_label"
+        tools:layout="@layout/fragment_tests">
+
+        <argument
+            android:name="groupId"
+            app:argType="string" />
+
+        <action
+            android:id="@+id/fromTestsFragmentToTestResultFragment"
+            app:destination="@id/testResultFragment"
+            app:enterAnim="@anim/nav_graph_enter"
+            app:exitAnim="@anim/nav_graph_exit" />
+
+        <action
+            android:id="@+id/fromTestsFragmentToTestQuestionsFragment"
+            app:destination="@id/questionsFragment"
+            app:enterAnim="@anim/nav_graph_enter"
+            app:exitAnim="@anim/nav_graph_exit" />
+
+        <action
+            android:id="@+id/fromTestsFragmentToCreateQuestionsFragment"
+            app:destination="@id/createQuestionsFragment"
+            app:enterAnim="@anim/nav_graph_enter"
+            app:exitAnim="@anim/nav_graph_exit" />
+
+        <action
+            android:id="@+id/fromTestsFragmentToTestTakersFragment"
+            app:destination="@id/testTakersFragment"
+            app:enterAnim="@anim/nav_graph_enter"
+            app:exitAnim="@anim/nav_graph_exit" />
+
+        <deepLink app:uri="mobileTest://navigationTests/{groupId}" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/questionsFragment"
+        android:name="com.edu.test.presentation.question.QuestionsFragment"
+        tools:layout="@layout/fragment_questions">
+        <argument
+            android:name="groupId"
+            app:argType="string" />
+        <argument
+            android:name="testId"
+            app:argType="string" />
+
+        <argument
+            android:name="testTitle"
+            app:argType="string" />
+
+        <argument
+            android:name="testTime"
+            app:argType="integer"
+            android:defaultValue="0"/>
+
+
+        <action
+            android:id="@+id/actionFromQuestionsListToTestsList"
+            app:destination="@id/testsFragment"
+            app:popEnterAnim="@anim/nav_graph_pop_enter"
+            app:popExitAnim="@anim/nav_graph_exit"
+            app:popUpTo="@id/testsFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/testResultFragment"
+        android:name="com.edu.test.presentation.testResult.TestResultFragment"
+        tools:layout="@layout/fragment_test_result">
+        <argument
+            android:name="groupId"
+            app:argType="string" />
+        <argument
+            android:name="testId"
+            app:argType="string" />
+
+        <argument
+            android:name="studentUid"
+            android:defaultValue="@null"
+            app:argType="string"
+            app:nullable="true" />
+
+        <deepLink app:uri="mobileTest://navigationCompletedTest/{groupId};{testId}" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/createQuestionsFragment"
+        android:name="com.edu.test.presentation.createTest.CreateQuestionsFragment"
+        android:label="@string/test_creation"
+        tools:layout="@layout/fragment_create_questions">
+        <action
+            android:id="@+id/action_createQuestionsFragment_self"
+            app:destination="@id/createQuestionsFragment" />
+
+        <argument
+            android:name="groupId"
+            app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/newQuestionFragment"
+        android:name="com.edu.test.presentation.newQuestion.NewQuestionFragment"
+        tools:layout="@layout/fragment_new_question" />
+
+    <fragment
+        android:id="@+id/testTakersFragment"
+        android:name="com.edu.test.presentation.testResult.TestTakersFragment"
+        tools:layout="@layout/fragment_test_takers">
+        <action
+            android:id="@+id/fromTestTakersFragmentToTestResultFragment"
+            app:destination="@id/testResultFragment"
+            app:enterAnim="@anim/nav_graph_enter"
+            app:exitAnim="@anim/nav_graph_exit" />
+        <argument
+            android:name="testId"
+            app:argType="string" />
+        <argument
+            android:name="groupId"
+            app:argType="string" />
+    </fragment>
+</navigation>
