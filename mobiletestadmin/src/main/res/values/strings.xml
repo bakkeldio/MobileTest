@@ -1,0 +1,71 @@
+<resources>
+    <string name="app_name">Admin</string>
+    <string name="title_activity_main">MainActivity</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="enter_email">Введите email</string>
+    <string name="admin">Админ</string>
+    <string name="enter_password">Введите пароль</string>
+    <string name="enter">Войти</string>
+    <string name="users">Пользователи</string>
+    <string name="groups">Группы</string>
+
+    <string name="students">Студенты</string>
+    <string name="teachers">Учителя</string>
+
+    <string name="no_students">На данный момент в системе нету студентов</string>
+    <string name="no_teachers">На данный момент в системе нету учителей</string>
+    <string name="no_students_in_the_group">На данный момент в группе нет студентов</string>
+    <string name="no_teachers_in_the_group">На данный момент в группе нет учителей</string>
+    <string name="enter_valid_email">Введите правильный email</string>
+    <string name="enter_non_empty_password">Пароль не может быть пустым</string>
+    <string name="enter_valid_password">Пароль должен содержать один из спец. символов, не менее 4 символов и не должен содержать пробелов.</string>
+    <string name="enter_name">Введите имя</string>
+    <string name="enter_surname">Введите фамилию</string>
+    <string name="generate">Сгенерировать</string>
+    <string name="new_user_should_be_in_group">Пользователь должен быть в группе</string>
+
+    <string name="add_to_the_group">Добавить в группу</string>
+
+    <string name="update_user">Обновить</string>
+    <string name="add_user">Добавить</string>
+
+    <string name="create_group">Создать</string>
+
+    <string name="no_groups">Пока что нету групп</string>
+
+    <string name="delete_user">Удалить</string>
+
+    <string name="this_filed_cannot_be_empty">Это поле не может быть пустым</string>
+
+    <string name="enter_new_password_if_you_want_update">Введите новый пароль</string>
+    <string name="change_logo">Изменить</string>
+    <string name="delete">Удалить</string>
+
+    <string name="enter_group_name">Введите название группы</string>
+    <string name="enter_group_description">Введите описание для группы</string>
+    <string name="cancel">Отменить</string>
+    <string name="agree">Да</string>
+    <string name="delete_students">Вы действительно хотите удалить этих студентов?</string>
+    <string name="delete_student">Вы действительно хотите удалить этого студента?</string>
+    <string name="delete_teachers">Вы действительно хотите удалить этих учителей?</string>
+    <string name="delete_teacher">Вы действительно хотите удалить этого учителя?</string>
+    <string name="see_group_participants">смотреть участников группы</string>
+    <string name="group_members">Участники группы</string>
+    <string name="info_updated">Успешно обновлено!</string>
+    <string name="there_is_not_any_students">Нету студентов вне группы !</string>
+    <string name="there_is_not_any_teachers">Пока что нету учителей !</string>
+    <string name="logout">Выйти</string>
+    <string name="sure_to_logout">Вы действительно хотите выйти из приложения?</string>
+
+    <string-array name="roleNames">
+        <item>Студент</item>
+        <item>Учитель</item>
+    </string-array>
+</resources>

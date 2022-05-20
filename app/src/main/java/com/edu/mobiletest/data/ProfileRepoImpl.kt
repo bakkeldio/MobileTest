@@ -13,6 +13,11 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.storage.FirebaseStorage
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -49,6 +54,28 @@ class ProfileRepoImpl @Inject constructor(
         } catch (e: Exception) {
             Result.Error(e)
         }
+    }
+
+    override fun getProfileImage(): Flow<Result<String?>> {
+        return callbackFlow {
+
+            val isTeacher = sharedPreferences.getBoolean(
+                "isUserAdmin",
+                false
+            )
+            val listener =
+                db.collection(if (isTeacher) "teachers" else "students").document(auth.uid!!)
+                    .addSnapshotListener { value, error ->
+                        if (error != null) {
+                            close(error)
+                            return@addSnapshotListener
+                        }
+                        trySend(Result.Success(value?.get("avatarUrl") as String?))
+                    }
+            awaitClose {
+                listener.remove()
+            }
+        }.flowOn(Dispatchers.Default)
     }
 
     override suspend fun uploadProfilePhoto(url: String): Result<String> {

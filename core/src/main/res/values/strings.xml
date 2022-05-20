@@ -17,6 +17,7 @@
     <string name="question_field_must_not_be_null">Вопрос обязателен для заполнения</string>
     <string name="search_student">Введите имя студента</string>
     <string name="do_you_want_to_change_profile_picture">Вы хотите поменять картинку профиля?</string>
+    <string name="choose">Выбрать</string>
     <plurals name="students_plurals">
         <item quantity="zero">%1$d студентов</item>
         <item quantity="one">%1$d студент</item>

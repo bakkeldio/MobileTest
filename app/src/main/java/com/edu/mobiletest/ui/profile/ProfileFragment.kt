@@ -1,26 +1,27 @@
 package com.edu.mobiletest.ui.profile
 
-import android.content.Intent
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.content.FileProvider
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.edu.common.navigation.Navigation
 import com.edu.common.presentation.BaseFragment
 import com.edu.common.presentation.ResourceState
-import com.edu.common.presentation.SelectLogoBottomSheetDialog
+import com.edu.common.presentation.SelectImageBottomSheetDialog
+import com.edu.common.utils.convertBitmapToUri
+import com.edu.common.utils.createTempFileAndGetUri
 import com.edu.common.utils.imageLoading.IImageLoader
 import com.edu.common.utils.showToast
-import com.edu.mobiletest.BuildConfig
 import com.edu.mobiletest.R
 import com.edu.mobiletest.databinding.FragmentProfileBinding
-import com.edu.mobiletest.ui.LoginActivity
+import com.edu.mobiletest.ui.flowFragments.MainFlowFragmentDirections
 import com.edu.mobiletest.ui.profile.adapter.CompletedTests
+import com.edu.mobiletest.utils.activityNavController
 import dagger.hilt.android.AndroidEntryPoint
-import java.io.File
 import java.util.*
 import javax.inject.Inject
 
@@ -29,7 +30,7 @@ class ProfileFragment :
     BaseFragment<ProfileViewModel, FragmentProfileBinding>(
         R.layout.fragment_profile,
         FragmentProfileBinding::bind
-    ), ChangeProfilePhotoBottomSheetFragment.Listener, SelectLogoBottomSheetDialog.Listener {
+    ), ChangeProfilePhotoBottomSheetFragment.Listener, SelectImageBottomSheetDialog.Listener {
 
     @Inject
     lateinit var imageLoader: IImageLoader
@@ -38,7 +39,7 @@ class ProfileFragment :
 
     private var changeProfileLogoBottomSheetDialog: ChangeProfilePhotoBottomSheetFragment? = null
 
-    private var selectLogoBottomSheet: SelectLogoBottomSheetDialog? = null
+    private var selectImageBottomSheet: SelectImageBottomSheetDialog? = null
 
     private var groupId: String = ""
 
@@ -86,9 +87,7 @@ class ProfileFragment :
         viewModel.signOut.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is ResourceState.Success -> {
-                    val intent = Intent(requireActivity(), LoginActivity::class.java)
-                    startActivity(intent)
-                    requireActivity().finish()
+                    activityNavController().navigate(MainFlowFragmentDirections.actionMainFlowFragmentToSignInFragment())
                 }
                 is ResourceState.Error -> {
                     showToast(state.message)
@@ -145,21 +144,11 @@ class ProfileFragment :
         }
     }
 
-    private fun createTempFileUri(): Uri {
-        val file = File.createTempFile("temp_file", ".png", requireContext().cacheDir)
-
-        return FileProvider.getUriForFile(
-            requireContext(),
-            "${BuildConfig.APPLICATION_ID}.provider",
-            file
-        )
-    }
-
     private fun showSelectLogoBottomSheet(uri: Uri) {
-        selectLogoBottomSheet = SelectLogoBottomSheetDialog(uri, this)
-        selectLogoBottomSheet?.show(
+        selectImageBottomSheet = SelectImageBottomSheetDialog(uri, this)
+        selectImageBottomSheet?.show(
             childFragmentManager,
-            SelectLogoBottomSheetDialog.TAG
+            SelectImageBottomSheetDialog.TAG
         )
     }
 
@@ -179,12 +168,13 @@ class ProfileFragment :
 
     override fun makePicture() {
         changeProfileLogoBottomSheetDialog?.dismiss()
-        fileUri = createTempFileUri()
+        fileUri = createTempFileAndGetUri()
         cameraActivityResult.launch(fileUri)
     }
 
-    override fun getCroppedImage(uri: Uri) {
-        selectLogoBottomSheet?.dismiss()
+    override fun getCroppedImage(fileName: String, bitmap: Bitmap) {
+        selectImageBottomSheet?.dismiss()
+        val uri = convertBitmapToUri(lifecycleScope, fileName, bitmap)
         viewModel.uploadFile(uri.toString())
     }
 

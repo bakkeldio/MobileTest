@@ -20,14 +20,14 @@ android {
 }
 
 dependencies {
-    implementation(project(":test"))
-    implementation(project(":chat"))
+    implementation(project(":feature-test"))
+    implementation(project(":feature-chat"))
     implementation(project(":core"))
-    implementation(project(":group"))
+    implementation(project(":feature-group"))
     implementation(Dependencies.Deps.constraintLayout)
     implementation(Dependencies.Deps.liveData)
+    implementation(Dependencies.Deps.hiltNavigation)
     implementation(Dependencies.Deps.viewModel)
-
     implementation(Dependencies.Deps.firebaseAnalytics)
     implementation(Dependencies.Deps.firebaseCloudMessaging)
     implementation(Dependencies.Deps.hiltWork)

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="Theme.MobileTest" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/main_color_pink</item>
+        <item name="colorPrimaryVariant">@color/main_color_pink</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorAccent">@color/main_color_pink</item>
+        <item name="colorControlNormal">@color/main_color_pink</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/main_color_pink</item>
+        <item name="colorSecondaryVariant">@color/main_color_pink</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <item name="bottomSheetDialogTheme">@style/ThemeOverlay.App.BottomSheetDialog</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+    </style>
+
+    <style name="Theme.MobileTest.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.MobileTest.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.MobileTest.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="Widget.AppCompat.SearchView.Admin">
+        <item name="android:background">@drawable/border_bg_gray</item>
+        <item name="android:textColorHint">@color/gray_6E6A6A</item>
+        <item name="queryBackground">@null</item>
+        <item name="iconifiedByDefault">false</item>
+    </style>
+</resources>

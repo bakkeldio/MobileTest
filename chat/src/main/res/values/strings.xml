@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="recommendations">Рекомендации</string>
-    <string name="write_a_message">Напиши сообщение</string>
-    <string name="internet_connection_is_lost">Пропало интернет соединение</string>
-    <string name="message_should_not_be_empty">Сообщение не должно быть пустым</string>
-</resources>

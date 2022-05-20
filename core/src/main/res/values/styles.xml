@@ -54,7 +54,6 @@
 
     <style name="ModalBottomSheetDialog" parent="Widget.Design.BottomSheet.Modal">
         <item name="android:background">@drawable/bg_rounded</item>
-        <item name="behavior_peekHeight">200dp</item>
     </style>
 
 
@@ -65,6 +64,11 @@
         <item name="iconifiedByDefault">false</item>
     </style>
 
+
+    <style name="roundedImageView">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">8dp</item>
+    </style>
 
 
     <style name="BottomSheetDialog.Button" parent="Widget.MaterialComponents.Button">

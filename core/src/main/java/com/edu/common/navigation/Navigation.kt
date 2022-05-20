@@ -23,7 +23,10 @@ object Navigation {
 
         }
 
-        fun navigateToCompletedTest(groupId: String, testId: String): Pair<NavDeepLinkRequest, NavOptions>{
+        fun navigateToCompletedTest(
+            groupId: String,
+            testId: String
+        ): Pair<NavDeepLinkRequest, NavOptions> {
             val deepLink = buildNavDeepLinkRequest("$baseUri$navigation_test$groupId;$testId")
             val navOptions = NavOptions.Builder()
                 .setEnterAnim(R.anim.nav_graph_enter)
@@ -31,9 +34,10 @@ object Navigation {
                 .build()
             return Pair(deepLink, navOptions)
         }
+
     }
 
-    fun buildNavDeepLinkRequest(link: String): NavDeepLinkRequest{
+    fun buildNavDeepLinkRequest(link: String): NavDeepLinkRequest {
         return NavDeepLinkRequest.Builder.fromUri(link.toUri()).build()
     }
 
