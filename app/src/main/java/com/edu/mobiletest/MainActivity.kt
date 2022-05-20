@@ -5,12 +5,9 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
-import androidx.core.view.isVisible
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupWithNavController
+import androidx.navigation.fragment.NavHostFragment
 import com.edu.common.presentation.model.NetworkStatus
 import com.edu.common.utils.NetworkStatusHelper
 import com.edu.mobiletest.databinding.ActivityMainBinding
@@ -21,8 +18,9 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
+
+    private lateinit var navController: NavController
 
     @Inject
     lateinit var auth: FirebaseAuth
@@ -35,15 +33,11 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        val navView = binding.bottomNavigationView
-        val navController = findNavController(R.id.nav_host_fragment_main)
-        navView.setupWithNavController(navController)
+        navController =
+            (supportFragmentManager.findFragmentById(R.id.nav_host_fragment_main) as NavHostFragment).navController
+        chooseStartDestination()
 
         navigateToChatFragment(navController, intent.getStringExtra("USER_ID"))
-        navController.addOnDestinationChangedListener { _, destination, _ ->
-            binding.bottomNavigationView.isVisible =
-                destination.id == R.id.groupListFragment || destination.id == R.id.nav_profile || destination.id == R.id.chatFragment
-        }
 
         NetworkStatusHelper(this).observe(this) { status ->
             when (status) {
@@ -52,7 +46,7 @@ class MainActivity : AppCompatActivity() {
                     Toast.makeText(this, "Интернет соединение пропало", Toast.LENGTH_LONG).show()
                 }
                 is NetworkStatus.Available -> {
-                    if (fromUnAvailable){
+                    if (fromUnAvailable) {
                         Toast.makeText(this, "Интернет соединение восстановлено", Toast.LENGTH_LONG)
                             .show()
                         fromUnAvailable = false
@@ -60,7 +54,16 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+    }
 
+    private fun chooseStartDestination() {
+        val graph = navController.navInflater.inflate(R.navigation.mobile_navigation)
+        if (auth.currentUser == null) {
+            graph.setStartDestination(R.id.signInFlowFragment)
+        } else {
+            graph.setStartDestination(R.id.mainFlowFragment)
+        }
+        navController.graph = graph
     }
 
     override fun onNewIntent(intent: Intent?) {
@@ -69,11 +72,6 @@ class MainActivity : AppCompatActivity() {
             findNavController(R.id.nav_host_fragment_main),
             intent?.getStringExtra("USER_ID")
         )
-    }
-
-    override fun onSupportNavigateUp(): Boolean {
-        val navController = findNavController(R.id.nav_host_fragment_content_main)
-        return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 
     private fun navigateToChatFragment(navController: NavController, userId: String?) {

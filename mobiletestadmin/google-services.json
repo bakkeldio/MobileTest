@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "185373774336",
+    "project_id": "mobiletest-33f2a",
+    "storage_bucket": "mobiletest-33f2a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:185373774336:android:5f15ed056b3595eddafee5",
+        "android_client_info": {
+          "package_name": "com.edu.mobiletestadmin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "185373774336-4i33taitimirbhlcfcph8mt8vmee6d23.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.edu.mobiletestadmin",
+            "certificate_hash": "bf94076fce2baf79e0d22c3bd1808e64911ec8a2"
+          }
+        },
+        {
+          "client_id": "185373774336-11i9fjm0hjh1k96cbdv9pqn36srru5l6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB--40mDYPmCv0sEX9mEaOaBypK9QHFlQ8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "185373774336-11i9fjm0hjh1k96cbdv9pqn36srru5l6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -26,4 +26,7 @@
     <color name="red">#ef5350</color>
     <color name="red_500">#f44336</color>
     <color name="hint_text_color">#6E6A6A</color>
+    <color name="gray_CBCBCB">#CBCBCB</color>
+    <color name="gray_BOBOBO">#B0B0B0</color>
+    <color name="selected_item_color">#FAD1E3</color>
 </resources>

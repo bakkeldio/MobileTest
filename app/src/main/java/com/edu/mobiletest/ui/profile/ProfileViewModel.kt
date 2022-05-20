@@ -9,6 +9,7 @@ import com.edu.common.domain.model.TeacherProfile
 import com.edu.common.domain.model.TestDomainModel
 import com.edu.common.presentation.BaseViewModel
 import com.edu.common.presentation.ResourceState
+import com.edu.common.presentation.SingleLiveEvent
 import com.edu.mobiletest.data.IAuthRepository
 import com.edu.mobiletest.domain.model.StudentProfileComposed
 import com.edu.mobiletest.domain.usecase.DeleteProfileAvatarUseCase
@@ -37,7 +38,7 @@ class ProfileViewModel @Inject constructor(
     private val workManager: WorkManager
 ) : BaseViewModel() {
 
-    private val _signOut: MutableLiveData<ResourceState<Unit>> = MutableLiveData()
+    private val _signOut: SingleLiveEvent<ResourceState<Unit>> = SingleLiveEvent()
     val signOut: LiveData<ResourceState<Unit>> = _signOut
 
     private val _studentProfile: MutableLiveData<ProfileStudentUI> = MutableLiveData()

@@ -94,6 +94,7 @@ class MessagingService : FirebaseMessagingService() {
                 if (tokens.contains(newRegistrationToken)) {
                     return@getFCMRegistrationTokens
                 }
+                tokens.clear()
                 tokens.add(newRegistrationToken)
                 profileRepo.updateFCMRegistrationTokens(tokens)
             }

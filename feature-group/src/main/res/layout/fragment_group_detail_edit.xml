@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
+
+    <include
+        android:id="@+id/loader"
+        layout="@layout/progress_loader"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/white"
+        android:theme="@style/AppTheme.AppBarOverlay"
+        app:elevation="0dp">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:layout_scrollFlags="scroll|enterAlways|snap" />
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/groupAvatar"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="20dp"
+                android:src="@drawable/ic_fa6_solid_user_group"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                android:id="@+id/changeAvatar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:background="@drawable/bg_stroke_gray"
+                android:clickable="true"
+                android:focusable="true"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="3dp"
+                android:text="@string/change_group_avatar"
+                android:textColor="@color/black"
+                app:layout_constraintBottom_toTopOf="@id/deleteAvatar"
+                app:layout_constraintStart_toEndOf="@id/groupAvatar"
+                app:layout_constraintTop_toTopOf="@id/groupAvatar" />
+
+            <TextView
+                android:id="@+id/deleteAvatar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/bg_stroke_gray"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center_horizontal"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="3dp"
+                android:text="@string/delete_group_avatar"
+                android:textColor="@color/black"
+                app:layout_constraintBottom_toBottomOf="@id/groupAvatar"
+                app:layout_constraintEnd_toEndOf="@id/changeAvatar"
+                app:layout_constraintStart_toStartOf="@id/changeAvatar"
+                app:layout_constraintTop_toBottomOf="@id/changeAvatar" />
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/groupNameField"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginTop="15dp"
+                android:hint="@string/group_name"
+                android:textColorHint="@color/gray_717677"
+                app:boxStrokeColor="@color/text_input_layout_stroke_color"
+                app:boxStrokeWidthFocused="1dp"
+                app:hintTextColor="@color/gray_717677"
+                app:layout_constraintTop_toBottomOf="@id/groupAvatar">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/groupNameEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/groupDescriptionField"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginTop="10dp"
+                android:hint="@string/group_description"
+                android:textColorHint="@color/gray_717677"
+                app:boxStrokeColor="@color/text_input_layout_stroke_color"
+                app:boxStrokeWidthFocused="1dp"
+                app:hintTextColor="@color/gray_717677"
+                app:layout_constraintTop_toBottomOf="@id/groupNameField">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/groupDescriptionEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:gravity="top|start"
+                    android:inputType="textPersonName|textMultiLine" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/students"
+                android:textColor="@color/black"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/groupDescriptionField" />
+
+            <TextView
+                android:id="@+id/addStudentBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:drawablePadding="8dp"
+                android:focusable="true"
+                android:text="@string/add"
+                android:textColor="@color/main_color_pink"
+                app:drawableStartCompat="@drawable/ic_plus_main"
+                app:layout_constraintEnd_toEndOf="@id/groupDescriptionField"
+                app:layout_constraintTop_toBottomOf="@id/groupDescriptionField" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/studentsRV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:nestedScrollingEnabled="false"
+                android:orientation="horizontal"
+                android:overScrollMode="never"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintTop_toBottomOf="@id/addStudentBtn" />
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/saveChanges"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/save_changes"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/studentsRV" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

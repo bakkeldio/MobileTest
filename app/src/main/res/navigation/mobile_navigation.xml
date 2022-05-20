@@ -3,18 +3,33 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@id/navigation_group">
-
-
-    <include app:graph="@navigation/navigation_group" />
-    <include app:graph="@navigation/navigation_test" />
-
-    <include app:graph="@navigation/navigation_chat" />
+    app:startDestination="@id/signInFlowFragment">
 
     <fragment
-        android:id="@+id/nav_profile"
-        android:name="com.edu.mobiletest.ui.profile.ProfileFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_profile" />
+        android:id="@+id/mainFlowFragment"
+        android:name="com.edu.mobiletest.ui.flowFragments.MainFlowFragment"
+        tools:layout="@layout/fragment_main_flow">
+        <action
+            android:id="@+id/action_main_flow_fragment_to_signInFragment"
+            app:destination="@id/signInFlowFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@+id/mobile_navigation"
+            app:popUpToInclusive="true" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/signInFlowFragment"
+        android:name="com.edu.mobiletest.ui.flowFragments.SignInFlowFragment"
+        tools:layout="@layout/fragment_sign_in_flow">
+
+        <action
+            android:id="@+id/action_sign_in_fragment_to_mainFlowFragment"
+            app:destination="@id/mainFlowFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@+id/mobile_navigation"
+            app:popUpToInclusive="true" />
+
+    </fragment>
 
 </navigation>

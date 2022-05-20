@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_navigation_flow"
+    app:startDestination="@id/navigation_group"
+    tools:ignore="InvalidNavigation">
+
+    <include app:graph="@navigation/navigation_group" />
+
+    <include app:graph="@navigation/navigation_test" />
+
+    <include app:graph="@navigation/navigation_chat" />
+
+    <fragment
+        android:id="@+id/nav_profile"
+        android:name="com.edu.mobiletest.ui.profile.ProfileFragment"
+        android:label="@string/menu_gallery"
+        tools:layout="@layout/fragment_profile" />
+
+</navigation>

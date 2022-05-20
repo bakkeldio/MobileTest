@@ -6,7 +6,7 @@ object Dependencies {
 
         const val liveData = "2.4.0"
         const val viewModel = "2.4.0"
-        const val navigationKtx = "2.3.5"
+        const val navigationKtx = "2.4.2"
 
         const val firebaseAnalytics = "20.0.2"
         const val firebaseAuth = "21.0.1"
@@ -31,15 +31,23 @@ object Dependencies {
 
         const val edModo = "2.8.0"
 
+        const val room_version = "2.4.2"
+
         const val firebaseUIStorage = "7.2.0"
 
+        const val kotlinxSerializationJson = "1.3.2"
+
+        const val ktor_version = "2.0.0"
+
         const val androidJUnit = "1.1.3"
+        const val mockito_kotlin = "4.0.0"
         const val espresso = "3.4.0"
 
         const val hiltVersion = "2.38.1"
 
         const val hiltWork = "1.0.0"
 
+        const val hiltNavigationVersion = "1.0.0"
         const val gradlePlugin = "7.0.4"
         const val googleServices = "4.3.10"
         const val kotlin = "1.5.21"
@@ -92,12 +100,31 @@ object Dependencies {
         val firebaseCoroutines by lazy { "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:${Versions.firebaseCoroutines}" }
         val hiltAndroid by lazy { "com.google.dagger:hilt-android:${Versions.hiltVersion}" }
         val hiltAndroidCompiler by lazy { "com.google.dagger:hilt-android-compiler:${Versions.hiltVersion}" }
+        val hiltNavigation by lazy { "androidx.hilt:hilt-navigation-fragment:${Versions.hiltNavigationVersion}" }
         val workManager by lazy { "androidx.work:work-runtime-ktx:${Versions.work_version}" }
+        val roomRuntime by lazy { "androidx.room:room-runtime:${Versions.room_version}" }
+        val roomCompiler by lazy {
+            "androidx.room:room-compiler:${Versions.room_version}"
+        }
+        val roomKtx by lazy {
+            "androidx.room:room-ktx:${Versions.room_version}"
+        }
+        val kotlinXSerializationJson by lazy {
+            "org.jetbrains.kotlinx:kotlinx-serialization-json:${Versions.kotlinxSerializationJson}"
+        }
+        val ktor by lazy {
+            "io.ktor:ktor-client-android:${Versions.ktor_version}"
+        }
+        val ktorLogging by lazy {
+            "io.ktor:ktor-client-logging:${Versions.ktor_version}"
+        }
         val recyclerViewSelection by lazy { "androidx.recyclerview:recyclerview-selection:${Versions.recyclerViewSelection}" }
         val hiltWork by lazy { "androidx.hilt:hilt-work:${Versions.hiltWork}" }
         val hiltWorkCompiler by lazy { "androidx.hilt:hilt-compiler:${Versions.hiltWork}" }
         val jUnit by lazy { "junit:junit:${Versions.jUnit}" }
+        val mockito_kotlin by lazy { "org.mockito.kotlin:mockito-kotlin:${Versions.mockito_kotlin}" }
         val androidJUnit by lazy { "androidx.test.ext:junit:${Versions.androidJUnit}" }
         val espresso by lazy { "androidx.test.espresso:espresso-core:${Versions.espresso}" }
+        val workTesting by lazy { "androidx.work:work-testing:${Versions.work_version}" }
     }
 }

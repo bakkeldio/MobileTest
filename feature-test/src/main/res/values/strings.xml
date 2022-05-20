@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tests_label">Тесты</string>
+    <string name="next">Следующий</string>
+    <string name="prev">Назад</string>
+    <string name="minutes_left">Осталось %s</string>
+    <string name="test_will_end_in">Тест завершится через %s</string>
+    <string name="notification_title">Начался тест!</string>
+    <string name="search_hint_text">Введите название теста</string>
+    <string name="ok_text">Ок</string>
+
+    <string name="all_tests">Все</string>
+    <string name="passed_tests">Завершенные</string>
+
+    <string name="correct_answers">Правильный ответ: %s</string>
+
+    <string name="alert_message_before_test">После того как вы начнете тест вы не сможете приостановить его. Вам будет дано %s чтобы закончить тест. После завершения времени результаты автоматически будут записаны.</string>
+    <string name="no_data_found">Ничего не найдено</string>
+
+    <string name="enter_question_name">Введите вопрос</string>
+
+    <string name="questionType_1">Один правильный ответ</string>
+    <string name="questionType_2">Несколько правильных ответов</string>
+    <string name="questionType_3">Открытый вопрос</string>
+
+    <string name="add_answer_text">Добавить ответ</string>
+    <string name="update_answer_text">Обновить ответ</string>
+    <string name="enter_answer_variant">Введите ответ</string>
+    <string name="choose_question_type">Выберите тип вопроса:</string>
+    <string name="delete_question">Удалить вопрос</string>
+    <string name="pointsLabel">Баллы</string>
+    <string name="_10">10</string>
+    <string name="date">Дата</string>
+    <string name="time">Время</string>
+    <string name="test_duration_time">Продолжительность теста(минуты):</string>
+    <string name="upload">Загрузить</string>
+    <string name="choose_the_date_and_time_for_test">Выберите дату и время запуска теста</string>
+    <string name="test_upload">Загрузить тест</string>
+    <string name="update_question">Сохранить</string>
+    <string name="test_creation">Создание теста</string>
+    <string name="enter_test_name">Введите название теста</string>
+    <string name="date_and_time_are_required">Дата и время обязательны для заполнения</string>
+    <string name="enter_duration_for_test">Укажите продолжительность для теста</string>
+    <string name="save_last_question">Сохраните последний вопрос</string>
+    <string name="removing_test">Удаление теста</string>
+    <string name="confirm_test_removing">Вы действительно хотите удалить эти тесты?</string>
+    <string name="see_results">Посмотреть результаты</string>
+    <string name="update_points">Обновите баллы</string>
+    <string name="update">Обновить</string>
+    <string name="no_one_finished_test">Пока что никто не завершил данный тест</string>
+    <plurals name="minutes_plural">
+        <item quantity="zero">%1$d минут</item>
+        <item quantity="one">%1$d минута</item>
+        <item quantity="two">%1$d минуты</item>
+        <item quantity="few">%1$d минуты</item>
+        <item quantity="many">%1$d минут</item>
+        <item quantity="other">%1$d минут</item>
+    </plurals>
+</resources>
