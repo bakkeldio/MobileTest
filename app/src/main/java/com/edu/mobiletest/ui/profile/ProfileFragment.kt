@@ -20,6 +20,7 @@ import com.edu.mobiletest.R
 import com.edu.mobiletest.databinding.FragmentProfileBinding
 import com.edu.mobiletest.ui.flowFragments.MainFlowFragmentDirections
 import com.edu.mobiletest.ui.profile.adapter.CompletedTests
+import com.edu.mobiletest.ui.profile.adapter.TeacherGroupsAdapter
 import com.edu.mobiletest.utils.activityNavController
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
@@ -47,6 +48,24 @@ class ProfileFragment :
 
     private var fileUri: Uri? = null
 
+    private val completedTestsAdapter by lazy {
+        CompletedTests { test ->
+            val pair = Navigation.Tests.navigateToCompletedTest(groupId, test.uid)
+            findNavController().navigate(pair.first, pair.second)
+        }
+    }
+
+    private val groupsAdapter by lazy {
+        TeacherGroupsAdapter {
+            val pair = Navigation.Groups.navigateToGroup(it.uid)
+            findNavController().navigate(pair.first, pair.second)
+        }
+    }
+
+    private val isUserAdmin by lazy {
+        viewModel.isUserAdmin()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.getProfile()
@@ -70,6 +89,14 @@ class ProfileFragment :
         }
 
     override fun setupUI() {
+        binding.recyclerView.adapter =
+            if (isUserAdmin) groupsAdapter else completedTestsAdapter
+
+        if (isUserAdmin) {
+            binding.groupNameField.setHint(R.string.teacher_position)
+        } else {
+            binding.groupNameField.setHint(R.string.group_name)
+        }
         binding.signOut.setOnClickListener {
             viewModel.signOut()
         }
@@ -98,31 +125,41 @@ class ProfileFragment :
 
         viewModel.studentProfile.observe(viewLifecycleOwner) { profile ->
             if (profile != null) {
-                groupId = profile.groupId
-                profileAvatar = profile.avatar
-                startLoadUserImage(profile.avatar, false)
-                viewModel.fetchCompletedTests(profile.groupId)
-                binding.profileName.text = profile.name
-                binding.profileGroup.text = profile.groupName
+                with(profile) {
+                    this@ProfileFragment.groupId = groupId
+                    profileAvatar = avatar
+                    startLoadUserImage(avatar, false)
+                    viewModel.fetchCompletedTests(groupId)
+                    binding.profileNameEditText.setText(name)
+                    binding.groupNameEditText.setText(groupName)
+                    binding.studentOverallScoreEditText.setText(totalScore.toString())
+                    binding.studentRatingEditText.setText(
+                        resources.getString(R.string.rating_in_group)
+                            .format(rating)
+                    )
+                }
             }
         }
         viewModel.teacherProfile.observe(viewLifecycleOwner) { profile ->
             if (profile != null) {
-                profileAvatar = profile.avatar
-                startLoadUserImage(profile.avatar, false)
-                binding.profileName.text = profile.fullName
-                binding.profileGroup.text = profile.position
+                with(profile) {
+                    profileAvatar = avatar
+                    binding.ratingInGroupField.isVisible = false
+                    binding.overallScoreField.isVisible = false
+                    binding.listLabel.text = resources.getString(R.string.profile_groups)
+                        .format(groups.count().toString())
+                    startLoadUserImage(avatar, false)
+                    binding.profileNameEditText.setText(fullName)
+                    binding.groupNameEditText.setText(position)
+                    groupsAdapter.submitList(profile.groups)
+                }
             }
         }
         viewModel.completedTests.observe(viewLifecycleOwner) {
             if (it != null) {
-                val adapter = CompletedTests { test ->
-                    val pair = Navigation.Tests.navigateToCompletedTest(groupId, test.uid)
-                    findNavController().navigate(pair.first, pair.second)
-                }
-                binding.noCompletedTests.isVisible = it.isEmpty()
-                binding.finishedTests.adapter = adapter
-                adapter.sendTests(it)
+                binding.listLabel.text =
+                    resources.getString(R.string.finished_tests).format(it.count().toString())
+                completedTestsAdapter.submitList(it)
             }
         }
 
@@ -177,5 +214,4 @@ class ProfileFragment :
         val uri = convertBitmapToUri(lifecycleScope, fileName, bitmap)
         viewModel.uploadFile(uri.toString())
     }
-
 }

@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.edu.common.utils.setForegroundColorSpan
 import com.edu.test.R
 import com.edu.test.databinding.ItemAnswerBinding
-import com.edu.test.domain.model.AnswerDomain
+import com.edu.test.domain.model.result.AnswerDomain
 
 class QuestionAnswersAdapter : RecyclerView.Adapter<QuestionAnswersAdapter.AnswerVH>() {
 

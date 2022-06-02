@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.edu.common.utils.imageLoading.IImageLoader
 import com.edu.test.R
 import com.edu.test.databinding.ItemPersonResultBinding
-import com.edu.test.domain.model.TestResultDomain
+import com.edu.test.domain.model.result.TestResultDomain
 
 class TestTakersAdapter(private val imageLoader: IImageLoader, private val listener: Listener) :
     ListAdapter<TestResultDomain, TestTakersAdapter.TestTakerVH>(object :

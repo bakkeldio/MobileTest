@@ -37,7 +37,14 @@
     <string name="email_reset_password_sent">На ваш email отправлена ссылка по сбросу пароля</string>
     <string name="app_main_title">MobileTest</string>
     <string name="signOut">Выйти</string>
-    <string name="finished_tests">Завершенные тесты</string>
+    <string name="total_score">Общий балл</string>
+    <string name="teacher_position">Позиция</string>
+    <string name="finished_tests">Завершенные тесты %s</string>
+    <string name="rating_in_group">Рейтинг в группе  -  %d</string>
+    <string name="rating">Рейтинг</string>
+
+    <string name="profile_groups">Группы %s</string>
+    <string name="profile_name">Имя</string>
 
     <string name="notification_channel_id">channel-mobileTest</string>
     <string name="choose_profile_photo">Выбрать фото</string>

@@ -1,28 +1,172 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/color_for_view_with_focus"
+    android:focusable="true">
 
-
-    <com.google.android.material.appbar.AppBarLayout
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="?attr/actionBarSize"
+        app:menu="@menu/menu_create_test"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar"
-            style="@style/MaterialToolbar"
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/testNameInputLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="25dp"
+        android:layout_marginTop="25dp"
+        android:hint="@string/enter_test_name"
+        android:textColorHint="@color/gray_717677"
+        app:boxStrokeColor="@color/text_input_layout_stroke_color"
+        app:boxStrokeWidthFocused="1dp"
+        app:hintTextColor="@color/gray_717677"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/testNameEditText"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:layout_constraintTop_toTopOf="parent" />
-    </com.google.android.material.appbar.AppBarLayout>
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:textCursorDrawable="@drawable/edit_text_color" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/viewPager"
+    <LinearLayout
+        android:id="@+id/dateTimePickerLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
-        app:layout_constraintTop_toBottomOf="@id/toolbar" />
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="25dp"
+        android:layout_marginTop="15dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/testNameInputLayout"
+        tools:ignore="DisableBaselineAlignment">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/date_test_out"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            android:layout_weight="0.3"
+            android:textColorHint="@color/gray_717677"
+            app:boxStrokeColor="@color/text_input_layout_stroke_color"
+            app:boxStrokeWidthFocused="1dp"
+            app:hintTextColor="@color/gray_717677">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/date_test"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:cursorVisible="false"
+                android:focusableInTouchMode="false"
+                android:hint="@string/date"
+                android:maxLines="1"
+                tools:text="08.02.2022" />
+
+        </com.google.android.material.textfield.TextInputLayout>
 
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/timeTestOut"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.7"
+            android:textColorHint="@color/gray_717677"
+            app:boxStrokeColor="@color/text_input_layout_stroke_color"
+            app:boxStrokeWidthFocused="1dp"
+            app:hintTextColor="@color/gray_717677">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/time_test"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:cursorVisible="false"
+                android:focusableInTouchMode="false"
+                android:hint="@string/time"
+                android:maxLines="1"
+                tools:text="09:00" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/testDurationLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="15dp"
+        android:text="@string/test_duration_time"
+        android:textAppearance="@style/Text_16_main_text_color"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dateTimePickerLayout" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/minusBtn"
+        style="@style/PlusMinusButton"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        app:icon="@drawable/ic_minus"
+        app:layout_constraintStart_toStartOf="@id/testDurationLabel"
+        app:layout_constraintTop_toBottomOf="@id/testDurationLabel" />
+
+    <EditText
+        android:id="@+id/time"
+        style="@style/Widget.EditText"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:autofillHints=""
+        android:gravity="center_horizontal"
+        android:inputType="number"
+        android:maxLength="4"
+        app:layout_constraintStart_toEndOf="@id/minusBtn"
+        app:layout_constraintTop_toBottomOf="@id/testDurationLabel"
+        tools:ignore="LabelFor" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/plusBtn"
+        style="@style/PlusMinusButton"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        app:icon="@drawable/icon_add"
+        app:layout_constraintStart_toEndOf="@id/time"
+        app:layout_constraintTop_toBottomOf="@id/testDurationLabel" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/createTest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="25dp"
+        android:layout_marginTop="35dp"
+        android:layout_marginBottom="5dp"
+        android:text="@string/create_test"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/plusBtn" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/navigateToQuestionsBtn"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="25dp"
+        android:layout_marginTop="35dp"
+        android:layout_marginBottom="5dp"
+        android:text="@string/navigate_to_questions"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/plusBtn" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

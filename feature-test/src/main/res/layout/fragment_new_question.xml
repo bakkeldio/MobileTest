@@ -144,7 +144,19 @@
             android:layout_marginHorizontal="25dp"
             android:layout_marginTop="10dp"
             android:text="@string/update_question"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             app:icon="@drawable/edit_text_color"
             app:layout_constraintTop_toBottomOf="@id/addAnswerBtn" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/deleteQuestionBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="25dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/delete_question"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/updateQuestionBtn" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

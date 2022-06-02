@@ -3,55 +3,51 @@ package com.edu.test.presentation.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.edu.test.databinding.ItemQuestionAddBinding
 import com.edu.test.databinding.ItemQuestionIndicatorBinding
 import com.edu.test.presentation.model.IndicatorItem
 
 class QuestionsIndicatorAdapter(private val listener: QuestionsAdapterListener) :
-    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    ListAdapter<IndicatorItem, RecyclerView.ViewHolder>(object :
+        DiffUtil.ItemCallback<IndicatorItem>() {
+        override fun areItemsTheSame(oldItem: IndicatorItem, newItem: IndicatorItem): Boolean {
+            return oldItem.id == newItem.id
+        }
 
-    private val list: MutableList<IndicatorItem> = mutableListOf()
+        override fun areContentsTheSame(oldItem: IndicatorItem, newItem: IndicatorItem): Boolean {
+            return oldItem == newItem
+        }
+
+    }) {
+
 
     companion object {
         private const val INDICATOR = 0
         private const val ADD = 1
     }
 
-    init {
-        repeat(2) {
-            list.add(IndicatorItem())
-        }
-        notifyDataSetChanged()
-    }
-
-    fun addIndicatorAtPosition(position: Int) {
-        list.add(position, IndicatorItem())
-        notifyItemInserted(position)
-        notifyItemRangeChanged(position, 2)
-    }
-
-    fun removeIndicatorAtPosition(position: Int) {
-        list.removeAt(position)
-        notifyItemRemoved(position)
-        list[position] = IndicatorItem(true)
-        notifyItemRangeChanged(position, list.size - position)
-    }
-
     fun updateIndicatorAt(oldPosition: Int, newPosition: Int) {
-        list[oldPosition] = IndicatorItem(false)
-        list[newPosition] = IndicatorItem(true)
-        notifyItemChanged(oldPosition)
-        notifyItemChanged(newPosition)
+        val list = currentList.toMutableList()
+        list[oldPosition] =
+            IndicatorItem(list[oldPosition].id, false, oldPosition + 1)
+        list[newPosition] =
+            IndicatorItem(list[newPosition].id,  true,  newPosition + 1)
+        submitList(list.toList())
     }
+
 
     inner class IndicatorVH(val binding: ItemQuestionIndicatorBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(position: Int) {
-            binding.indicator.text = (position + 1).toString()
-            binding.triangleImageView.isVisible = list[position].isCurrentPage
-            binding.indicator.setOnClickListener {
-                listener.moveToPage(position)
+            with(getItem(position)) {
+                binding.indicator.text = this.position.toString()
+                binding.triangleImageView.isVisible = isCurrentPage
+                binding.indicator.setOnClickListener {
+                    listener.moveToPage(position)
+                }
             }
         }
     }
@@ -87,23 +83,22 @@ class QuestionsIndicatorAdapter(private val listener: QuestionsAdapterListener) 
 
 
     override fun getItemViewType(position: Int): Int {
-        return if (position == list.size - 1) {
+        return if (position == currentList.size - 1) {
             ADD
         } else {
             INDICATOR
         }
     }
 
+    override fun getItemCount(): Int {
+        return currentList.size
+    }
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        if (position == list.size - 1) {
+        if (position == currentList.size - 1) {
             (holder as AddQuestionBtnVH).bind(position)
         } else {
             (holder as IndicatorVH).bind(position)
         }
-    }
-
-    override fun getItemCount(): Int {
-        return list.size
     }
 
     interface QuestionsAdapterListener {

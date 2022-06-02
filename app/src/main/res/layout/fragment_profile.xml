@@ -24,32 +24,88 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="ContentDescription" />
 
-    <TextView
-        android:id="@+id/profileName"
-        android:layout_width="wrap_content"
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/profileNameField"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
+        android:layout_marginHorizontal="20dp"
         android:layout_marginTop="20dp"
-        android:textColor="@color/black"
-        app:layout_constraintBottom_toTopOf="@id/profileGroup"
-        app:layout_constraintStart_toEndOf="@id/profileImage"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="Orozbekov Bakkeldi" />
+        android:hint="@string/profile_name"
+        app:boxStrokeColor="@color/text_input_layout_stroke_color"
+        app:layout_constraintTop_toBottomOf="@id/profileImage">
 
-    <TextView
-        android:id="@+id/profileGroup"
-        android:layout_width="wrap_content"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/profileNameEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:textColor="@color/black" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/groupNameField"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:textColor="@color/black"
-        app:layout_constraintBottom_toBottomOf="@id/profileImage"
-        app:layout_constraintStart_toEndOf="@id/profileImage"
-        app:layout_constraintTop_toBottomOf="@id/profileName"
-        tools:text="Group - A" />
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="@dimen/dp10"
+        android:hint="@string/group_title"
+        app:boxStrokeColor="@color/text_input_layout_stroke_color"
+        app:layout_constraintTop_toBottomOf="@id/profileNameField">
 
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/groupNameEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:textColor="@color/black" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/ratingInGroupField"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="@dimen/dp10"
+        android:hint="@string/rating"
+        app:boxStrokeColor="@color/text_input_layout_stroke_color"
+        app:layout_constraintTop_toBottomOf="@id/groupNameField">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/studentRatingEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:textColor="@color/black" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/overallScoreField"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="@dimen/dp10"
+        android:hint="@string/total_score"
+        app:boxStrokeColor="@color/text_input_layout_stroke_color"
+        app:layout_constraintTop_toBottomOf="@id/ratingInGroupField">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/studentOverallScoreEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:textColor="@color/black" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
-        android:id="@+id/finishedTestsLabel"
+        android:id="@+id/listLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -57,87 +113,35 @@
         android:text="@string/finished_tests"
         android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/profileImage" />
+        app:layout_constraintTop_toBottomOf="@id/barrier" />
 
-    <TextView
-        android:id="@+id/noCompletedTests"
-        android:layout_width="wrap_content"
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/no_completed_tests"
-        android:visibility="gone"
-        app:layout_constraintStart_toStartOf="@id/finishedTestsLabel"
-        app:layout_constraintTop_toBottomOf="@id/finishedTestsLabel"
-        tools:text="Нету завершенных тестов" />
-
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:overScrollMode="never"
+        android:paddingHorizontal="20dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintTop_toBottomOf="@id/listLabel" />
 
     <androidx.constraintlayout.widget.Barrier
         android:id="@+id/barrier"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:barrierDirection="bottom"
-        app:constraint_referenced_ids="finishedTestsLabel, noCompletedTests" />
-
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/finishedTests"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="10dp"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal"
-        android:overScrollMode="never"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintTop_toBottomOf="@id/barrier" />
-
-    <TextView
-        android:id="@+id/rating"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:textColor="@color/black"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/finishedTests"
-        tools:text="Рейтинг в группе Group - A" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/ratingNumber"
-        android:layout_width="52dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="@dimen/dp25"
-        android:backgroundTint="#E64C3D"
-        android:insetLeft="0dp"
-        android:insetTop="0dp"
-        android:insetRight="0dp"
-        android:insetBottom="0dp"
-        android:textStyle="bold"
-        android:visibility="gone"
-        app:cornerRadius="100dp"
-        app:layout_constraintBaseline_toBaselineOf="@id/rating"
-        app:layout_constraintStart_toEndOf="@id/rating"
-        tools:text="10" />
-
-    <TextView
-        android:id="@+id/totalScore"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:textColor="@color/black"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ratingNumber"
-        tools:text="Общий балл - 122" />
+        app:constraint_referenced_ids="groupNameField, ratingInGroupField, overallScoreField" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/signOut"
         android:layout_width="@dimen/dp250"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         android:text="@string/signOut"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/totalScore" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/recyclerView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

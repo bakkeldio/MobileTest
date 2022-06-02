@@ -2,15 +2,18 @@ package com.edu.mobiletest.data
 
 import android.content.SharedPreferences
 import android.net.Uri
-import com.edu.common.data.Result
-import com.edu.common.domain.model.IProfile
+import com.edu.common.domain.Result
 import com.edu.common.domain.model.StudentInfoDomain
 import com.edu.common.domain.model.TeacherProfile
-import com.edu.mobiletest.domain.model.ProfileType
-import com.edu.mobiletest.domain.model.StudentProfile
+import com.edu.group.data.mapper.GroupMapperImpl
+import com.edu.group.data.model.Group
+import com.edu.group.domain.model.GroupDomain
+import com.edu.mobiletest.data.mappers.TeacherProfileToDomainMapper
 import com.edu.mobiletest.domain.repository.IProfileRepository
+import com.edu.test.domain.model.TeacherInfoDomain
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.Dispatchers
@@ -31,26 +34,36 @@ class ProfileRepoImpl @Inject constructor(
     private val sharedPreferences: SharedPreferences
 ) : IProfileRepository {
 
-    override suspend fun getProfileInfo(): Result<Pair<ProfileType, IProfile>> {
+    override suspend fun getStudentProfileInfo(): Result<StudentInfoDomain> {
         return try {
-            auth.uid ?: throw IllegalArgumentException("uid of current user can't be null")
-            val isTeacher = sharedPreferences.getBoolean(
-                "isUserAdmin",
-                false
+            val student = db.collection("students").document(auth.uid!!).get().await()
+                .toObject(StudentInfoDomain::class.java)
+                ?: throw IllegalArgumentException("student model can't be null")
+            Result.Success(student)
+        } catch (e: Exception) {
+            Result.Error(e)
+        }
+    }
+
+    override suspend fun getTeacherProfileInfo(): Result<TeacherInfoDomain> {
+        return try {
+            val teacher = db.collection("teachers").document(auth.uid!!).get().await()
+                .toObject(TeacherProfile::class.java) ?: throw IllegalArgumentException(
+                "teacher model can't be null"
             )
-            val data =
-                db.collection(if (isTeacher) "teachers" else "students").document(auth.uid!!).get()
-                    .await()
-            val profile =
-                (if (isTeacher) data.toObject(TeacherProfile::class.java) else data.toObject(
-                    StudentProfile::class.java
-                ))
-                    ?: throw IllegalArgumentException("profile can't be null")
-            Result.Success(
-                Pair(
-                    if (isTeacher) ProfileType.TEACHER else ProfileType.STUDENT, profile
-                )
-            )
+            Result.Success(TeacherProfileToDomainMapper.mapToDomain(teacher))
+        } catch (e: Exception) {
+            Result.Error(e)
+        }
+    }
+
+    override suspend fun getGroupsByIds(ids: List<String>): Result<List<GroupDomain>> {
+        return try {
+            val groups = db.collection("groups").whereIn("uid", ids).get().await()
+                .toObjects(Group::class.java)
+            Result.Success(groups.map {
+                GroupMapperImpl.mapToDomain(it)
+            })
         } catch (e: Exception) {
             Result.Error(e)
         }
@@ -94,6 +107,19 @@ class ProfileRepoImpl @Inject constructor(
         return try {
             storage.reference.child("studentsImages/${auth.uid}").delete().await()
             Result.Success(Unit)
+        } catch (e: Exception) {
+            Result.Error(e)
+        }
+    }
+
+    override suspend fun getStudentRating(groupId: String): Result<Int> {
+        return try {
+            val index = db.collection("students")
+                .whereEqualTo("groupId", groupId)
+                .orderBy("overallScore", Query.Direction.DESCENDING).get().await().indexOfFirst {
+                    it["uid"] == auth.uid
+                }
+            Result.Success(index + 1)
         } catch (e: Exception) {
             Result.Error(e)
         }

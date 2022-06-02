@@ -8,6 +8,6 @@ data class TestDomainModel(
     val date: Date,
     val time: Int,
     val maxPoint: Int,
-    val title: String ? = null,
+    val title: String,
     val questions: List<QuestionDomain> = emptyList()
 )

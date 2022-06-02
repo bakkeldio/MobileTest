@@ -3,7 +3,7 @@ package com.edu.group.presentation.groupDetail
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.edu.common.data.Result
+import com.edu.common.domain.Result
 import com.edu.common.domain.model.StudentInfoDomain
 import com.edu.common.presentation.BaseViewModel
 import com.edu.common.presentation.ResourceState

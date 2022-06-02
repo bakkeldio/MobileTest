@@ -1,6 +1,6 @@
 package com.edu.mobiletest.data
 
-import com.edu.common.data.Result
+import com.edu.common.domain.Result
 import com.edu.mobiletest.domain.model.UserRoleEnum
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.scopes.ActivityRetainedScoped

@@ -21,9 +21,12 @@ import com.edu.test.R
 import com.edu.test.databinding.FragmentTestsBinding
 import com.edu.test.databinding.StartTestAlertDialogLayoutBinding
 import com.edu.test.domain.model.PassedTestDomain
+import com.edu.test.domain.model.dbModels.TestDomain
 import com.edu.test.presentation.adapter.PassedTestsAdapter
 import com.edu.test.presentation.adapter.TestsAdapter
 import com.edu.test.presentation.adapter.TestsPagerAdapter
+import com.edu.test.presentation.adapter.UnPublishedTestsAdapter
+import com.edu.test.presentation.model.TeacherTestsTypeEnum
 import com.edu.test.presentation.model.UserTestsTypeEnum
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.tabs.TabLayoutMediator
@@ -38,7 +41,7 @@ class TestsFragment : BaseFragment<TestsViewModel, FragmentTestsBinding>(
     FragmentTestsBinding::bind
 ), TestsAdapter.ItemClickListener,
     TestsPagerAdapter.TestsAdapterListener, PassedTestsAdapter.Listener,
-    TestsPagerAdapter.SelectionListener {
+    TestsPagerAdapter.SelectionListener, UnPublishedTestsAdapter.Listener {
 
 
     override val viewModel by viewModels<TestsViewModel>()
@@ -59,8 +62,19 @@ class TestsFragment : BaseFragment<TestsViewModel, FragmentTestsBinding>(
         PassedTestsAdapter(this)
     }
 
+    private val unPublishedTestsAdapter by lazy {
+        UnPublishedTestsAdapter(this)
+    }
+
     private val testPagerAdapter by lazy {
-        TestsPagerAdapter(allTestsAdapter, passedTestsAdapter, isTeacher, this, this)
+        TestsPagerAdapter(
+            allTestsAdapter,
+            passedTestsAdapter,
+            unPublishedTestsAdapter,
+            isTeacher,
+            this,
+            this
+        )
     }
 
     private val isTeacher by lazy {
@@ -72,19 +86,23 @@ class TestsFragment : BaseFragment<TestsViewModel, FragmentTestsBinding>(
         super.onCreate(savedInstanceState)
         if (isTeacher) {
             viewModel.getTeacherTests(args.groupId)
+            viewModel.getUnpublishedTests(args.groupId)
         } else {
             viewModel.getAllTests(args.groupId)
         }
     }
 
     override fun setupUI() {
-        if (isTeacher) {
-            binding.tabLayout.isVisible = false
-        }
 
         binding.viewPager.adapter = testPagerAdapter
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
-            tab.text = resources.getString(UserTestsTypeEnum.getValueByPosition(position))
+            tab.text = resources.getString(
+                if (isTeacher) TeacherTestsTypeEnum.getValueByPosition(position)
+                else
+                    UserTestsTypeEnum.getValueByPosition(
+                        position
+                    )
+            )
         }.attach()
         binding.toolbar.setupWithNavController(findNavController())
         val searchView = binding.toolbar.menu.findItem(R.id.action_search).actionView as SearchView
@@ -103,15 +121,21 @@ class TestsFragment : BaseFragment<TestsViewModel, FragmentTestsBinding>(
         searchView.queryHint = resources.getString(R.string.search_hint_text)
 
         binding.floatingActionButton.setOnClickListener {
-            if (testPagerAdapter.getTestsSelection().isNotEmpty()) {
+            if (testPagerAdapter.getTestsSelection()
+                    .isNotEmpty() || testPagerAdapter.getUnPublishedTestsSelection().isNotEmpty()
+            ) {
                 buildMaterialAlertDialog(
                     description = resources.getString(R.string.confirm_test_removing),
                     positiveBtnClick = {
-                        viewModel.deleteTest(args.groupId, testPagerAdapter.getTestsSelection())
+                        if (binding.viewPager.currentItem == ALL_TESTS) {
+                            viewModel.deleteTest(args.groupId, testPagerAdapter.getTestsSelection())
+                        } else {
+                            viewModel.deleteTestsFromDB(testPagerAdapter.getUnPublishedTestsSelection())
+                        }
                     }).show()
             } else {
                 findNavController().navigate(
-                    TestsFragmentDirections.fromTestsFragmentToCreateQuestionsFragment(
+                    TestsFragmentDirections.fromTestsFragmentToCreateTestFragment(
                         args.groupId
                     )
                 )
@@ -130,6 +154,10 @@ class TestsFragment : BaseFragment<TestsViewModel, FragmentTestsBinding>(
             completedTestsState.observe(viewLifecycleOwner) { data ->
                 passedTestsAdapter.submitList(data)
                 testPagerAdapter.updateEmptyState(FINISHED_TESTS, data.size)
+            }
+
+            unPublishedTests.observe(viewLifecycleOwner) { data ->
+                unPublishedTestsAdapter.submitList(data)
             }
 
             timerWorkResult.observe(viewLifecycleOwner) {
@@ -221,7 +249,7 @@ class TestsFragment : BaseFragment<TestsViewModel, FragmentTestsBinding>(
             calendar3[Calendar.MINUTE] += model.time
 
             if (calendar1 > calendar2) {
-                showToast("Время прохождения теста еще не наступило")
+                showToast(resources.getString(R.string.time_to_pass_the_test_has_not_come_yet))
             } else {
                 if (calendar3 > calendar2 || model.status == TestStatusEnum.PASSED) {
                     when (model.status) {
@@ -259,12 +287,13 @@ class TestsFragment : BaseFragment<TestsViewModel, FragmentTestsBinding>(
                         }
                     }
                 } else {
-                    showToast("Время прохождения теста прошло")
+                    showToast(resources.getString(R.string.time_to_pass_the_test_has_passed))
                 }
             }
         } else {
             findNavController().navigate(
                 TestsFragmentDirections.fromTestsFragmentToTestTakersFragment(
+                    model.title,
                     model.uid,
                     args.groupId
                 )
@@ -285,11 +314,24 @@ class TestsFragment : BaseFragment<TestsViewModel, FragmentTestsBinding>(
         showHideRemoveButton(selectionList.size)
     }
 
+    override fun getUnPublishedTestsSelection(selectionList: List<String>) {
+        showHideRemoveButton(selectionList.size)
+    }
+
     private fun showHideRemoveButton(selectionSize: Int) {
         if (selectionSize > 0) {
             binding.floatingActionButton.setImageResource(R.drawable.ic_remove)
         } else {
             binding.floatingActionButton.setImageResource(R.drawable.icon_add)
         }
+    }
+
+    override fun onTestClick(test: TestDomain) {
+        findNavController().navigate(
+            TestsFragmentDirections.fromTestsFragmentToCreateTestFragment(
+                args.groupId,
+                test.uid
+            )
+        )
     }
 }

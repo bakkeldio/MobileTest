@@ -10,6 +10,7 @@ object Navigation {
     private const val baseUri = "mobileTest://"
     private const val navigation_tests = "navigationTests/"
     private const val navigation_test = "navigationCompletedTest/"
+    private const val navigation_group = "navigationGroup/"
 
     object Tests {
         fun navigateToTests(groupId: String): Pair<NavDeepLinkRequest, NavOptions> {
@@ -35,6 +36,17 @@ object Navigation {
             return Pair(deepLink, navOptions)
         }
 
+    }
+
+    object Groups {
+        fun navigateToGroup(groupId: String): Pair<NavDeepLinkRequest, NavOptions> {
+            val deepLinkRequest = buildNavDeepLinkRequest("$baseUri$navigation_group$groupId")
+            val navOptions = NavOptions.Builder()
+                .setEnterAnim(R.anim.nav_graph_enter)
+                .setExitAnim(R.anim.nav_graph_exit)
+                .build()
+            return Pair(deepLinkRequest, navOptions)
+        }
     }
 
     fun buildNavDeepLinkRequest(link: String): NavDeepLinkRequest {

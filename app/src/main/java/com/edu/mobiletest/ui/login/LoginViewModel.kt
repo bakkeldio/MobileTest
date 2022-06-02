@@ -1,7 +1,7 @@
 package com.edu.mobiletest.ui.login
 
 import androidx.lifecycle.viewModelScope
-import com.edu.common.data.Result
+import com.edu.common.domain.Result
 import com.edu.common.presentation.BaseViewModel
 import com.edu.common.presentation.ResourceState
 import com.edu.mobiletest.data.IAuthRepository

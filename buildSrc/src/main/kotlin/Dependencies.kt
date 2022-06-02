@@ -61,7 +61,7 @@ object Dependencies {
     object ConfigData {
         const val compileSdk = 31
         const val minSdk = 21
-        const val targetSdk = 32
+        const val targetSdk = 31
         var versionCode = 1
         var versionName = "1.0"
     }

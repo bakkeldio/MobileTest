@@ -2,19 +2,20 @@ package com.edu.test.presentation.adapter
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.selection.SelectionPredicates
-import androidx.recyclerview.selection.SelectionTracker
-import androidx.recyclerview.selection.StorageStrategy
+import androidx.recyclerview.selection.*
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.edu.common.presentation.model.TestModel
+import com.edu.common.presentation.model.ItemForSelection
 import com.edu.common.utils.DividerItemDecorator
 import com.edu.test.databinding.ViewPagerItemTestBinding
 
 class TestsPagerAdapter(
     private val allTests: TestsAdapter,
     private val passedTests: PassedTestsAdapter,
+    private val unPublishedTestsAdapter: UnPublishedTestsAdapter,
     private val isUserAdmin: Boolean = false,
     private val listener: TestsAdapterListener,
     private val selectionListener: SelectionListener,
@@ -22,18 +23,18 @@ class TestsPagerAdapter(
 ) : RecyclerView.Adapter<TestsPagerAdapter.TestPageViewHolder>() {
 
     companion object {
-        private const val ALL_TESTS = 0
-        private const val PASSED = 1
+        private const val FIRST = 0
+        private const val SECOND = 1
         private const val PAGES_COUNT = 2
-        private const val PAGES_COUNT_ADMIN = 1
-        private const val selectionId = "selectionId"
+        private const val SELECTION_ID = "selectionId"
     }
 
     private val holderMap: HashMap<Int, TestPageViewHolder> = hashMapOf()
 
-    private val tabEmptyState = hashMapOf(ALL_TESTS to false, PASSED to false)
+    private val tabEmptyState = hashMapOf(FIRST to false, SECOND to false)
 
-    private lateinit var testsTracker: SelectionTracker<String>
+    private var testsTracker: SelectionTracker<String>? = null
+    private var unPublishedTestsTracker: SelectionTracker<String>? = null
 
     inner class TestPageViewHolder(val binding: ViewPagerItemTestBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -56,26 +57,53 @@ class TestsPagerAdapter(
                 }
             })
             binding.viewPagerRv.adapter = when (position) {
-                ALL_TESTS -> {
+                FIRST -> {
                     allTests
                 }
-                PASSED -> {
-                    passedTests
+                SECOND -> {
+                    if (isUserAdmin) {
+                        unPublishedTestsAdapter
+                    } else {
+                        passedTests
+                    }
                 }
                 else -> null
             }
 
-            if (position == ALL_TESTS) {
-                testsTracker = buildSelectionTracker(binding, allTests)
-                allTests.tracker = testsTracker
+            if (isUserAdmin) {
+                when (position) {
+                    FIRST -> {
+                        testsTracker = buildSelectionTracker(binding, position)
+                        allTests.tracker = testsTracker
+                    }
+                    SECOND -> {
+                        if (isUserAdmin) {
+                            unPublishedTestsTracker = buildSelectionTracker(binding, position)
+                            unPublishedTestsAdapter.tracker = unPublishedTestsTracker
+                        }
+                    }
+                }
             }
 
-            testsTracker.onRestoreInstanceState(bundle)
+            testsTracker?.onRestoreInstanceState(bundle)
+            unPublishedTestsTracker?.onRestoreInstanceState(bundle)
 
-            testsTracker.addObserver(object : SelectionTracker.SelectionObserver<String>() {
+            testsTracker?.addObserver(object : SelectionTracker.SelectionObserver<String>() {
                 override fun onSelectionChanged() {
                     super.onSelectionChanged()
-                    selectionListener.getTestsSelection(testsTracker.selection.toList())
+                    selectionListener.getTestsSelection(
+                        testsTracker?.selection?.toList() ?: emptyList()
+                    )
+                }
+            })
+
+            unPublishedTestsTracker?.addObserver(object :
+                SelectionTracker.SelectionObserver<String>() {
+                override fun onSelectionChanged() {
+                    super.onSelectionChanged()
+                    selectionListener.getUnPublishedTestsSelection(
+                        unPublishedTestsTracker?.selection?.toList() ?: emptyList()
+                    )
                 }
             })
 
@@ -118,17 +146,17 @@ class TestsPagerAdapter(
 
     fun buildSelectionTracker(
         binding: ViewPagerItemTestBinding,
-        adapter: TestsAdapter
+        position: Int
     ) = SelectionTracker.Builder(
         //1
-        selectionId,
+        "$SELECTION_ID$position",
         //2
         binding.viewPagerRv,
-        //3
-        TestItemKeyProvider(
-            adapter
-        ),
-        TestsAdapter.TestsDetailsLookUp(binding.viewPagerRv),
+        when (position) {
+            FIRST -> allTests.getStringItemKeyProvider()
+            else -> unPublishedTestsAdapter.getStringItemKeyProvider()
+        },
+        getItemDetailsLookUp(binding.viewPagerRv),
         //4
         StorageStrategy.createStringStorage()
     ).withSelectionPredicate(
@@ -136,15 +164,19 @@ class TestsPagerAdapter(
         SelectionPredicates.createSelectAnything()
     ).build()
 
+
     fun saveSelectionState(outState: Bundle) {
-        testsTracker.onSaveInstanceState(outState)
+        testsTracker?.onSaveInstanceState(outState)
+        unPublishedTestsTracker?.onSaveInstanceState(outState)
     }
 
-    fun getTestsSelection() = testsTracker.selection.map { it }
+    fun getTestsSelection() = testsTracker?.selection?.map { it } ?: emptyList()
 
+    fun getUnPublishedTestsSelection() =
+        unPublishedTestsTracker?.selection?.map { it } ?: emptyList()
 
     override fun getItemCount(): Int {
-        return if (isUserAdmin) PAGES_COUNT_ADMIN else PAGES_COUNT
+        return PAGES_COUNT
     }
 
     interface TestsAdapterListener {
@@ -154,5 +186,34 @@ class TestsPagerAdapter(
 
     interface SelectionListener {
         fun getTestsSelection(selectionList: List<String>)
+        fun getUnPublishedTestsSelection(selectionList: List<String>)
+    }
+
+    private fun <T : ItemForSelection, VH : RecyclerView.ViewHolder> ListAdapter<T, VH>.getStringItemKeyProvider(): ItemKeyProvider<String> {
+        return object : ItemKeyProvider<String>(SCOPE_CACHED) {
+            override fun getKey(position: Int): String {
+                return this@getStringItemKeyProvider.currentList[position].uid
+            }
+
+            override fun getPosition(key: String): Int {
+                return this@getStringItemKeyProvider.currentList.indexOfFirst {
+                    key == it.uid
+                }
+            }
+
+        }
+    }
+
+    private fun getItemDetailsLookUp(recyclerView: RecyclerView): ItemDetailsLookup<String> {
+        return object : ItemDetailsLookup<String>() {
+            override fun getItemDetails(e: MotionEvent): ItemDetails<String>? {
+                val view = recyclerView.findChildViewUnder(e.x, e.y)
+                if (view != null) {
+                    return (recyclerView.getChildViewHolder(view) as BaseViewHolderForSelection).getStringDetails()
+                }
+                return null
+            }
+
+        }
     }
 }

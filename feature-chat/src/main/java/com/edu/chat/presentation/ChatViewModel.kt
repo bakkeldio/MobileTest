@@ -10,11 +10,10 @@ import com.edu.chat.domain.model.MessageTypeEnum
 import com.edu.chat.domain.usecase.GetChatMembersUseCase
 import com.edu.chat.domain.usecase.GetMessagesUpdatesForChatsUseCase
 import com.edu.chat.domain.usecase.SearchThroughAvailableUsersUseCase
-import com.edu.common.data.Result
+import com.edu.common.domain.Result
 import com.edu.common.presentation.BaseViewModel
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.ktor.util.Identity.decode
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject

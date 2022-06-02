@@ -1,7 +1,7 @@
 package com.edu.chat.domain.repository
 
 import com.edu.chat.domain.model.*
-import com.edu.common.data.Result
+import com.edu.common.domain.Result
 import kotlinx.coroutines.flow.Flow
 import java.io.File
 

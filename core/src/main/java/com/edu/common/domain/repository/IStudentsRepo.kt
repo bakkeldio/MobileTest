@@ -1,6 +1,6 @@
 package com.edu.common.domain.repository
 
-import com.edu.common.data.Result
+import com.edu.common.domain.Result
 import com.edu.common.domain.model.StudentInfoDomain
 import kotlinx.coroutines.flow.Flow
 

@@ -9,7 +9,7 @@ import com.edu.chat.data.worker.UploadImageToStorageWorker
 import com.edu.chat.domain.model.*
 import com.edu.chat.domain.usecase.*
 import com.edu.chat.presentation.model.ChatMessage
-import com.edu.common.data.Result
+import com.edu.common.domain.Result
 import com.edu.common.presentation.BaseViewModel
 import com.edu.common.utils.parseDateForChat
 import dagger.hilt.android.lifecycle.HiltViewModel

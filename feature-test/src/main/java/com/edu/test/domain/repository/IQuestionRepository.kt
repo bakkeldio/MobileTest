@@ -1,6 +1,6 @@
 package com.edu.test.domain.repository
 
-import com.edu.common.data.Result
+import com.edu.common.domain.Result
 import com.edu.common.domain.model.QuestionDomain
 
 interface IQuestionRepository {

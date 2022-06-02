@@ -4,24 +4,29 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ItemTouchHelper
-import com.edu.test.data.datamanager.TestCreationHandler
 import com.edu.common.domain.model.QuestionType
+import com.edu.common.utils.hideSoftKeyboard
 import com.edu.common.utils.showToast
 import com.edu.test.R
 import com.edu.test.databinding.FragmentNewQuestionBinding
+import com.edu.test.domain.model.CreateQuestionDomain
+import com.edu.test.domain.model.dbModels.AnswersList
+import com.edu.test.domain.model.dbModels.QuestionAnswerDomain
+import com.edu.test.domain.model.dbModels.QuestionDomain
+import com.edu.test.domain.model.dbModels.QuestionWithAnswersDomain
 import com.edu.test.presentation.adapter.CreateAnswersAdapter
 import com.edu.test.presentation.adapter.SwipeHelper
-import com.edu.test.presentation.model.NewAnswer
-import android.view.inputmethod.EditorInfo
-import androidx.core.view.isVisible
-import androidx.core.widget.doAfterTextChanged
-import com.edu.common.utils.hideSoftKeyboard
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class NewQuestionFragment : Fragment(), CreateAnswersAdapter.MarkAsCorrectClickListener,
     NewAnswerBottomSheetFragment.ClickListener {
 
@@ -31,18 +36,26 @@ class NewQuestionFragment : Fragment(), CreateAnswersAdapter.MarkAsCorrectClickL
 
     private var dialogFragment: NewAnswerBottomSheetFragment? = null
 
-    private val mapOfCorrectAnswers: HashMap<Int, String> = hashMapOf()
+    private var answers: MutableList<QuestionAnswerDomain> = mutableListOf()
 
-    private val answers: LinkedHashMap<Int, String> = linkedMapOf()
-
+    private val viewModel by viewModels<NewQuestionViewModel>()
 
     companion object {
         const val QUESTION_KEY = "QUESTION_KEY"
         const val QUESTION_MODEL = "QUESTION_MODEL"
+        fun createInstance(bundle: Bundle): NewQuestionFragment {
+            val instance = NewQuestionFragment()
+            instance.arguments = bundle
+            return instance
+        }
     }
 
     private val answersAdapter by lazy {
         CreateAnswersAdapter(this)
+    }
+
+    private val savedQuestion by lazy {
+        requireArguments().getParcelable<QuestionDomain>("question")!!
     }
 
     private val itemTouchListener by lazy {
@@ -55,9 +68,7 @@ class NewQuestionFragment : Fragment(), CreateAnswersAdapter.MarkAsCorrectClickL
                         color = R.color.main_color_pink,
                         clickListener = {
                             setFragmentResult(QUESTION_KEY, bundleOf("change" to true))
-                            answers.remove(it)
-                            mapOfCorrectAnswers.remove(it)
-                            answersAdapter.removeAnswer(it)
+                            viewModel.deleteAnswer(answers[position])
                         }
                     ),
                     UnderlayButton(
@@ -65,7 +76,10 @@ class NewQuestionFragment : Fragment(), CreateAnswersAdapter.MarkAsCorrectClickL
                         imageResId = R.drawable.ic_baseline_edit_24,
                         color = R.color.green_400,
                         clickListener = {
-                            buildDialogWithText(answersAdapter.getAnswerByPosition(it), position)
+                            buildDialogWithText(
+                                answersAdapter.currentList[position].title,
+                                position
+                            )
                         }
                     )
                 )
@@ -84,7 +98,7 @@ class NewQuestionFragment : Fragment(), CreateAnswersAdapter.MarkAsCorrectClickL
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        getSavedQuestionData(savedQuestion)
         binding.questionEditText.setOnEditorActionListener { _, actionId, eventKey ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 hideFocusAndKeyboard()
@@ -100,8 +114,13 @@ class NewQuestionFragment : Fragment(), CreateAnswersAdapter.MarkAsCorrectClickL
                     manageViewsVisibility(true)
                 }
                 QuestionType.MULTIPLE_CHOICE_ONE_ANSWER -> {
-                    mapOfCorrectAnswers.clear()
-                    answersAdapter.unMarkAllAnswers()
+                    val existingAnswers = answers
+                    answers.clear()
+                    answers.addAll(existingAnswers.map {
+                        it.copy(isCorrect = false)
+                    }
+                    )
+                    answersAdapter.submitList(answers.toList())
                     manageViewsVisibility(true)
                 }
                 QuestionType.OPEN -> {
@@ -122,30 +141,43 @@ class NewQuestionFragment : Fragment(), CreateAnswersAdapter.MarkAsCorrectClickL
         binding.updateQuestionBtn.setOnClickListener {
             if (validateQuestion()) {
                 if (getQuestionType() == QuestionType.OPEN) {
-                    mapOfCorrectAnswers.clear()
                     answers.clear()
+
                 }
                 showToast(resources.getString(R.string.saved))
                 setFragmentResult(
                     QUESTION_KEY,
                     bundleOf(
                         QUESTION_MODEL to
-                                TestCreationHandler.mapToCreateQuestionDomain(
-                                    answers,
-                                    mapOfCorrectAnswers,
-                                    binding.questionEditText.text.toString(),
-                                    getQuestionType().type,
-                                    binding.pointTextView.text.toString().toInt()
+                                CreateQuestionDomain(
+                                    questionType = getQuestionType().type,
+                                    question = binding.questionEditText.text.toString(),
+                                    point = binding.pointTextView.text.toString().toInt(),
+                                    id = savedQuestion.id
                                 ), "change" to false
                     )
                 )
             }
         }
+        binding.deleteQuestionBtn.setOnClickListener {
+            setFragmentResult(QUESTION_KEY, bundleOf(QUESTION_KEY to savedQuestion.id))
+        }
+
+        viewModel.answers.observe(viewLifecycleOwner) {
+            answers = it.toMutableList()
+            answersAdapter.submitList(it)
+        }
 
     }
 
-    private fun hideFocusAndKeyboard(){
-        binding.questionEditText.clearFocus()
+    fun getSavedQuestionData(question: QuestionDomain) {
+        viewModel.getQuestionAnswers(question.id)
+        binding.questionEditText.setText(question.title)
+        binding.pointTextView.text = question.point.toString()
+        binding.questionTypesRadioGroup.check(getCheckedRadioButtonId(question.questionType))
+    }
+
+    private fun hideFocusAndKeyboard() {
         binding.questionEditText.hideSoftKeyboard()
     }
 
@@ -191,7 +223,9 @@ class NewQuestionFragment : Fragment(), CreateAnswersAdapter.MarkAsCorrectClickL
                 return false
             }
         }
-        if (mapOfCorrectAnswers.isEmpty() && (getQuestionType() == QuestionType.MULTIPLE_CHOICE_ONE_ANSWER || getQuestionType() == QuestionType.MULTIPLE_CHOICE_MULTIPLE_ANSWERS)) {
+        if (answers.count {
+                it.isCorrect
+            } == 0 && (getQuestionType() == QuestionType.MULTIPLE_CHOICE_ONE_ANSWER || getQuestionType() == QuestionType.MULTIPLE_CHOICE_MULTIPLE_ANSWERS)) {
             showToast(resources.getString(R.string.choose_correct_answer_for_given_question))
             return false
         }
@@ -207,6 +241,14 @@ class NewQuestionFragment : Fragment(), CreateAnswersAdapter.MarkAsCorrectClickL
         }
     }
 
+    private fun getCheckedRadioButtonId(questionType: QuestionType): Int {
+        return when (questionType) {
+            QuestionType.OPEN -> R.id.openQuestion
+            QuestionType.MULTIPLE_CHOICE_ONE_ANSWER -> R.id.withOneCorrectAnswer
+            QuestionType.MULTIPLE_CHOICE_MULTIPLE_ANSWERS -> R.id.withMultipleCorrectAnswers
+        }
+    }
+
     private fun buildDialog() {
         dialogFragment = NewAnswerBottomSheetFragment(this, position = answersAdapter.itemCount)
         dialogFragment?.show(parentFragmentManager, "")
@@ -217,38 +259,41 @@ class NewQuestionFragment : Fragment(), CreateAnswersAdapter.MarkAsCorrectClickL
         dialogFragment?.show(parentFragmentManager, "")
     }
 
-    private fun addNewAnswerToAdapter(answer: String) {
-        answersAdapter.addAnswer(NewAnswer(answer))
-    }
-
     override fun addAnswer(text: String, position: Int) {
         setFragmentResult(QUESTION_KEY, bundleOf("change" to true))
-        answers[position] = text
-        addNewAnswerToAdapter(text)
+        viewModel.insertAnswer(
+            QuestionAnswerDomain(
+                title = text,
+                isCorrect = false,
+                questionId = savedQuestion.id
+            )
+        )
+
         dialogFragment?.dismiss()
     }
 
     override fun updateAnswer(text: String, position: Int) {
         setFragmentResult(QUESTION_KEY, bundleOf("change" to true))
-        answersAdapter.updateAnswer(text, position)
+        answers[position] = answers[position].copy(title = text)
+        viewModel.updateAnswer(answers[position])
         dialogFragment?.dismiss()
     }
 
-    override fun longClick(model: NewAnswer, position: Int) {
-        if (mapOfCorrectAnswers.containsKey(position)) {
-            mapOfCorrectAnswers.remove(position)
-            answersAdapter.markAsIncorrect(position)
+    override fun longClick(model: QuestionAnswerDomain, position: Int) {
+        if (answers[position].isCorrect) {
+            answers[position] = answers[position].copy(isCorrect = false)
+            viewModel.updateAnswer(answers[position])
         } else {
             when (getQuestionType()) {
                 QuestionType.MULTIPLE_CHOICE_ONE_ANSWER -> {
-                    if (mapOfCorrectAnswers.isEmpty()) {
-                        mapOfCorrectAnswers[position] = model.title
-                        answersAdapter.markAnswerAsCorrect(position)
+                    if (answers.count { it.isCorrect } == 0) {
+                        answers[position] = answers[position].copy(isCorrect = true)
+                        viewModel.updateAnswer(answers[position])
                     }
                 }
                 QuestionType.MULTIPLE_CHOICE_MULTIPLE_ANSWERS -> {
-                    mapOfCorrectAnswers[position] = model.title
-                    answersAdapter.markAnswerAsCorrect(position)
+                    answers[position] = answers[position].copy(isCorrect = true)
+                    viewModel.updateAnswer(answers[position])
                 }
                 QuestionType.OPEN -> Unit
             }

@@ -34,6 +34,12 @@
             app:exitAnim="@anim/nav_graph_exit" />
 
         <action
+            android:id="@+id/fromTestsFragmentToCreateTestFragment"
+            app:destination="@id/createTestFragment"
+            app:enterAnim="@anim/nav_graph_enter"
+            app:exitAnim="@anim/nav_graph_exit" />
+
+        <action
             android:id="@+id/fromTestsFragmentToTestTakersFragment"
             app:destination="@id/testTakersFragment"
             app:enterAnim="@anim/nav_graph_enter"
@@ -59,8 +65,8 @@
 
         <argument
             android:name="testTime"
-            app:argType="integer"
-            android:defaultValue="0"/>
+            android:defaultValue="0"
+            app:argType="integer" />
 
 
         <action
@@ -97,12 +103,20 @@
         android:name="com.edu.test.presentation.createTest.CreateQuestionsFragment"
         android:label="@string/test_creation"
         tools:layout="@layout/fragment_create_questions">
+
         <action
-            android:id="@+id/action_createQuestionsFragment_self"
-            app:destination="@id/createQuestionsFragment" />
+            android:id="@+id/actionFromCreateQuestionsFragmentToTestsFragment"
+            app:destination="@id/testsFragment"
+            app:enterAnim="@anim/nav_graph_enter"
+            app:exitAnim="@anim/nav_graph_exit"
+            app:popUpTo="@id/testsFragment"
+            app:popUpToInclusive="true" />
 
         <argument
             android:name="groupId"
+            app:argType="string" />
+        <argument
+            android:name="testUid"
             app:argType="string" />
     </fragment>
 
@@ -114,6 +128,7 @@
     <fragment
         android:id="@+id/testTakersFragment"
         android:name="com.edu.test.presentation.testResult.TestTakersFragment"
+        android:label="@string/students_who_passed_the_test"
         tools:layout="@layout/fragment_test_takers">
         <action
             android:id="@+id/fromTestTakersFragmentToTestResultFragment"
@@ -121,10 +136,35 @@
             app:enterAnim="@anim/nav_graph_enter"
             app:exitAnim="@anim/nav_graph_exit" />
         <argument
+            android:name="testName"
+            app:argType="string" />
+        <argument
             android:name="testId"
             app:argType="string" />
         <argument
             android:name="groupId"
             app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/createTestFragment"
+        android:name="com.edu.test.presentation.createTest.CreateTestFragment"
+        android:label="@string/test_creation"
+        tools:layout="@layout/fragment_create_test">
+        <argument
+            android:name="groupUid"
+            app:argType="string" />
+        <argument
+            android:name="testId"
+            android:defaultValue="@null"
+            app:argType="string"
+            app:nullable="true" />
+
+        <action
+            android:id="@+id/fromCreateTestFragmentToCreateQuestionsFragment"
+            app:destination="@id/createQuestionsFragment"
+            app:enterAnim="@anim/nav_graph_enter"
+            app:exitAnim="@anim/nav_graph_exit" />
+
     </fragment>
 </navigation>

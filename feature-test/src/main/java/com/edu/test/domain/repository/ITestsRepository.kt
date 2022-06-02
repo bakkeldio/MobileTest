@@ -1,10 +1,10 @@
 package com.edu.test.domain.repository
 
-import com.edu.common.data.Result
+import com.edu.common.domain.Result
 import com.edu.common.domain.model.TestDomainModel
 import com.edu.test.domain.model.PassedTestDomain
-import com.edu.test.domain.model.TestResultDomain
 import com.edu.test.domain.model.TestsListState
+import com.edu.test.domain.model.result.TestResultDomain
 import kotlinx.coroutines.flow.Flow
 
 interface ITestsRepository {
@@ -40,7 +40,7 @@ interface ITestsRepository {
         testId: String
     ): Flow<Result<TestResultDomain>>
 
-    suspend fun createTest(groupId: String): Result<Unit>
+    suspend fun uploadTest(groupId: String, testId: String): Result<Unit>
 
     suspend fun getTestsOfTeacher(groupId: String): Flow<TestsListState>
 
@@ -53,5 +53,4 @@ interface ITestsRepository {
         studentUid: String,
         newScore: Int
     ): Result<Unit>
-
 }

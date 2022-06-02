@@ -2,7 +2,7 @@ package com.edu.chat.domain.usecase
 
 import com.edu.chat.domain.model.ChatMember
 import com.edu.chat.domain.repository.IChatRepo
-import com.edu.common.data.Result
+import com.edu.common.domain.Result
 import com.edu.common.domain.repository.IStudentsRepo
 import com.edu.common.domain.repository.ITeachersRepo
 import dagger.hilt.android.scopes.ViewModelScoped

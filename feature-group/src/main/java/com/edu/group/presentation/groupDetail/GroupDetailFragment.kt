@@ -98,6 +98,8 @@ class GroupDetailFragment :
         } else {
             resources.getString(R.string.you_are_student)
         }
+        binding.status.isVisible = data.role != CoreRoleEnum.NONE
+        binding.testLayout.isVisible = data.role != CoreRoleEnum.NONE
         imageLoader.loadImageWithCircleShape(
             data.detail.avatar,
             binding.groupLogo,

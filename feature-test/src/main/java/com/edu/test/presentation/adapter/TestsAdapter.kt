@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.edu.common.presentation.model.TestModel
 import com.edu.common.presentation.model.TestStatusEnum
+import com.edu.common.utils.getDateAndTime
 import com.edu.test.R
 import com.edu.test.databinding.ItemTestBinding
 import java.text.SimpleDateFormat
@@ -27,8 +28,8 @@ class TestsAdapter(
     var tracker: SelectionTracker<String>? = null
 
     inner class TestViewHolder(private val binding: ItemTestBinding) :
-        RecyclerView.ViewHolder(binding.root) {
-        fun bind(position: Int) {
+        BaseViewHolderForSelection(binding.root) {
+        override fun bind(position: Int) {
             getItem(position).apply {
                 binding.root.setOnClickListener {
                     listener.onTestClick(this)
@@ -47,12 +48,7 @@ class TestsAdapter(
                     binding.statusTextView.isVisible = false
                 }
 
-                val dayMonthFormat = SimpleDateFormat("dd MMMM", Locale.getDefault())
-                val hourMinuteFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
-
-                val date =
-                    "${dayMonthFormat.format(date)} ${hourMinuteFormat.format(date)}"
-                binding.dateTime.text = date
+                binding.dateTime.text = date.getDateAndTime()
 
                 tracker?.let {
                     if (it.isSelected(getItem(position).uid)) {
@@ -75,7 +71,7 @@ class TestsAdapter(
             }
         }
 
-        fun getItemDetails(): ItemDetailsLookup.ItemDetails<String> {
+        override fun getStringDetails(): ItemDetailsLookup.ItemDetails<String> {
             return object : ItemDetailsLookup.ItemDetails<String>() {
                 override fun getPosition(): Int {
                     return adapterPosition
@@ -120,18 +116,6 @@ class TestsAdapter(
 
     override fun getItemCount(): Int {
         return currentList.size
-    }
-
-    class TestsDetailsLookUp(private val recyclerView: RecyclerView) :
-        ItemDetailsLookup<String>() {
-        override fun getItemDetails(e: MotionEvent): ItemDetails<String>? {
-            val view = recyclerView.findChildViewUnder(e.x, e.y)
-            if (view != null) {
-                return (recyclerView.getChildViewHolder(view) as TestsAdapter.TestViewHolder).getItemDetails()
-            }
-            return null
-        }
-
     }
 
     interface ItemClickListener {

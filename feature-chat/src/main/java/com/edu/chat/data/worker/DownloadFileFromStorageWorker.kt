@@ -7,7 +7,6 @@ import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import androidx.work.workDataOf
 import com.edu.chat.domain.repository.IChatRepo
-import com.edu.common.data.Result
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
@@ -32,7 +31,7 @@ class DownloadFileFromStorageWorker @AssistedInject constructor(
 
         setProgress(workDataOf("messageUid" to messageUid))
         return when (val response = chatRepo.downloadFileFromUrl(file, downloadUrl)) {
-            is com.edu.common.data.Result.Success -> {
+            is com.edu.common.domain.Result.Success -> {
                 try {
                     db.collection("channels").document(channelId).collection("messages")
                         .document(messageUid).update("receiverFileUri", file.toUri().toString())
@@ -42,7 +41,7 @@ class DownloadFileFromStorageWorker @AssistedInject constructor(
                     Result.failure(workDataOf("exception" to e.localizedMessage))
                 }
             }
-            is com.edu.common.data.Result.Error -> {
+            is com.edu.common.domain.Result.Error -> {
                 Result.failure(workDataOf("exception" to response.data?.localizedMessage))
             }
         }

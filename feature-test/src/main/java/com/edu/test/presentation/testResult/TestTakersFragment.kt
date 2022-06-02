@@ -10,7 +10,7 @@ import com.edu.common.presentation.BaseFragment
 import com.edu.common.utils.imageLoading.IImageLoader
 import com.edu.test.R
 import com.edu.test.databinding.FragmentTestTakersBinding
-import com.edu.test.domain.model.TestResultDomain
+import com.edu.test.domain.model.result.TestResultDomain
 import com.edu.test.presentation.adapter.TestTakersAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -39,6 +39,7 @@ class TestTakersFragment : BaseFragment<TestTakersViewModel, FragmentTestTakersB
 
     override fun setupUI() {
         binding.toolbar.setupWithNavController(findNavController())
+        binding.toolbar.title = resources.getString(R.string.students_who_passed_the_test, args.testName)
         binding.recyclerView.adapter = adapter
     }
 

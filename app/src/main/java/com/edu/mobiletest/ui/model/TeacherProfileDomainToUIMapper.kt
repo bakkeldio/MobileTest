@@ -1,15 +1,16 @@
 package com.edu.mobiletest.ui.model
 
-import com.edu.common.domain.model.TeacherProfile
+import com.edu.mobiletest.domain.model.TeacherProfileComposed
 
-object TeacherProfileDomainToUIMapper : UIMapper<TeacherProfile, ProfileTeacherUI> {
-    override fun mapDomainModelToUI(domainModel: TeacherProfile): ProfileTeacherUI {
+object TeacherProfileDomainToUIMapper : UIMapper<TeacherProfileComposed, ProfileTeacherUI> {
+    override fun mapDomainModelToUI(domainModel: TeacherProfileComposed): ProfileTeacherUI {
         return ProfileTeacherUI(
-            domainModel.uid ?: throw IllegalArgumentException("uid of teacher can't be null"),
-            domainModel.name ?: throw IllegalArgumentException("name of the teacher can't be null"),
-            domainModel.position
-                ?: throw IllegalArgumentException("position of teacher can't be null"),
-            domainModel.avatarUrl
+            domainModel.teacher.id,
+            domainModel.teacher.name
+                ?: throw IllegalArgumentException("name of the teacher can't be null"),
+            domainModel.teacher.position,
+            domainModel.teacher.avatar,
+            domainModel.groups
         )
     }
 }

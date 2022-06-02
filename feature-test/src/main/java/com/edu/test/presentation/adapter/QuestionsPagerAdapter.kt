@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.edu.common.domain.model.QuestionDomain
-import com.edu.test.data.datamanager.TestProcessHandler
+import com.edu.test.data.TestProcessHandler
 import com.edu.test.presentation.question.QuestionFragment
 
 class QuestionsPagerAdapter(

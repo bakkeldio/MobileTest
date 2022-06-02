@@ -3,14 +3,12 @@ package com.edu.test.presentation.testResult
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.edu.common.data.Result
+import com.edu.common.domain.Result
 import com.edu.common.presentation.BaseViewModel
-import com.edu.test.domain.model.QuestionResultDomain
+import com.edu.test.domain.model.result.QuestionResultDomain
 import com.edu.test.domain.usecase.CheckUserTestResult
 import com.edu.test.domain.usecase.UpdateQuestionScoreUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

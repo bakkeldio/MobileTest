@@ -1,10 +1,10 @@
 package com.edu.test.domain.usecase
 
-import com.edu.common.data.Result
+import com.edu.common.domain.Result
 import com.edu.common.domain.model.QuestionDomain
 import com.edu.common.domain.model.QuestionType
-import com.edu.test.domain.model.AnswerDomain
-import com.edu.test.domain.model.QuestionResultDomain
+import com.edu.test.domain.model.result.AnswerDomain
+import com.edu.test.domain.model.result.QuestionResultDomain
 import com.edu.test.domain.repository.IQuestionRepository
 import com.edu.test.domain.repository.ITestsRepository
 import dagger.hilt.android.scopes.ViewModelScoped

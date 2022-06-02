@@ -1,10 +1,9 @@
 package com.edu.mobiletest.data
 
-import com.edu.common.data.Result
+import com.edu.common.domain.Result
 import com.edu.common.domain.model.TeacherProfile
 import com.edu.common.domain.repository.ITeachersRepo
 import com.google.firebase.firestore.FirebaseFirestore
-import dagger.hilt.android.scopes.ActivityRetainedScoped
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 import javax.inject.Singleton

@@ -8,7 +8,7 @@ import com.edu.chat.data.db.entity.MessageEntity
 import com.edu.chat.data.mapper.MessageEntityToMessageMapper
 import com.edu.chat.domain.model.*
 import com.edu.chat.domain.repository.IChatRepo
-import com.edu.common.data.Result
+import com.edu.common.domain.Result
 import com.edu.common.domain.model.StudentInfoDomain
 import com.edu.common.domain.model.TeacherProfile
 import com.google.firebase.auth.FirebaseAuth

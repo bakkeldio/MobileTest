@@ -11,6 +11,9 @@
 
     <string name="all_tests">Все</string>
     <string name="passed_tests">Завершенные</string>
+    <string name="un_published_tests">В процессе</string>
+    <string name="uploaded_tests">Запущенные</string>
+    <string name="students_who_passed_the_test">Прошедшие тест %s</string>
 
     <string name="correct_answers">Правильный ответ: %s</string>
 
@@ -30,15 +33,20 @@
     <string name="delete_question">Удалить вопрос</string>
     <string name="pointsLabel">Баллы</string>
     <string name="_10">10</string>
-    <string name="date">Дата</string>
+    <string name="date">Дата запуска теста</string>
     <string name="time">Время</string>
     <string name="test_duration_time">Продолжительность теста(минуты):</string>
     <string name="upload">Загрузить</string>
     <string name="choose_the_date_and_time_for_test">Выберите дату и время запуска теста</string>
     <string name="test_upload">Загрузить тест</string>
-    <string name="update_question">Сохранить</string>
+    <string name="navigate_to_questions">Перейти к вопросам</string>
+    <string name="create_test">Создать тест</string>
     <string name="test_creation">Создание теста</string>
+    <string name="update_question">Сохранить</string>
+    <string name="questions_creation">Создание вопросов</string>
     <string name="enter_test_name">Введите название теста</string>
+    <string name="enter_date">Введите дату</string>
+    <string name="enter_time">Введите время</string>
     <string name="date_and_time_are_required">Дата и время обязательны для заполнения</string>
     <string name="enter_duration_for_test">Укажите продолжительность для теста</string>
     <string name="save_last_question">Сохраните последний вопрос</string>
@@ -48,6 +56,11 @@
     <string name="update_points">Обновите баллы</string>
     <string name="update">Обновить</string>
     <string name="no_one_finished_test">Пока что никто не завершил данный тест</string>
+    <string name="time_to_pass_the_test_has_not_come_yet">Время прохождения теста еще не наступило</string>
+    <string name="time_to_pass_the_test_has_passed">Время прохождения теста прошло</string>
+    <string name="want_to_upload_test">Вы хотите загрузить тест?</string>
+    <string name="test_uploaded_successfully">Тест успешно загружен</string>
+    <string name="change_date_of_test">Дата и время данного теста уже прошло, чтобы загрузить тест нужно обновить дату и время</string>
     <plurals name="minutes_plural">
         <item quantity="zero">%1$d минут</item>
         <item quantity="one">%1$d минута</item>

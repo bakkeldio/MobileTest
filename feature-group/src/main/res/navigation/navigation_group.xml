@@ -26,6 +26,8 @@
             android:name="groupId"
             app:argType="string" />
 
+        <deepLink app:uri="mobileTest://navigationGroup/{groupId}" />
+
         <action
             android:id="@+id/action_groupDetailFragment_to_groupDetailEditFragment"
             app:destination="@id/groupDetailEditFragment"

@@ -244,6 +244,23 @@ fun Int.convertToTimeRepresentation(): String {
     return "Осталось ${String.format("%02d:%02d:%02d", hour, minutes, seconds)}"
 }
 
+fun Date.getHourMinute(): String {
+    val dateFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
+    return dateFormat.format(this)
+}
+
+fun Date.getDateString(): String {
+    val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+    return dateFormat.format(this)
+}
+
+fun Date.getDateAndTime(): String {
+    val dayMonthFormat = SimpleDateFormat("dd MMMM", Locale.getDefault())
+    val hourMinuteFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
+    return "${dayMonthFormat.format(this)} ${hourMinuteFormat.format(this)}"
+}
+
+fun Date.isAfterCurrentDate() = this.after(Calendar.getInstance().time)
 
 
 

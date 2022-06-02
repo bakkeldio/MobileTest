@@ -1,6 +1,6 @@
 package com.edu.group.data.repository
 
-import com.edu.common.data.Result
+import com.edu.common.domain.Result
 import com.edu.common.data.mapper.StudentInfoMapperImpl
 import com.edu.common.data.model.Student
 import com.edu.common.domain.model.StudentInfoDomain

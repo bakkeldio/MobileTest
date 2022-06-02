@@ -1,6 +1,6 @@
 package com.edu.test.domain.usecase
 
-import com.edu.common.data.Result
+import com.edu.common.domain.Result
 import com.edu.common.domain.model.QuestionDomain
 import com.edu.test.domain.repository.IQuestionRepository
 import dagger.hilt.android.scopes.ViewModelScoped

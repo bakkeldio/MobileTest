@@ -6,10 +6,9 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.edu.common.utils.getDateAndTime
 import com.edu.test.databinding.ItemTestBinding
 import com.edu.test.domain.model.PassedTestDomain
-import java.text.SimpleDateFormat
-import java.util.*
 
 class PassedTestsAdapter(private val listener: Listener) :
     ListAdapter<PassedTestDomain, PassedTestsAdapter.PassedTestVH>(object :
@@ -37,12 +36,7 @@ class PassedTestsAdapter(private val listener: Listener) :
                 binding.statusTextView.isVisible = false
                 binding.testTitle.text = testTitle
 
-                val dayMonthFormat = SimpleDateFormat("dd MMMM", Locale.getDefault())
-                val hourMinuteFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
-
-                val date =
-                    "${dayMonthFormat.format(testDate ?: Date())} ${hourMinuteFormat.format(testDate ?: Date())}"
-                binding.dateTime.text = date
+                binding.dateTime.text = testDate?.getDateAndTime()
 
                 binding.root.setOnClickListener {
                     listener.onPassedTestClick(this)

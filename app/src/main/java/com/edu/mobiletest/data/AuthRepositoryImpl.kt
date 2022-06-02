@@ -1,10 +1,9 @@
 package com.edu.mobiletest.data
 
-import com.edu.common.data.Result
+import com.edu.common.domain.Result
 import com.edu.mobiletest.domain.model.NewUserData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.auth.ktx.userProfileChangeRequest
 import dagger.hilt.android.scopes.ActivityRetainedScoped
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await

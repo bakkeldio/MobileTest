@@ -1,27 +1,21 @@
 package com.edu.mobiletest.ui.profile
 
+import android.content.SharedPreferences
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.work.WorkManager
-import com.edu.common.data.Result
-import com.edu.common.domain.model.TeacherProfile
-import com.edu.common.domain.model.TestDomainModel
+import com.edu.common.domain.Result
 import com.edu.common.presentation.BaseViewModel
 import com.edu.common.presentation.ResourceState
 import com.edu.common.presentation.SingleLiveEvent
 import com.edu.mobiletest.data.IAuthRepository
-import com.edu.mobiletest.domain.model.StudentProfileComposed
-import com.edu.mobiletest.domain.usecase.DeleteProfileAvatarUseCase
-import com.edu.mobiletest.domain.usecase.ProfileInfoUseCase
-import com.edu.mobiletest.domain.usecase.UpdateProfileImageInDB
-import com.edu.mobiletest.domain.usecase.UploadUserImageToStorage
+import com.edu.mobiletest.domain.usecase.*
 import com.edu.mobiletest.ui.model.ProfileStudentUI
 import com.edu.mobiletest.ui.model.ProfileTeacherUI
 import com.edu.mobiletest.ui.model.StudentProfileDomainToUIMapper
 import com.edu.mobiletest.ui.model.TeacherProfileDomainToUIMapper
 import com.edu.test.domain.model.PassedTestDomain
-import com.edu.test.domain.model.TestsListState
 import com.edu.test.domain.usecase.GetCompletedTests
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -29,13 +23,15 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
-    private val getProfileInfo: ProfileInfoUseCase,
+    private val getStudentProfileInfo: GetStudentProfileUseCase,
+    private val getTeacherProfileInfo: GetTeachersProfileUseCase,
     private val getCompletedTests: GetCompletedTests,
     private val authRepo: IAuthRepository,
     private val uploadToStorage: UploadUserImageToStorage,
     private val deleteAvatar: DeleteProfileAvatarUseCase,
     private val updateProfileImageInDB: UpdateProfileImageInDB,
-    private val workManager: WorkManager
+    private val workManager: WorkManager,
+    private val sharedPreferences: SharedPreferences
 ) : BaseViewModel() {
 
     private val _signOut: SingleLiveEvent<ResourceState<Unit>> = SingleLiveEvent()
@@ -67,21 +63,42 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    fun getProfile() {
+    fun isUserAdmin() = sharedPreferences.getBoolean("isUserAdmin", false)
+
+    private fun getStudentProfile() {
         showLoader()
         viewModelScope.launch {
-            when (val response = getProfileInfo()) {
+            when (val response = getStudentProfileInfo()) {
                 is Result.Success -> {
-                    response.data?.let { profile ->
-                        if (profile is StudentProfileComposed) {
-                            _studentProfile.value =
-                                StudentProfileDomainToUIMapper.mapDomainModelToUI(
-                                    profile
-                                )
-                        } else if (profile is TeacherProfile) {
-                            _teacherProfile.value =
-                                TeacherProfileDomainToUIMapper.mapDomainModelToUI(profile)
+                    _studentProfile.value =
+                        response.data?.let {
+                            StudentProfileDomainToUIMapper.mapDomainModelToUI(it)
                         }
+                }
+                is Result.Error -> {
+                    _error.value = response.data
+                }
+            }
+            hideLoader()
+        }
+    }
+
+    fun getProfile() {
+        if (sharedPreferences.getBoolean("isUserAdmin", false)) {
+            getTeacherProfile()
+        } else {
+            getStudentProfile()
+        }
+    }
+
+    private fun getTeacherProfile() {
+        showLoader()
+        viewModelScope.launch {
+            when (val response = getTeacherProfileInfo()) {
+                is Result.Success -> {
+                    response.data?.let {
+                        _teacherProfile.value =
+                            TeacherProfileDomainToUIMapper.mapDomainModelToUI(it)
                     }
                 }
                 is Result.Error -> {

@@ -11,9 +11,10 @@ import androidx.viewpager2.widget.ViewPager2
 import androidx.work.WorkInfo
 import com.edu.common.domain.model.QuestionType
 import com.edu.common.presentation.BaseFragment
+import com.edu.common.presentation.ResourceState
 import com.edu.common.utils.*
 import com.edu.test.R
-import com.edu.test.data.datamanager.TestProcessHandler
+import com.edu.test.data.TestProcessHandler
 import com.edu.test.data.model.QuestionResult
 import com.edu.test.databinding.FragmentQuestionsBinding
 import com.edu.test.presentation.adapter.QuestionsPagerAdapter
@@ -120,11 +121,6 @@ class QuestionsFragment : BaseFragment<QuestionsViewModel, FragmentQuestionsBind
                             navArgs.groupId,
                             navArgs.testId
                         )
-                        findNavController().navigate(
-                            QuestionsFragmentDirections.actionFromQuestionsListToTestsList(
-                                navArgs.groupId
-                            )
-                        )
                     }).show()
             } else {
                 binding.viewPager.currentItem = binding.viewPager.currentItem + 1
@@ -138,7 +134,7 @@ class QuestionsFragment : BaseFragment<QuestionsViewModel, FragmentQuestionsBind
     override fun setupVM() {
         super.setupVM()
         viewModel.timerLiveData.observe(viewLifecycleOwner) { workInfos ->
-            if (workInfos != null) {
+            if (workInfos != null && workInfos.isNotEmpty()) {
                 val time = workInfos[0].progress.getInt("time", 0)
                 binding.timeRemaining.text = time.convertToTimeRepresentation()
                 if (workInfos[0].state == WorkInfo.State.SUCCEEDED) {
@@ -158,6 +154,23 @@ class QuestionsFragment : BaseFragment<QuestionsViewModel, FragmentQuestionsBind
             questionsSize = questions.size
             pagerAdapter.submitData(questions)
             binding.nextBtn.isVisible = true
+        }
+
+        viewModel.scoreSubmitState.observe(viewLifecycleOwner) { submitState ->
+            binding.progress.root.isVisible = submitState is ResourceState.Loading
+            when(submitState){
+                is ResourceState.Success -> {
+                    findNavController().navigate(
+                        QuestionsFragmentDirections.actionFromQuestionsListToTestsList(
+                            navArgs.groupId
+                        )
+                    )
+                }
+                is ResourceState.Error -> {
+                    showToast(submitState.message)
+                }
+                else -> Unit
+            }
         }
 
     }

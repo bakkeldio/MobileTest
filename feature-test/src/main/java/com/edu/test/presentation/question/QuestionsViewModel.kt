@@ -5,10 +5,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.work.*
-import com.edu.common.data.Result
+import com.edu.common.domain.Result
 import com.edu.common.domain.model.QuestionDomain
 import com.edu.common.presentation.BaseViewModel
 import com.edu.common.presentation.ResourceState
+import com.edu.common.presentation.SingleLiveEvent
 import com.edu.test.domain.usecase.GetTestQuestions
 import com.edu.test.domain.usecase.SubmitUserScore
 import com.edu.test.presentation.workers.TestTimeWorker
@@ -36,7 +37,8 @@ class QuestionsViewModel @Inject constructor(
 
     val questionsState: LiveData<List<QuestionDomain>> get() = _questionsState
 
-    private val _scoreSubmitState: MutableLiveData<ResourceState<Unit>> = MutableLiveData()
+    private val _scoreSubmitState: SingleLiveEvent<ResourceState<Boolean>> = SingleLiveEvent()
+    val scoreSubmitState: LiveData<ResourceState<Boolean>> = _scoreSubmitState
 
     val timerLiveData: LiveData<List<WorkInfo>> = workManager.getWorkInfosByTagLiveData(TIMER_WORK)
 
@@ -60,10 +62,11 @@ class QuestionsViewModel @Inject constructor(
         workManager.cancelAllWorkByTag(UPLOAD_WORK)
         workManager.pruneWork()
 
+        _scoreSubmitState.value = ResourceState.Loading
         viewModelScope.launch {
             when (val result = submitUserScore(testId, groupId)) {
                 is Result.Success -> {
-                    _scoreSubmitState.value = ResourceState.Success(Unit)
+                    _scoreSubmitState.value = ResourceState.Success(true)
                 }
                 is Result.Error -> {
                     _scoreSubmitState.value =

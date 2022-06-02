@@ -6,6 +6,7 @@
     <string name="group_name_label">Название группы</string>
     <string name="editing">Редактирование</string>
     <string name="students">Студенты</string>
+    <string name="there_are_not_students_in_the_group">В группе пока нет студентов</string>
     <string name="add">Добавить</string>
     <string name="save_changes">Сохранить</string>
     <string name="edit">Изменить</string>
@@ -25,5 +26,6 @@
     <string name="name">ФИО</string>
     <string name="points">Баллы</string>
     <string name="description_of_the_group">Описание группы</string>
-    <string name="group_name">Название группы</string>
+    <string name="group_name">Группа в котором состоит</string>
+    <string name="group_title">Название группы</string>
 </resources>

@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.edu.test.R
 import com.edu.test.databinding.ItemQuestionResultBinding
-import com.edu.test.domain.model.QuestionResultDomain
+import com.edu.test.domain.model.result.QuestionResultDomain
 
 
 internal class QuestionsResultAdapter(private val listener: Listener, private val isTeacher: Boolean) :

@@ -1,6 +1,6 @@
 package com.edu.group.domain.repository
 
-import com.edu.common.data.Result
+import com.edu.common.domain.Result
 import com.edu.common.domain.model.StudentInfoDomain
 import com.edu.common.domain.model.TestDomainModel
 import com.edu.group.domain.model.CoreRoleEnum
@@ -33,4 +33,5 @@ interface IGroupsRepo {
     suspend fun uploadGroupAvatarToStorage(groupId: String, uri: String): Result<String>
 
     suspend fun updateGroupAvatarInDb(groupId: String, downloadUrl: String): Result<Unit>
+
 }

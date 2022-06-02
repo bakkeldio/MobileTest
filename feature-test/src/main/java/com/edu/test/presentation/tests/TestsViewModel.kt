@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
-import com.edu.common.data.Result
+import com.edu.common.domain.Result
 import com.edu.common.domain.model.TestDomainModel
 import com.edu.common.presentation.BaseViewModel
 import com.edu.common.presentation.PagedObject
@@ -14,6 +14,7 @@ import com.edu.common.presentation.model.TestModel
 import com.edu.common.presentation.model.TestStatusEnum
 import com.edu.test.domain.model.PassedTestDomain
 import com.edu.test.domain.model.TestsListState
+import com.edu.test.domain.model.dbModels.TestDomain
 import com.edu.test.domain.usecase.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
@@ -29,6 +30,8 @@ class TestsViewModel @Inject constructor(
     private val completedTests: GetCompletedTests,
     private val getTestsOfTeacher: GetTestsOfTeacher,
     private val deleteTestUseCase: DeleteTestUseCase,
+    private val deleteLocalTest: DeleteTestsFromDbByIdsUseCase,
+    private val unpublishedTests: GetUnPublishedTestsUseCase,
     private val workManager: WorkManager
 ) : BaseViewModel() {
     companion object {
@@ -57,6 +60,9 @@ class TestsViewModel @Inject constructor(
 
     private val _completedTests: MutableLiveData<List<PassedTestDomain>> = MutableLiveData()
     val completedTestsState: LiveData<List<PassedTestDomain>> get() = _completedTests
+
+    private val _unPublishedTests: MutableLiveData<List<TestDomain>> = MutableLiveData()
+    val unPublishedTests: LiveData<List<TestDomain>> = _unPublishedTests
 
     fun getAllTests(groupId: String) {
 
@@ -87,6 +93,14 @@ class TestsViewModel @Inject constructor(
 
     fun updateTestsLiveData(tests: List<TestModel>) {
         _testsState.value = tests
+    }
+
+    fun getUnpublishedTests(groupId: String) {
+        viewModelScope.launch {
+            unpublishedTests(groupId).collectLatest {
+                _unPublishedTests.value = it
+            }
+        }
     }
 
     private fun getCompletedTests(groupId: String, result: List<TestDomainModel>) {
@@ -200,9 +214,9 @@ class TestsViewModel @Inject constructor(
         }
     }
 
-    fun deleteTests(groupId: String) {
+    fun deleteTestsFromDB(testIds: List<String>) {
         viewModelScope.launch {
-
+            deleteLocalTest(testIds)
         }
     }
 

@@ -3,7 +3,7 @@ package com.edu.mobiletest.ui.flowFragments
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.edu.common.data.Result
+import com.edu.common.domain.Result
 import com.edu.common.presentation.BaseViewModel
 import com.edu.mobiletest.domain.usecase.GetProfileImageUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel

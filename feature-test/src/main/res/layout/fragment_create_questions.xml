@@ -22,7 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:layout_scrollFlags="scroll|enterAlways|snap"
-            app:menu="@menu/menu" />
+            app:menu="@menu/menu_create_test_questions" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"

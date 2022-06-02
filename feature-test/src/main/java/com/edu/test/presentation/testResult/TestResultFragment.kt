@@ -13,7 +13,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.edu.common.utils.addItemDecorationWithoutLastItem
 import com.edu.common.utils.showToast
 import com.edu.test.databinding.FragmentTestResultBinding
-import com.edu.test.domain.model.QuestionResultDomain
+import com.edu.test.domain.model.result.QuestionResultDomain
 import com.edu.test.presentation.adapter.QuestionsResultAdapter
 import dagger.hilt.android.AndroidEntryPoint
 

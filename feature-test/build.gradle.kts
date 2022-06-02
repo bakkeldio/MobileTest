@@ -16,6 +16,18 @@ android {
             isIncludeAndroidResources = true
         }
     }
+    defaultConfig {
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments += mapOf(
+                    "room.schemaLocation" to "$projectDir/schemas",
+                    "room.incremental" to "true",
+                    "room.expandProjection" to "true"
+                )
+            }
+        }
+    }
+
 }
 dependencies {
 
@@ -23,9 +35,14 @@ dependencies {
     implementation(Dependencies.Deps.fragmentKtx)
     implementation(Dependencies.Deps.hiltWork)
     implementation(Dependencies.Deps.recyclerViewSelection)
+    implementation(Dependencies.Deps.roomRuntime)
+    implementation(Dependencies.Deps.roomKtx)
+    implementation(Dependencies.Deps.kotlinXSerializationJson)
+    implementation(Dependencies.Deps.viewPager2)
+    implementation(Dependencies.Deps.hiltNavigation)
+    kapt(Dependencies.Deps.roomCompiler)
     kapt(Dependencies.Deps.hiltWorkCompiler)
     kapt(Dependencies.Deps.hiltAndroidCompiler)
-    implementation(Dependencies.Deps.viewPager2)
     testImplementation(Dependencies.Deps.jUnit)
     testImplementation("androidx.work:work-testing:2.7.1")
     testImplementation("org.robolectric:robolectric:4.8")

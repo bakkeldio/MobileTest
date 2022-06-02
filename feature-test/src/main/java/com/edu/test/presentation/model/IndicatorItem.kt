@@ -1,5 +1,7 @@
 package com.edu.test.presentation.model
 
-class IndicatorItem(
-    val isCurrentPage: Boolean = false
+data class IndicatorItem(
+    val id: Int? = null,
+    val isCurrentPage: Boolean = false,
+    val position: Int
 )

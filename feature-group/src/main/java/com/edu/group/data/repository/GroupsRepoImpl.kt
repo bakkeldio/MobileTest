@@ -2,7 +2,7 @@ package com.edu.group.data.repository
 
 import android.content.SharedPreferences
 import android.net.Uri
-import com.edu.common.data.Result
+import com.edu.common.domain.Result
 import com.edu.common.data.mapper.TestMapperImpl
 import com.edu.common.data.model.Test
 import com.edu.common.domain.model.StudentInfoDomain
@@ -60,8 +60,9 @@ class GroupsRepoImpl @Inject constructor(
         return withContext(Dispatchers.IO) {
             try {
                 val response =
-                    db.collection("groups").orderBy("groupName").startAt(query)
-                        .endAt(query + "\uf8ff")
+                    db.collection("groups")
+                        .whereArrayContains("nameKeywords", query)
+                        .orderBy("groupName")
                         .get().await()
                 Result.Success(response.documents.map {
                     val pair = Pair(

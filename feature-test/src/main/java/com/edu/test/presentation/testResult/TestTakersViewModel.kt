@@ -3,9 +3,9 @@ package com.edu.test.presentation.testResult
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.edu.common.data.Result
+import com.edu.common.domain.Result
 import com.edu.common.presentation.BaseViewModel
-import com.edu.test.domain.model.TestResultDomain
+import com.edu.test.domain.model.result.TestResultDomain
 import com.edu.test.domain.usecase.GetStudentsWhoPassedTest
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
